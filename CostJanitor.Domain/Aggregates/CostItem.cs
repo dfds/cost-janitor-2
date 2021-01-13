@@ -12,8 +12,6 @@ namespace CostJanitor.Domain.Aggregates
         public string Label { get; init; }
         public string Value { get; init; }
         
-        public Guid Id { get; init; }
-
         public CostItem(string label, string value, Guid id)
         {
             this.Label = label;

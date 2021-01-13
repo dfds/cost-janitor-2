@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostJanitor.Domain", "CostJanitor.Domain\CostJanitor.Domain.csproj", "{506DC1D8-AD92-4693-8D79-9053A21AF753}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostJanitor.Infrastructure", "CostJanitor.Infrastructure\CostJanitor.Infrastructure.csproj", "{6D4E7E4C-AD76-4896-A670-5E3948056A75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,17 @@ Global
 		{506DC1D8-AD92-4693-8D79-9053A21AF753}.Release|x64.Build.0 = Release|Any CPU
 		{506DC1D8-AD92-4693-8D79-9053A21AF753}.Release|x86.ActiveCfg = Release|Any CPU
 		{506DC1D8-AD92-4693-8D79-9053A21AF753}.Release|x86.Build.0 = Release|Any CPU
+		{6D4E7E4C-AD76-4896-A670-5E3948056A75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D4E7E4C-AD76-4896-A670-5E3948056A75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D4E7E4C-AD76-4896-A670-5E3948056A75}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6D4E7E4C-AD76-4896-A670-5E3948056A75}.Debug|x64.Build.0 = Debug|Any CPU
+		{6D4E7E4C-AD76-4896-A670-5E3948056A75}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6D4E7E4C-AD76-4896-A670-5E3948056A75}.Debug|x86.Build.0 = Debug|Any CPU
+		{6D4E7E4C-AD76-4896-A670-5E3948056A75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D4E7E4C-AD76-4896-A670-5E3948056A75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D4E7E4C-AD76-4896-A670-5E3948056A75}.Release|x64.ActiveCfg = Release|Any CPU
+		{6D4E7E4C-AD76-4896-A670-5E3948056A75}.Release|x64.Build.0 = Release|Any CPU
+		{6D4E7E4C-AD76-4896-A670-5E3948056A75}.Release|x86.ActiveCfg = Release|Any CPU
+		{6D4E7E4C-AD76-4896-A670-5E3948056A75}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
