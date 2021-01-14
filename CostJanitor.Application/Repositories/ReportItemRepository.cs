@@ -26,7 +26,7 @@ namespace CostJanitor.Application.Repositories
                 .AsEnumerable());
         }
 
-        public async Task<ReportItem> GetAsync(int reportItemId)
+        public async Task<ReportItem> GetAsync(Guid reportItemId)
         {
             var reportItem = await _context.ReportItems.FindAsync(reportItemId);
 

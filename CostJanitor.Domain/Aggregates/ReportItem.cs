@@ -26,6 +26,12 @@ namespace CostJanitor.Domain.Aggregates
         {
             _costItemReferences.Add(new CostItemReference(costItemId));
         }
+
+        public void AddCostItem(IEnumerable<CostItem> costItems)
+        {
+            var costItemReferences = costItems.Select(i => new CostItemReference(i.Id));
+            _costItemReferences.AddRange(costItemReferences);
+        }
         
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
