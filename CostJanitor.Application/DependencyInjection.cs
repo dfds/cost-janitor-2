@@ -15,7 +15,9 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using CostJanitor.Application.Commands;
+using CostJanitor.Application.Repositories;
 using CostJanitor.Domain.Aggregates;
+using CostJanitor.Domain.Repositories;
 using CostJanitor.Infrastructure.EntityFramework;
 
 namespace CostJanitor.Application
@@ -91,7 +93,11 @@ namespace CostJanitor.Application
 
 		private static void AddRepositories(this IServiceCollection services)
 		{
+			services.AddTransient<IRepository<ReportItem>, ReportItemRepository>();
+			services.AddTransient<IReportItemRepository, ReportItemRepository>();
 			
+			services.AddTransient<IRepository<CostItem>, CostItemRepository>();
+			services.AddTransient<ICostItemRepository, CostItemRepository>();
 		}
 
 		private static void AddServices(this IServiceCollection services)
