@@ -101,7 +101,7 @@ namespace CostJanitor.Application
 
 		private static void AddFacade(this IServiceCollection services)
 		{
-//			services.AddTransient<IFacade, ApplicationFacade>();
+			services.AddTransient<IFacade, ApplicationFacade>();
 		}
 
 		private static void AddClients(this IServiceCollection services)
