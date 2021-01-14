@@ -1,6 +1,9 @@
+using System;
+using System.IO;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
 namespace CostJanitor.Infrastructure.EntityFramework
 {
@@ -8,12 +11,13 @@ namespace CostJanitor.Infrastructure.EntityFramework
     {
         public DomainContext CreateDbContext(string[] args)
         {
-            var connection = new SqliteConnection("Filename=:memory:;");
+            var connStr = "User ID=postgres;Password=local;Host=localhost;Port=5432;Database=postgres";
+            var connection = new Npgsql.NpgsqlConnection(connStr);
 
             connection.Open();
-
+            
             var optionsBuilder = new DbContextOptionsBuilder<DomainContext>()
-                .UseSqlite(connection);
+                .UseNpgsql(connection);
 
             return new DomainContext(optionsBuilder.Options, new FakeMediator());
         }
