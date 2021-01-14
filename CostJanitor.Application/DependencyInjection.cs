@@ -14,6 +14,8 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
+using CostJanitor.Application.Commands;
+using CostJanitor.Domain.Aggregates;
 using CostJanitor.Infrastructure.EntityFramework;
 
 namespace CostJanitor.Application
@@ -61,8 +63,26 @@ namespace CostJanitor.Application
 
 		private static void AddCommandHandlers(this IServiceCollection services)
 		{
-			
+			// IRequestHandler
+			services.AddTransient<IRequestHandler<CreateCostItemCommand, CostItem>, CreateCostItemCommandHandler>();
+			services.AddTransient<IRequestHandler<CreateReportCommand, ReportItem>, CreateReportCommandHandler>();
+			services.AddTransient<IRequestHandler<DeleteCostItemCommand, bool>, DeleteCostItemCommandHandler>();
+			services.AddTransient<IRequestHandler<DeleteReportCommand, bool>, DeleteReportCommandHandler>();
+			services.AddTransient<IRequestHandler<GetReportByCapabilityIdentifierCommand, IEnumerable<ReportItem>>, GetReportByCapabilityIdentifierCommandHandler>();
+			services.AddTransient<IRequestHandler<UpdateCostItemCommand, CostItem>, UpdateCostItemCommandHandler>();
+			services.AddTransient<IRequestHandler<UpdateReportCommand, ReportItem>, UpdateReportCommandHandler>();
+
+			// ICommandHandler
+			services.AddTransient<ICommandHandler<CreateCostItemCommand, CostItem>, CreateCostItemCommandHandler>();
+			services.AddTransient<ICommandHandler<CreateReportCommand, ReportItem>, CreateReportCommandHandler>();
+			services.AddTransient<ICommandHandler<DeleteCostItemCommand, bool>, DeleteCostItemCommandHandler>();
+			services.AddTransient<ICommandHandler<DeleteReportCommand, bool>, DeleteReportCommandHandler>();
+			services.AddTransient<ICommandHandler<GetReportByCapabilityIdentifierCommand, IEnumerable<ReportItem>>, GetReportByCapabilityIdentifierCommandHandler>();
+			services.AddTransient<ICommandHandler<UpdateCostItemCommand, CostItem>, UpdateCostItemCommandHandler>();
+			services.AddTransient<ICommandHandler<UpdateReportCommand, ReportItem>, UpdateReportCommandHandler>();
 		}
+		
+		
 
 		private static void AddEventHandlers(this IServiceCollection services)
 		{
