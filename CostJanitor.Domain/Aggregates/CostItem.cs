@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using CostJanitor.Domain.Events;
+using CostJanitor.Domain.Events.Cost;
 using ResourceProvisioning.Abstractions.Aggregates;
 using ResourceProvisioning.Abstractions.Entities;
 
