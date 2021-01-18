@@ -19,7 +19,7 @@ namespace CostJanitor.Application.Commands
 
         public async Task<CostItem> Handle(CreateCostItemCommand command, CancellationToken cancellationToken = default)
         {
-            var report = await _costService.CreateOrAddCostItem(command.CostItemId, command.Label, command.Value, cancellationToken);
+            var report = await _costService.CreateOrAddCostItem(command.CapabilityIdentifier, command.Label, command.Value, cancellationToken);
 
             return report;
         }

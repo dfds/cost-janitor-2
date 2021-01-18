@@ -34,9 +34,9 @@ namespace CostJanitor.Application.Services
             return Task.FromResult(_reportItemRepository.Add(reportItem));
         }
 
-        public Task<CostItem> CreateOrAddCostItem(Guid id, string label, string value, CancellationToken ct = default)
+        public Task<CostItem> CreateOrAddCostItem(string capabilityId, string label, string value, CancellationToken ct = default)
         {
-            var costItem = new CostItem(label, value, id);
+            var costItem = new CostItem(label, value, capabilityId);
             return Task.FromResult(_costItemRepository.Add(costItem));
         }
 

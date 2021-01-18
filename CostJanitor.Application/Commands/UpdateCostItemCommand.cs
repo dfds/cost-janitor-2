@@ -8,17 +8,17 @@ namespace CostJanitor.Application.Commands
 {
     public sealed class UpdateCostItemCommand : ICommand<CostItem>
     {
-        [JsonPropertyName("costItemId")]
-        public Guid CostItemId { get; init; }
+        [JsonPropertyName("capabilityIdentifier")]
+        public string CapabilityIdentifier { get; init; }
         [JsonPropertyName("label")]
         public string Label { get; init; }
         [JsonPropertyName("value")]
         public string Value { get; init; }
 
         [JsonConstructor]
-        public UpdateCostItemCommand(Guid id, string label, string value)
+        public UpdateCostItemCommand(string id, string label, string value)
         {
-            CostItemId = id;
+            CapabilityIdentifier = id;
             Label = label;
             Value = value;
         }
