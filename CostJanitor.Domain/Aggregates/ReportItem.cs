@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using CostJanitor.Domain.Events.Report;
 using ResourceProvisioning.Abstractions.Aggregates;
 using ResourceProvisioning.Abstractions.Entities;
 
@@ -20,6 +21,8 @@ namespace CostJanitor.Domain.Aggregates
         private ReportItem()
         {
             _costItemReferences = new List<CostItemReference>();
+            var evt = new ReportItemCreatedEvent(this);
+            AddDomainEvent(evt);
         }
 
         public void AddCostItem(string capabilityIdentifier)
