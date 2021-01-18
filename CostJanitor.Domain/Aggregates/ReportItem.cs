@@ -22,14 +22,14 @@ namespace CostJanitor.Domain.Aggregates
             _costItemReferences = new List<CostItemReference>();
         }
 
-        public void AddCostItem(Guid costItemId)
+        public void AddCostItem(string capabilityIdentifier)
         {
-            _costItemReferences.Add(new CostItemReference(costItemId));
+            _costItemReferences.Add(new CostItemReference(capabilityIdentifier));
         }
 
         public void AddCostItem(IEnumerable<CostItem> costItems)
         {
-            var costItemReferences = costItems.Select(i => new CostItemReference(i.Id));
+            var costItemReferences = costItems.Select(i => new CostItemReference(i.CapabilityIdentifier));
             _costItemReferences.AddRange(costItemReferences);
         }
         

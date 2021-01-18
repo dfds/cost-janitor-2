@@ -20,9 +20,11 @@ namespace CostJanitor.Application.Services
             _reportItemRepository = reportItemRepository;
         }
         
-        public Task<IEnumerable<ReportItem>> GetReportByCapabilityIdentifier(string identifier, CancellationToken ct = default)
+        public async Task<IEnumerable<ReportItem>> GetReportByCapabilityIdentifier(string identifier, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            var reportItems = await _reportItemRepository.GetAsync(i => true);
+            return reportItems
+                .Where(i => i.CostItemReferences.Any(i => i.CapabilityIdentifier == identifier));
         }
 
         public Task<ReportItem> CreateOrAddReport(Guid id, IEnumerable<CostItem> costItems, CancellationToken ct = default)
@@ -45,9 +47,11 @@ namespace CostJanitor.Application.Services
             return true;
         }
 
-        public Task<bool> DeleteCostItem(Guid id, CancellationToken ct = default)
+        public async Task<bool> DeleteCostItem(Guid id, CancellationToken ct = default)
         {
-            throw new NotImplementedException();
+            var costItems = await _costItemRepository.GetAsync(i => i.Id == id);
+            _costItemRepository.Delete(costItems.First());
+            return true;
         }
     }
 }

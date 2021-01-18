@@ -13,11 +13,13 @@ namespace CostJanitor.Domain.Aggregates
         public string Label { get; init; }
         public string Value { get; init; }
         
-        public CostItem(string label, string value, Guid id)
+        public string CapabilityIdentifier { get; init; }
+        
+        public CostItem(string label, string value, string capabilityIdentifier)
         {
             this.Label = label;
             this.Value = value;
-            this.Id = id;
+            this.CapabilityIdentifier = capabilityIdentifier;
         }
 
         private CostItem()

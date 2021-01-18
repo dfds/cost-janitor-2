@@ -8,12 +8,13 @@ namespace CostJanitor.Domain.Aggregates
 {
     public class CostItemReference : Entity<Guid>
     {
+        public string CapabilityIdentifier { get; init; }
         public DateTime Added { get; init; }
         
-        public CostItemReference(Guid costItemId)
+        public CostItemReference(string capabilityIdentifier)
         {
-            this.Id = costItemId;
-            this.Added = DateTime.Now;
+            CapabilityIdentifier = capabilityIdentifier;
+            Added = DateTime.Now;
         }
         
         private CostItemReference() {}

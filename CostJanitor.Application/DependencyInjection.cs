@@ -99,7 +99,7 @@ namespace CostJanitor.Application
 			services.AddTransient<IRepository<CostItem>, CostItemRepository>();
 			services.AddTransient<ICostItemRepository, CostItemRepository>();
 		}
-
+	
 		private static void AddServices(this IServiceCollection services)
 		{
 			
