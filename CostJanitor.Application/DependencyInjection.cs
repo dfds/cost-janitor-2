@@ -16,8 +16,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Reflection;
 using CostJanitor.Application.Commands;
 using CostJanitor.Application.Repositories;
+using CostJanitor.Application.Services;
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.Repositories;
+using CostJanitor.Domain.Services;
 using CostJanitor.Infrastructure.EntityFramework;
 
 namespace CostJanitor.Application
@@ -102,7 +104,7 @@ namespace CostJanitor.Application
 	
 		private static void AddServices(this IServiceCollection services)
 		{
-			
+			services.AddTransient<ICostService, CostService>();
 		}
 
 		private static void AddFacade(this IServiceCollection services)
