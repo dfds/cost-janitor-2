@@ -15,7 +15,7 @@ namespace CostJanitor.Domain.Aggregates
         
         public string CapabilityIdentifier { get; init; }
         
-        public CostItem(string label, string value, string capabilityIdentifier)
+        public CostItem(string label, string value, string capabilityIdentifier) : this()
         {
             this.Label = label;
             this.Value = value;
@@ -26,6 +26,12 @@ namespace CostJanitor.Domain.Aggregates
         {
             var evt = new CostItemCreatedEvent(this);
             AddDomainEvent(evt);
+        }
+
+        public void SetId(Guid val)
+        {
+            Id = val;
+            AddDomainEvent(new CostItemIdChangedEvent(this));
         }
 
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -40,6 +46,11 @@ namespace CostJanitor.Domain.Aggregates
             if (string.IsNullOrEmpty(this.Value))
             {
                 result.Add(new ValidationResult(nameof(this.Value)));
+            }
+
+            if (string.IsNullOrEmpty(CapabilityIdentifier))
+            {
+                result.Add(new ValidationResult(nameof(CapabilityIdentifier)));
             }
 
             if (this.Id == Guid.Empty)

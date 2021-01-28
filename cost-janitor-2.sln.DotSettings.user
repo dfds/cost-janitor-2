@@ -1,4 +1,16 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
   &lt;Assembly Path="/Users/sequoiia/.nuget/packages/resourceprovisioning.abstractions/1.0.0-ci-20210113-075644/lib/netstandard2.0/ResourceProvisioning.Abstractions.dll" /&gt;
-&lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a292f29e_002D2b7c_002D495b_002D876c_002D3e40b7c67624/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CanBeConstructed" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::9BF7E2ED-825E-4E2A-B11B-52BEDF7F9AAA::net5.0::CostJanitor.Domain.UnitTest.Aggregates.CostItem.CostItemTests.CanBeConstructed&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::9BF7E2ED-825E-4E2A-B11B-52BEDF7F9AAA::net5.0::CostJanitor.Domain.UnitTest.Aggregates.CostItem.CostItemTests.CanDetectValidConstruction&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::9BF7E2ED-825E-4E2A-B11B-52BEDF7F9AAA::net5.0::CostJanitor.Domain.UnitTest.Aggregates.CostItem.CostItemTests.CanDetectInvalidConstruction&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::A5F7492F-F73C-4294-BA87-BFD0FF41AF0C::net5.0::CostJanitor.Infrastructure.UnitTest.EntityFramework.DomainContextTests.CanPublishDomainEventsOnSaveEntities&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::A5F7492F-F73C-4294-BA87-BFD0FF41AF0C::net5.0::CostJanitor.Infrastructure.UnitTest.EntityFramework.DomainContextTests.CanAddEntities&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::967785CC-42D7-4259-832A-6E39AEA18E91::net5.0::CostJanitor.Application.UnitTest.Services.CostServiceTests.CanBeConstructed&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::967785CC-42D7-4259-832A-6E39AEA18E91::net5.0::CostJanitor.Application.UnitTest.Services.CostServiceTests.CanAddCostItem&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::967785CC-42D7-4259-832A-6E39AEA18E91::net5.0::CostJanitor.Application.UnitTest.Services.CostServiceTests.CanAddReportItem&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

@@ -13,7 +13,7 @@ namespace CostJanitor.Domain.Aggregates
         private List<CostItemReference> _costItemReferences;
         public IEnumerable<CostItemReference> CostItemReferences => _costItemReferences.AsReadOnly();
 
-        public ReportItem(Guid id)
+        public ReportItem(Guid id) : this()
         {
             this.Id = id;
         }
