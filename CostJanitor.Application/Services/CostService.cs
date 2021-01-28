@@ -42,15 +42,15 @@ namespace CostJanitor.Application.Services
 
         public async Task<bool> DeleteReport(Guid id, CancellationToken ct = default)
         {
-            var reportItems = await _reportItemRepository.GetAsync(i => i.Id == id);
-            _reportItemRepository.Delete(reportItems.First());
+            var reportItem = await _reportItemRepository.GetAsync(id);
+            _reportItemRepository.Delete(reportItem);
             return true;
         }
 
         public async Task<bool> DeleteCostItem(Guid id, CancellationToken ct = default)
         {
-            var costItems = await _costItemRepository.GetAsync(i => i.Id == id);
-            _costItemRepository.Delete(costItems.First());
+            var costItem = await _costItemRepository.GetAsync(id);
+            _costItemRepository.Delete(costItem);
             return true;
         }
     }

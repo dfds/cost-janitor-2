@@ -92,7 +92,7 @@ namespace CostJanitor.Application.UnitTest.Services
 
             mockUnitOfWork.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(1));
             mockReportItemRepository.SetupGet(m => m.UnitOfWork).Returns(mockUnitOfWork.Object);
-            mockReportItemRepository.Setup(m => m.GetAsync(It.IsAny<int>())).Returns(Task.FromResult(reportItem));
+            mockReportItemRepository.Setup(m => m.GetAsync(It.IsAny<Guid>())).Returns(Task.FromResult(reportItem));
             mockReportItemRepository.Setup(m => m.Delete(It.IsAny<ReportItem>()));
 
             var sut = new CostService(mockCostItemRepository.Object, mockReportItemRepository.Object);
@@ -100,6 +100,31 @@ namespace CostJanitor.Application.UnitTest.Services
             //Act
             await sut.DeleteReport(reportId);
 
+            //Assert
+            Mock.VerifyAll();
+        }
+
+        [Fact]
+        public async Task CanDeleteCostItem()
+        {
+            //Arrange
+            var costId = Guid.NewGuid();
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockCostItemRepository = new Mock<ICostItemRepository>();
+            var mockReportItemRepository = new Mock<IReportItemRepository>();
+            var costItem = new CostItem("a", "b", "c");
+            costItem.SetId(costId);
+
+
+            mockUnitOfWork.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(1));
+            mockCostItemRepository.SetupGet(m => m.UnitOfWork).Returns(mockUnitOfWork.Object);
+            mockCostItemRepository.Setup(m => m.GetAsync(It.IsAny<Guid>())).Returns(Task.FromResult(costItem));
+            mockCostItemRepository.Setup(m => m.Delete(It.IsAny<CostItem>()));
+
+            var sut = new CostService(mockCostItemRepository.Object, mockReportItemRepository.Object);
+
+            //Act
+            await sut.DeleteCostItem(costId);
             //Assert
             Mock.VerifyAll();
         }

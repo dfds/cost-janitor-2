@@ -12,5 +12,7 @@
     &lt;TestId&gt;xUnit::967785CC-42D7-4259-832A-6E39AEA18E91::net5.0::CostJanitor.Application.UnitTest.Services.CostServiceTests.CanBeConstructed&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::967785CC-42D7-4259-832A-6E39AEA18E91::net5.0::CostJanitor.Application.UnitTest.Services.CostServiceTests.CanAddCostItem&lt;/TestId&gt;
     &lt;TestId&gt;xUnit::967785CC-42D7-4259-832A-6E39AEA18E91::net5.0::CostJanitor.Application.UnitTest.Services.CostServiceTests.CanAddReportItem&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::967785CC-42D7-4259-832A-6E39AEA18E91::net5.0::CostJanitor.Application.UnitTest.Services.CostServiceTests.CanDeleteReportItem&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::967785CC-42D7-4259-832A-6E39AEA18E91::net5.0::CostJanitor.Application.UnitTest.Services.CostServiceTests.CanDeleteCostItem&lt;/TestId&gt;
   &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
