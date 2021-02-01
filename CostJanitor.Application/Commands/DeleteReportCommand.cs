@@ -12,9 +12,9 @@ namespace CostJanitor.Application.Commands
         public Guid ReportId { get; init; }
 
         [JsonConstructor]
-        public DeleteReportCommand(Guid id)
+        public DeleteReportCommand(Guid reportId)
         {
-            ReportId = id;
+            ReportId = reportId;
         }
     }
 }

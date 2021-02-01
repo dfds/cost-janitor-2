@@ -1,0 +1,49 @@
+using System;
+using Moq;
+using System.Threading;
+using System.Threading.Tasks;
+using CostJanitor.Application.Commands;
+using CostJanitor.Domain.Services;
+using Xunit;
+
+namespace CostJanitor.Application.UnitTest.Commands
+{
+    public class DeleteReportCommandHandlerTests
+    {
+        [Fact]
+        public void CanBeConstructed()
+        {
+            //Arrange
+            var mockCostService = new Mock<ICostService>();
+            var sut = new DeleteReportCommandHandler(mockCostService.Object);
+
+            //Act
+            var hashCode = sut.GetHashCode();
+
+            //Assert
+            Assert.Equal(hashCode, sut.GetHashCode());
+            Assert.NotNull(sut);
+
+            Mock.VerifyAll();
+        }
+
+        [Fact]
+        public async Task CanHandleCommand()
+        {
+            //Arrange
+            var reportId = Guid.NewGuid();
+            var mockCostService = new Mock<ICostService>();
+            var sut = new DeleteReportCommandHandler(mockCostService.Object);
+
+            mockCostService.Setup(m => m.DeleteReport(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(true));
+
+            //Act
+            var result = await sut.Handle(new DeleteReportCommand(reportId));
+
+            //Assert
+            Assert.True(result);
+
+            Mock.VerifyAll();
+        }
+    }
+}
