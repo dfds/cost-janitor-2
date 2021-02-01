@@ -16,9 +16,9 @@ namespace CostJanitor.Application.Commands
         public string Value { get; init; }
 
         [JsonConstructor]
-        public CreateCostItemCommand(string id, string label, string value)
+        public CreateCostItemCommand(string capabilityIdentifier, string label, string value)
         {
-            CapabilityIdentifier = id;
+            CapabilityIdentifier = capabilityIdentifier;
             Label = label;
             Value = value;
         }
