@@ -22,7 +22,7 @@
 
     <ItemGroup>
       <Folder Include="Commands" />
-      <Folder Include="Events" />
+      <Folder Include="Events\Report" />
     </ItemGroup>
 
     <ItemGroup>
