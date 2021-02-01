@@ -14,9 +14,9 @@ namespace CostJanitor.Application.Commands
         public IEnumerable<CostItem> CostItems { get; init; }
 
         [JsonConstructor]
-        public UpdateReportCommand(Guid id, IEnumerable<CostItem> costItems)
+        public UpdateReportCommand(Guid reportId, IEnumerable<CostItem> costItems)
         {
-            ReportId = id;
+            ReportId = reportId;
             CostItems = costItems;
         }
     }
