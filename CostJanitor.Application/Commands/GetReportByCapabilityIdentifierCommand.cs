@@ -12,9 +12,9 @@ namespace CostJanitor.Application.Commands
         public String Identifier { get; init; }
 
         [JsonConstructor]
-        public GetReportByCapabilityIdentifierCommand(String id)
+        public GetReportByCapabilityIdentifierCommand(String identifier)
         {
-            Identifier = id;
+            Identifier = identifier;
         }
     }
 }

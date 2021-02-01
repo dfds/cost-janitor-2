@@ -35,7 +35,7 @@ namespace CostJanitor.Application.UnitTest.Commands
             var mockCostService = new Mock<ICostService>();
             var sut = new DeleteCostItemCommandHandler(mockCostService.Object);
 
-            mockCostService.Setup(m => m.DeleteCostItem(It.IsAny<Guid>(), It.IsAny<CancellationToken>()));
+            mockCostService.Setup(m => m.DeleteCostItem(It.IsAny<Guid>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(true));
 
             //Act
             var result = await sut.Handle(new DeleteCostItemCommand(costItemId));
