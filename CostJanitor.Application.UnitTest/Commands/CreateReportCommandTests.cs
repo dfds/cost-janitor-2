@@ -1,33 +1,34 @@
 using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using CostJanitor.Application.Commands;
+using CostJanitor.Domain.Aggregates;
 using Xunit;
 
 namespace CostJanitor.Application.UnitTest.Commands
 {
-    public class DeleteCostItemCommandTests
+    public class CreateReportCommandTests
     {
         [Fact]
         public void CanBeConstructed()
         {
             //Arrange
-            var id = Guid.NewGuid();
-            var sut = new DeleteCostItemCommand(id);
-
+            var sut = new CreateReportCommand(Guid.NewGuid(), new List<CostItem>());
             //Act
             var hashCode = sut.GetHashCode();
 
             //Assert
             Assert.NotNull(sut);
             Assert.Equal(hashCode, sut.GetHashCode());
-            Assert.Equal(id, sut.CostItemId);
+            Assert.True(sut.ReportId != Guid.Empty);
+            Assert.Empty(sut.CostItems);
         }
 
         [Fact]
         public void CanBeSerialized()
         {
             //Arrange
-            var sut = new DeleteCostItemCommand(Guid.NewGuid());
+            var sut = new CreateReportCommand(Guid.NewGuid(), new List<CostItem>());
 
             //Act
             var json = JsonSerializer.Serialize(sut);
@@ -40,15 +41,16 @@ namespace CostJanitor.Application.UnitTest.Commands
         public void CanBeDeserialized()
         {
             //Arrange
-            DeleteCostItemCommand sut;
-            var json = "{\"costItemId\":\"6361867a-8518-4715-995e-433bf961f344\"}";
+            CreateReportCommand sut;
+            var json = "{\"reportId\": \"c152244c-6132-4503-be43-17a18afd6af1\", \"costItems\": []}";
 
             //Act
-            sut = JsonSerializer.Deserialize<DeleteCostItemCommand>(json);
+            sut = JsonSerializer.Deserialize<CreateReportCommand>(json);
 
             //Assert
             Assert.NotNull(sut);
-            Assert.Equal(new Guid("6361867a-8518-4715-995e-433bf961f344"), sut.CostItemId);
+            Assert.Equal(Guid.Parse("c152244c-6132-4503-be43-17a18afd6af1"), sut.ReportId);
+            Assert.Empty(sut.CostItems);
         }
     }
 }

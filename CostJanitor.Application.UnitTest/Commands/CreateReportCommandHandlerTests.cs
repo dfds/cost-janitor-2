@@ -1,5 +1,6 @@
 using Moq;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CostJanitor.Application.Commands;
@@ -9,14 +10,14 @@ using Xunit;
 
 namespace CostJanitor.Application.UnitTest.Commands
 {
-    public class CreateCostItemCommandHandlerTests
+    public class CreateReportCommandHandlerTests
     {
         [Fact]
         public void CanBeConstructed()
         {
             //Arrange            
             var mockCostService = new Mock<ICostService>();
-            var sut = new CreateCostItemCommandHandler(mockCostService.Object);
+            var sut = new CreateReportCommandHandler(mockCostService.Object);
 
             //Act
             var hashCode = sut.GetHashCode();
@@ -33,17 +34,20 @@ namespace CostJanitor.Application.UnitTest.Commands
         {
             //Arrange
             var mockCostService = new Mock<ICostService>();
-            var costItem = new CostItem("b", "c", "a");
+            var reportItemId = Guid.NewGuid();
+            var reportItem = new ReportItem(reportItemId);
 
-            mockCostService.Setup(m => m.CreateOrAddCostItem(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), new CancellationToken())).Returns(Task.FromResult(costItem));
+            mockCostService.Setup(m => m.CreateOrAddReport(It.IsAny<Guid>(), It.IsAny<IEnumerable<CostItem>>(),
+                    It.IsAny<CancellationToken>()))
+                .Returns(Task.FromResult(reportItem));
 
-            var sut = new CreateCostItemCommandHandler(mockCostService.Object);
+            var sut = new CreateReportCommandHandler(mockCostService.Object);
 
             //Act
-            var result = await sut.Handle(new CreateCostItemCommand("a", "b", "c"));
+            var result = await sut.Handle(new CreateReportCommand(reportItemId, new List<CostItem>()));
 
             //Assert
-            Assert.Equal(result, costItem);
+            Assert.Equal(result, reportItem);
 
             Mock.VerifyAll();
         }

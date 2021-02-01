@@ -31,7 +31,7 @@ namespace CostJanitor.Application.UnitTest.Commands
         public async Task CanHandleCommand()
         {
             //Arrange
-            var costItemId = new Guid();
+            var costItemId = Guid.NewGuid();
             var mockCostService = new Mock<ICostService>();
             var sut = new DeleteCostItemCommandHandler(mockCostService.Object);
 
