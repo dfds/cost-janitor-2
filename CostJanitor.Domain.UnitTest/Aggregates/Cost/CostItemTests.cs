@@ -4,7 +4,7 @@ using System.Linq;
 using CostJanitor.Domain.Events.Cost;
 using Xunit;
 
-namespace CostJanitor.Domain.UnitTest.Aggregates.CostItem
+namespace CostJanitor.Domain.UnitTest.Aggregates.Cost
 {
     public class CostItemTests
     {
