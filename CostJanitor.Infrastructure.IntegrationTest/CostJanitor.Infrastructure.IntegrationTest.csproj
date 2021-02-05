@@ -25,4 +25,8 @@
         </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CostJanitor.Infrastructure\CostJanitor.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>
