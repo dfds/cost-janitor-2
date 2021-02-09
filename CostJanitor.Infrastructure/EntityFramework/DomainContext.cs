@@ -1,11 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using CostJanitor.Domain.Aggregates;
-using CostJanitor.Infrastructure.EntityFramework.Configurations;
+using CostJanitor.Domain.ValueObjects;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -19,7 +21,6 @@ namespace CostJanitor.Infrastructure.EntityFramework
 		private readonly IMediator _mediator;
 		public virtual DbSet<CostItem> CostItems { get; set; }
 		public virtual DbSet<ReportItem> ReportItems { get; set; }
-		public virtual DbSet<CostItemReference> CostItemReferences { get; set; }
 
 		public IDbContextTransaction GetCurrentTransaction { get; private set; }
 
@@ -34,9 +35,19 @@ namespace CostJanitor.Infrastructure.EntityFramework
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.ApplyConfiguration(new CostItemEntityTypeConfiguration());
-			modelBuilder.ApplyConfiguration(new ReportItemEntityTypeConfiguration());
-			modelBuilder.ApplyConfiguration(new CostItemReferenceEntityTypeConfiguration());
+			var configurationTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.GetInterface("IEntityTypeConfiguration`1") != null);
+
+			foreach (var configurationType in configurationTypes)
+			{
+				var entityType = configurationType.GetInterface("IEntityTypeConfiguration`1").GenericTypeArguments.SingleOrDefault();
+				Object viewData = null;
+				var configurationCtorArgTypes = (viewData != null) ? new[] { viewData.GetType() } : Array.Empty<Type>();
+				var configurationCtorArgs = (viewData != null) ? new[] { viewData } : null;
+				var configurationCtor = configurationType.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null, configurationCtorArgTypes, null);
+				dynamic configuration = configurationCtor.Invoke(configurationCtorArgs);
+
+				modelBuilder.ApplyConfiguration(configuration);
+			}
 		}
 
 		public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)

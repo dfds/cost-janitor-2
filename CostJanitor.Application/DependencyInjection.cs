@@ -20,23 +20,19 @@ using CostJanitor.Application.Services;
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.Repositories;
 using CostJanitor.Domain.Services;
+using CostJanitor.Domain.ValueObjects;
 using CostJanitor.Infrastructure.EntityFramework;
+using Microsoft.Extensions.Options;
 
 namespace CostJanitor.Application
 {
 	public static class DependencyInjection
 	{
-		public static void AddApplication(this IServiceCollection services, Action<ApplicationFacadeOptions> configureOptions = default)
+		public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
 		{
-			var options = new ApplicationFacadeOptions();
-
-			configureOptions?.Invoke(options);
-
 			services.AddLogging();
-			services.AddOptions<ApplicationFacadeOptions>()
-					.Configure(configureOptions);
 			services.AddCache();
-			services.AddEntityFramework(options);
+			services.AddEntityFramework(configuration);
 //			services.AddAutoMapper(Assembly.GetExecutingAssembly());
 			services.AddMediator();
 			services.AddBehaviors();
@@ -97,9 +93,6 @@ namespace CostJanitor.Application
 		{
 			services.AddTransient<IRepository<ReportItem>, ReportItemRepository>();
 			services.AddTransient<IReportItemRepository, ReportItemRepository>();
-			
-			services.AddTransient<IRepository<CostItem>, CostItemRepository>();
-			services.AddTransient<ICostItemRepository, CostItemRepository>();
 		}
 	
 		private static void AddServices(this IServiceCollection services)
@@ -116,12 +109,16 @@ namespace CostJanitor.Application
 		{
 		}
 
-		private static void AddEntityFramework(this IServiceCollection services, ApplicationFacadeOptions brokerOptions = default)
+		private static void AddEntityFramework(this IServiceCollection services, IConfiguration configuration)
 		{
+			services.Configure<DomainContextOptions>(configuration);
+
 			services.AddDbContext<DomainContext>(options =>
 			{
+				var serviceProvider = services.BuildServiceProvider();
+				var dbContextOptions = serviceProvider.GetService<IOptions<DomainContextOptions>>();
 				var callingAssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
-				var connectionString = brokerOptions?.ConnectionStrings?.GetValue<string>(nameof(DomainContext));
+				var connectionString = dbContextOptions.Value.ConnectionStrings?.GetValue<string>(nameof(DomainContext));
 
 				if (string.IsNullOrEmpty(connectionString))
 				{
@@ -145,14 +142,14 @@ namespace CostJanitor.Application
 
 					}).Options;
 
-				using var context = new DomainContext(dbOptions, new FakeMediator());
+				using var context = new DomainContext(dbOptions, serviceProvider.GetService<IMediator>());
 
-				if (!context.Database.EnsureCreated())
+				if (context.Database.EnsureCreated())
 				{
 					return;
 				}
 
-				if (brokerOptions.EnableAutoMigrations)
+				if (dbContextOptions.Value.EnableAutoMigrations)
 				{
 					context.Database.Migrate();
 				}
@@ -160,5 +157,5 @@ namespace CostJanitor.Application
 
 			services.AddScoped<IUnitOfWork>(factory => factory.GetRequiredService<DomainContext>());
 		}
-	}
+		}
 }

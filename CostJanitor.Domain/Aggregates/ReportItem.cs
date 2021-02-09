@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using CostJanitor.Domain.Events.Report;
+using CostJanitor.Domain.ValueObjects;
 using ResourceProvisioning.Abstractions.Aggregates;
 using ResourceProvisioning.Abstractions.Entities;
 
@@ -10,8 +11,9 @@ namespace CostJanitor.Domain.Aggregates
 {
     public sealed class ReportItem : Entity<Guid>, IAggregateRoot
     {
-        private List<CostItemReference> _costItemReferences;
-        public IEnumerable<CostItemReference> CostItemReferences => _costItemReferences.AsReadOnly();
+        private List<CostItem> _costItems;
+
+        public IEnumerable<CostItem> CostItems => _costItems.AsReadOnly();
 
         public ReportItem(Guid id) : this()
         {
@@ -20,20 +22,24 @@ namespace CostJanitor.Domain.Aggregates
 
         private ReportItem()
         {
-            _costItemReferences = new List<CostItemReference>();
+            _costItems = new List<CostItem>();
             var evt = new ReportItemCreatedEvent(this);
             AddDomainEvent(evt);
         }
 
-        public void AddCostItem(string capabilityIdentifier)
+        public void AddCostItem(CostItem costItem)
         {
-            _costItemReferences.Add(new CostItemReference(capabilityIdentifier));
+            _costItems.Add(costItem);
         }
 
         public void AddCostItem(IEnumerable<CostItem> costItems)
         {
-            var costItemReferences = costItems.Select(i => new CostItemReference(i.CapabilityIdentifier));
-            _costItemReferences.AddRange(costItemReferences);
+            _costItems.AddRange(costItems);
+        }
+
+        public void RemoveCostItem(CostItem costItem)
+        {
+            throw new NotImplementedException();
         }
         
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

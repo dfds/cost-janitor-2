@@ -23,11 +23,7 @@ namespace CostJanitor.Host.Api
         {
             AddHostServices(services);
 
-            DependencyInjection.AddApplication(services, (i) =>
-            {
-                i.ConnectionStrings = Configuration.GetSection("COST_JANITOR_CONNECTIONSTRINGS");
-                i.EnableAutoMigrations = Configuration["COST_JANITOR_ENABLE_AUTO_MIGRATIONS"].Contains("TRUE");
-            });
+            DependencyInjection.AddApplication(services, Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

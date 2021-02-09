@@ -6,17 +6,16 @@ using System.Threading.Tasks;
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.Repositories;
 using CostJanitor.Domain.Services;
+using CostJanitor.Domain.ValueObjects;
 
 namespace CostJanitor.Application.Services
 {
     public class CostService : ICostService
     {
-        private readonly ICostItemRepository _costItemRepository;
         private readonly IReportItemRepository _reportItemRepository;
 
-        public CostService(ICostItemRepository costItemRepository, IReportItemRepository reportItemRepository)
+        public CostService(IReportItemRepository reportItemRepository)
         {
-            _costItemRepository = costItemRepository;
             _reportItemRepository = reportItemRepository;
         }
         
@@ -24,7 +23,7 @@ namespace CostJanitor.Application.Services
         {
             var reportItems = await _reportItemRepository.GetAsync(i => true);
             return reportItems
-                .Where(i => i.CostItemReferences.Any(i => i.CapabilityIdentifier == identifier));
+                .Where(i => i.CostItems.Any(i => i.CapabilityIdentifier == identifier));
         }
 
         public Task<ReportItem> CreateOrAddReport(Guid id, IEnumerable<CostItem> costItems, CancellationToken ct = default)
@@ -34,10 +33,12 @@ namespace CostJanitor.Application.Services
             return Task.FromResult(_reportItemRepository.Add(reportItem));
         }
 
-        public Task<CostItem> CreateOrAddCostItem(string capabilityId, string label, string value, CancellationToken ct = default)
+        public async Task<CostItem> CreateOrAddCostItem(string capabilityId, string label, string value, Guid reportItemId, CancellationToken ct = default)
         {
             var costItem = new CostItem(label, value, capabilityId);
-            return Task.FromResult(_costItemRepository.Add(costItem));
+            var reportItem = await _reportItemRepository.GetAsync(reportItemId);
+            reportItem.AddCostItem(costItem);
+            return costItem;
         }
 
         public async Task<bool> DeleteReport(Guid id, CancellationToken ct = default)
@@ -47,10 +48,10 @@ namespace CostJanitor.Application.Services
             return true;
         }
 
-        public async Task<bool> DeleteCostItem(Guid id, CancellationToken ct = default)
+        public async Task<bool> DeleteCostItem(Guid id, Guid reportItemId, CancellationToken ct = default)
         {
-            var costItem = await _costItemRepository.GetAsync(id);
-            _costItemRepository.Delete(costItem);
+            var reportItem = await _reportItemRepository.GetAsync(reportItemId);
+            throw new NotImplementedException();
             return true;
         }
     }

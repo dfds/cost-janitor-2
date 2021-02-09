@@ -13,8 +13,8 @@ namespace CostJanitor.Infrastructure.EntityFramework.Configurations
             builder.HasKey(v => v.Id);
             builder.ToTable("ReportItem");
 
-            var resourceNavigation = builder.Metadata.FindNavigation(nameof(ReportItem.CostItemReferences));
-            resourceNavigation.SetPropertyAccessMode(PropertyAccessMode.Field);
+            builder.HasMany(o => o.CostItems)
+                .WithMany("CostItems");
         }
     }
 }

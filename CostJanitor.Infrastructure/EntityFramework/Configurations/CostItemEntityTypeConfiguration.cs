@@ -1,4 +1,5 @@
 using CostJanitor.Domain.Aggregates;
+using CostJanitor.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,12 +9,10 @@ namespace CostJanitor.Infrastructure.EntityFramework.Configurations
     {
         public void Configure(EntityTypeBuilder<CostItem> builder)
         {
-            builder.Ignore(v => v.DomainEvents);
             builder.Property(v => v.Label).IsRequired();
             builder.Property(v => v.Value).IsRequired();
-            builder.HasKey(v => v.Id);
+            builder.HasKey(v => new {v.Label, v.CapabilityIdentifier});
             builder.ToTable("CostItem");
-            
         }
     }
 }

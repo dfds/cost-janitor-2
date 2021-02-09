@@ -22,7 +22,7 @@ namespace CostJanitor.Application.Repositories
             return await Task.Factory.StartNew(() => _context.ReportItems
                 .AsNoTracking()
                 .Where(filter)
-                .Include(i => i.CostItemReferences)
+                .Include(i => i.CostItems)
                 .AsEnumerable());
         }
 
@@ -36,7 +36,7 @@ namespace CostJanitor.Application.Repositories
 
                 if (entry != null)
                 {
-                    await entry.Reference(i => i.CostItemReferences).LoadAsync();
+                    await entry.Reference(i => i.CostItems).LoadAsync();
                 }
             }
 

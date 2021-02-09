@@ -19,7 +19,7 @@ namespace CostJanitor.Application.Commands
 
         public async Task<bool> Handle(DeleteCostItemCommand command, CancellationToken cancellationToken = default)
         {
-            var report = await _costService.DeleteCostItem(command.CostItemId, cancellationToken);
+            var report = await _costService.DeleteCostItem(command.CostItemId, command.ReportItemId, cancellationToken);
 
             return report;
         }

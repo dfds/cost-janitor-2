@@ -5,12 +5,13 @@ using ResourceProvisioning.Abstractions.Aggregates;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CostJanitor.Domain.ValueObjects;
 
 namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
 {
-    public class CostResponseToAggregateConvert : ITypeConverter<GetCostAndUsageResponse, Tuple<IAggregateRoot, IEnumerable<IAggregateRoot>>>
+    public class CostResponseToAggregateConvert : ITypeConverter<GetCostAndUsageResponse, IAggregateRoot>
     {
-        public Tuple<IAggregateRoot, IEnumerable<IAggregateRoot>> Convert(GetCostAndUsageResponse source, Tuple<IAggregateRoot, IEnumerable<IAggregateRoot>> destination, ResolutionContext context)
+        public IAggregateRoot Convert(GetCostAndUsageResponse source, IAggregateRoot destination, ResolutionContext context)
         {
             switch (source)
             {
@@ -41,12 +42,11 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
                         
                         
                         var costItem = new CostItem("monthlyTotalCost", resultByTime.Groups.First().Metrics["BlendedCost"].Amount, assumedCapabilityIdentifier);
-                        costItems.Add(costItem);
                         
-                        reportAggr.AddCostItem(assumedCapabilityIdentifier);
+                        reportAggr.AddCostItem(costItem);
                     }
 
-                    return new Tuple<IAggregateRoot, IEnumerable<IAggregateRoot>>(reportAggr, costItems);
+                    return reportAggr;
 
                 default:
                     return null;

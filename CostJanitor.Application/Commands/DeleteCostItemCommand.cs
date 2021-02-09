@@ -10,11 +10,14 @@ namespace CostJanitor.Application.Commands
     {
         [JsonPropertyName("costItemId")]
         public Guid CostItemId { get; init; }
+        [JsonPropertyName("reportItemId")]
+        public Guid ReportItemId { get; init; }
 
         [JsonConstructor]
-        public DeleteCostItemCommand(Guid costItemId)
+        public DeleteCostItemCommand(Guid costItemId, Guid reportItemId)
         {
             CostItemId = costItemId;
+            ReportItemId = reportItemId;
         }
 
         public DeleteCostItemCommand()

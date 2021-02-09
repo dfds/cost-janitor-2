@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using CostJanitor.Domain.Aggregates;
+using CostJanitor.Domain.ValueObjects;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Moq;
@@ -37,7 +38,7 @@ namespace CostJanitor.Infrastructure.UnitTest.EntityFramework
         public async Task CanPublishDomainEventsOnSaveEntities()
         {
             //Arrange
-            var entityToAdd = new CostItem("a", "b", "c");
+            var entityToAdd = new ReportItem(Guid.NewGuid());
             var mockMediator = new Mock<IMediator>();
 
             mockMediator.Setup(m => m.Publish(It.IsAny<IDomainEvent>(), It.IsAny<CancellationToken>()));

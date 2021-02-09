@@ -1,7 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using CostJanitor.Domain.Events.Cost;
 using CostJanitor.Domain.Events.Report;
 using Xunit;
 

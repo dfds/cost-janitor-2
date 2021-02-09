@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using CostJanitor.Domain.Aggregates;
+using CostJanitor.Domain.ValueObjects;
 using ResourceProvisioning.Abstractions.Commands;
 
 namespace CostJanitor.Application.Commands
