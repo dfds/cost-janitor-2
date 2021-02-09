@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
 {
-    public class JsonElementToWebHookEventConverter : ITypeConverter<GetCostAndUsageResponse, IAggregateRoot>
+    public class CostResponseToAggregateConvert : ITypeConverter<GetCostAndUsageResponse, IAggregateRoot>
     {
         public IAggregateRoot Convert(GetCostAndUsageResponse source, IAggregateRoot destination, ResolutionContext context)
         {
