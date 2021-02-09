@@ -23,6 +23,7 @@ using CostJanitor.Domain.Services;
 using CostJanitor.Domain.ValueObjects;
 using CostJanitor.Infrastructure.EntityFramework;
 using Microsoft.Extensions.Options;
+using Npgsql;
 
 namespace CostJanitor.Application
 {
@@ -127,14 +128,14 @@ namespace CostJanitor.Application
 
 				services.AddSingleton(factory =>
 				{
-					var connection = new SqliteConnection(connectionString);
+					var connection = new NpgsqlConnection(connectionString);
 
 					connection.Open();
 
 					return connection;
 				});
 
-				var dbOptions = options.UseSqlite(services.BuildServiceProvider().GetService<SqliteConnection>(),
+				var dbOptions = options.UseNpgsql(services.BuildServiceProvider().GetService<NpgsqlConnection>(),
 					sqliteOptions =>
 					{
 						sqliteOptions.MigrationsAssembly(callingAssemblyName);

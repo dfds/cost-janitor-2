@@ -3,15 +3,17 @@ using System;
 using CostJanitor.Infrastructure.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CostJanitor.Infrastructure.Migrations
 {
     [DbContext(typeof(DomainContext))]
-    partial class DomainContextModelSnapshot : ModelSnapshot
+    [Migration("20210209140845_xax")]
+    partial class xax
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,15 +26,15 @@ namespace CostJanitor.Infrastructure.Migrations
                     b.Property<Guid>("_costItemsId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("_costItemsLabel")
+                    b.Property<string>("CostItemsLabel")
                         .HasColumnType("text");
 
-                    b.Property<string>("_costItemsCapabilityIdentifier")
+                    b.Property<string>("CostItemsCapabilityIdentifier")
                         .HasColumnType("text");
 
-                    b.HasKey("_costItemsId", "_costItemsLabel", "_costItemsCapabilityIdentifier");
+                    b.HasKey("_costItemsId", "CostItemsLabel", "CostItemsCapabilityIdentifier");
 
-                    b.HasIndex("_costItemsLabel", "_costItemsCapabilityIdentifier");
+                    b.HasIndex("CostItemsLabel", "CostItemsCapabilityIdentifier");
 
                     b.ToTable("CostItemReportItem");
                 });
@@ -56,16 +58,11 @@ namespace CostJanitor.Infrastructure.Migrations
                     b.Property<string>("CapabilityIdentifier")
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("ReportItemId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Value")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Label", "CapabilityIdentifier");
-
-                    b.HasIndex("ReportItemId");
 
                     b.ToTable("CostItem");
                 });
@@ -80,21 +77,9 @@ namespace CostJanitor.Infrastructure.Migrations
 
                     b.HasOne("CostJanitor.Domain.ValueObjects.CostItem", null)
                         .WithMany()
-                        .HasForeignKey("_costItemsLabel", "_costItemsCapabilityIdentifier")
+                        .HasForeignKey("CostItemsLabel", "CostItemsCapabilityIdentifier")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CostJanitor.Domain.ValueObjects.CostItem", b =>
-                {
-                    b.HasOne("CostJanitor.Domain.Aggregates.ReportItem", null)
-                        .WithMany("CostItems")
-                        .HasForeignKey("ReportItemId");
-                });
-
-            modelBuilder.Entity("CostJanitor.Domain.Aggregates.ReportItem", b =>
-                {
-                    b.Navigation("CostItems");
                 });
 #pragma warning restore 612, 618
         }

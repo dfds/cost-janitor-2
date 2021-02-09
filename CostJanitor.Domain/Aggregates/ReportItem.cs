@@ -11,7 +11,7 @@ namespace CostJanitor.Domain.Aggregates
 {
     public sealed class ReportItem : Entity<Guid>, IAggregateRoot
     {
-        private List<CostItem> _costItems;
+        private readonly List<CostItem> _costItems;
 
         public IEnumerable<CostItem> CostItems => _costItems.AsReadOnly();
 

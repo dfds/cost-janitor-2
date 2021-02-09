@@ -15,6 +15,7 @@ namespace CostJanitor.Infrastructure.EntityFramework.Configurations
 
             builder.HasMany(o => o.CostItems)
                 .WithMany("CostItems");
+
         }
     }
 }

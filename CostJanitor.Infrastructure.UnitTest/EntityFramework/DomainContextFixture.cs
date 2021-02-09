@@ -3,21 +3,22 @@ using MediatR;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
+using Npgsql;
 
 namespace CostJanitor.Infrastructure.UnitTest.EntityFramework
 {
     public class DomainContextFixture : IDisposable
     {
         private readonly DbContextOptions _options;
-        private readonly SqliteConnection _connection;
+        private readonly NpgsqlConnection _connection;
 
         public DomainContextFixture()
         {
-            _connection = new SqliteConnection("Filename=:memory:;");
+            _connection = new NpgsqlConnection("User ID=postgres;Password=local;Host=localhost;Port=5432;Database=postgres");
 
             _connection.Open();
 
-            _options = new DbContextOptionsBuilder().UseSqlite(_connection).Options;
+            _options = new DbContextOptionsBuilder().UseNpgsql(_connection).Options;
         }
 
         public void Dispose()
