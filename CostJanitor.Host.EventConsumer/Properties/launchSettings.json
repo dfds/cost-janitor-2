@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "CostJanitor.Host.EventConsumer": {
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:5005",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

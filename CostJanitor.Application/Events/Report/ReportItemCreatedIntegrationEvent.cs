@@ -11,6 +11,6 @@ namespace CostJanitor.Application.Events.Report
         public DateTime CreationDate  { get; init; }
         public int SchemaVersion  { get; init; }
         public string Type  { get; init; }
-        public JsonElement Payload  { get; init; }
+        public JsonElement? Payload  { get; init; }
     }
 }

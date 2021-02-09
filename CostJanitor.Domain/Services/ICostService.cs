@@ -7,7 +7,7 @@ using ResourceProvisioning.Abstractions.Services;
 
 namespace CostJanitor.Domain.Services
 {
-    public interface ICostService : IDomainService
+    public interface ICostService : IService
     {
         Task<IEnumerable<ReportItem>> GetReportByCapabilityIdentifier(string identifier, CancellationToken ct = default);
         Task<ReportItem> CreateOrAddReport(Guid id, IEnumerable<CostItem> costItems, CancellationToken ct = default);
