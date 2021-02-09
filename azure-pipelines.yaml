@@ -1,5 +1,18 @@
+# Triggers Pipeline only on Master
 trigger:
-- main
+  branches:
+    include:
+    - master
+    
+  paths:
+    # Changes to these files does not trigger a new build / release
+    exclude:
+    - README.md
+    - LICENSE
+    - azure-pipelines.yaml
+
+# Disables triggering Pipeline run at creation of every Pull Request
+pr: none
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -22,15 +35,6 @@ steps:
     sourceImageName: 'cost-janitor-api'
     repositoryName: 'dfds.developerautomation-xavgy.cost-janitor'
     pushTag: 'cost-janitor-api-$(Build.BuildId)'
-- task: ECRPushImage@1
-  displayName: 'Push event-consumer image to ECR'
-  inputs:
-    awsCredentials: 'DeveloperAutomation ECR'
-    regionName: 'eu-west-1'
-    imageSource: 'imagename'
-    sourceImageName: 'cost-janitor-event-consumer'
-    repositoryName: 'dfds.developerautomation-xavgy.azure-devops-janitor'
-    pushTag: 'cost-janitor-event-consumer-$(Build.BuildId)'
                       
 # Replace token values in yaml files with pipeline variables
 - task: qetza.replacetokens.replacetokens-task.replacetokens@3
