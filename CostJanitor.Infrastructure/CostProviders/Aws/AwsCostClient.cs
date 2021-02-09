@@ -16,23 +16,34 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws
             _amazonCostExplorer = costExplorerClient;
         }
         
-        public async Task<GetCostAndUsageResponse> GetMonthlyTotalCostAllAccounts()
+        public async Task<IEnumerable<GetCostAndUsageResponse>> GetMonthlyTotalCostAllAccounts()
         {
-            var resp = await _amazonCostExplorer.GetCostAndUsageAsync(new GetCostAndUsageRequest()
+            List<GetCostAndUsageResponse> result = new List<GetCostAndUsageResponse>();
+            GetCostAndUsageResponse resp = null;
+
+           do
             {
-                Metrics = new List<string>(new []{Metric.BLENDED_COST.Value}),
-                TimePeriod = CreateDateIntervalForCurrentMonth(),
-                Granularity = Granularity.MONTHLY,
-                GroupBy = new List<GroupDefinition>(new []
+                resp = await _amazonCostExplorer.GetCostAndUsageAsync(new GetCostAndUsageRequest()
                 {
-                    new GroupDefinition()
+                    Metrics = new List<string>(new[] { Metric.BLENDED_COST.Value }),
+                    TimePeriod = CreateDateIntervalForCurrentMonth(),
+                    Granularity = Granularity.MONTHLY,
+                    GroupBy = new List<GroupDefinition>(new[]
                     {
-                        Type = GroupDefinitionType.DIMENSION,
-                        Key = Dimension.LINKED_ACCOUNT.Value
-                    }
-                })
-            });
-            return resp;
+                        new GroupDefinition()
+                        {
+                            Type = GroupDefinitionType.DIMENSION,
+                            Key = Dimension.LINKED_ACCOUNT.Value
+                        }
+                    }),
+                    NextPageToken = resp?.NextPageToken
+                });
+
+                result.Add(resp);
+            }
+            while (resp.NextPageToken != null);
+
+            return result;
         }
 
         public async Task<GetCostAndUsageResponse> GetMonthlyTotalCostByAccountId(string accountId)
