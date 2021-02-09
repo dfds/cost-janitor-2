@@ -15,6 +15,7 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
             switch (source)
             {
                 case GetCostAndUsageResponse dto:
+                    // This assumes that only GetMonthlyTotalCostAllAccounts and GetMonthlyTotalCostByAccountId has been called. If one were to pass through a GetCostAndUsageResponse with wildly different request parameters, I'd imagine this could very likely go wrong.
                     var reportAggr = new ReportItem(Guid.NewGuid());
 
                     var accountResults = new Dictionary<string, string>();
