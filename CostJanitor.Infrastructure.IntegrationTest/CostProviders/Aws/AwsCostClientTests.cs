@@ -20,5 +20,16 @@ namespace CostJanitor.Infrastructure.IntegrationTest.CostProviders.Aws
             Assert.NotEmpty(resp.ResultsByTime);
             Assert.NotEmpty(resp.DimensionValueAttributes);
         }
+
+        [Fact]
+        public async Task GetMonthlyTotalCostsByAccountId()
+        {
+            IAwsCostClient sut = new AwsCostClient(new AmazonCostExplorerClient(RegionEndpoint.USEast1));
+            var resp = await sut.GetMonthlyTotalCostByAccountId("642375522597");
+            
+            Assert.Equal(HttpStatusCode.OK, resp.HttpStatusCode);
+            Assert.NotEmpty(resp.ResultsByTime);
+            Assert.NotEmpty(resp.DimensionValueAttributes);
+        }
     }
 }
