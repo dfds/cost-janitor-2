@@ -19,11 +19,14 @@ namespace CostJanitor.Application.Repositories
 
         public override async Task<IEnumerable<ReportItem>> GetAsync(Expression<Func<ReportItem, bool>> filter)
         {
-            return await Task.Factory.StartNew(() => _context.ReportItems
-                .AsNoTracking()
-                .Where(filter)
-                .Include(i => i.CostItems)
-                .AsEnumerable());
+            return await Task.Factory.StartNew(() =>
+            {
+                var x = _context.ReportItems.AsQueryable();
+                    x = x.AsNoTracking();
+                    x = x.Where(filter);
+                    x = x.Include(i => i.CostItems);
+                    return x.AsEnumerable();
+            });
         }
 
         public async Task<ReportItem> GetAsync(Guid reportItemId)

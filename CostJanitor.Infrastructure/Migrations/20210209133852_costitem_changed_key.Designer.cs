@@ -3,15 +3,17 @@ using System;
 using CostJanitor.Infrastructure.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace CostJanitor.Infrastructure.Migrations
 {
     [DbContext(typeof(DomainContext))]
-    partial class DomainContextModelSnapshot : ModelSnapshot
+    [Migration("20210209133852_costitem_changed_key")]
+    partial class costitem_changed_key
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

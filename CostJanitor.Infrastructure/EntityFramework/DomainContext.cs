@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.ValueObjects;
+using CostJanitor.Infrastructure.EntityFramework.Configurations;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -35,19 +36,8 @@ namespace CostJanitor.Infrastructure.EntityFramework
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			var configurationTypes = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.GetInterface("IEntityTypeConfiguration`1") != null);
-
-			foreach (var configurationType in configurationTypes)
-			{
-				var entityType = configurationType.GetInterface("IEntityTypeConfiguration`1").GenericTypeArguments.SingleOrDefault();
-				Object viewData = null;
-				var configurationCtorArgTypes = (viewData != null) ? new[] { viewData.GetType() } : Array.Empty<Type>();
-				var configurationCtorArgs = (viewData != null) ? new[] { viewData } : null;
-				var configurationCtor = configurationType.GetConstructor(BindingFlags.Public | BindingFlags.Instance, null, configurationCtorArgTypes, null);
-				dynamic configuration = configurationCtor.Invoke(configurationCtorArgs);
-
-				modelBuilder.ApplyConfiguration(configuration);
-			}
+			modelBuilder.ApplyConfiguration(new CostItemEntityTypeConfiguration());
+			modelBuilder.ApplyConfiguration(new ReportItemEntityTypeConfiguration());
 		}
 
 		public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
