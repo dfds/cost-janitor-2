@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
@@ -11,7 +6,7 @@ pool:
 
 steps:
 - task: DockerCompose@0
-  displayName: 'Build azure-devops-janitor images'
+  displayName: 'Build  images'
   inputs:
     containerregistrytype: 'Container Registry'
     dockerComposeFile: '**/docker-compose.yml'
@@ -19,32 +14,23 @@ steps:
     dockerComposeCommand: 'build'
     arguments: '--build-arg PAT=$(System.AccessToken)'
 - task: ECRPushImage@1  
-  displayName: 'Push azure-devops-janitor-api image to ECR'
+  displayName: 'Push api image to ECR'
   inputs:
     awsCredentials: 'DeveloperAutomation ECR'
     regionName: 'eu-west-1'
     imageSource: 'imagename'
-    sourceImageName: 'azure-devops-janitor-api'
-    repositoryName: 'dfds.developerautomation-xavgy.azure-devops-janitor'
-    pushTag: 'azure-devops-janitor-api-$(Build.BuildId)'
+    sourceImageName: 'cost-janitor-api'
+    repositoryName: 'dfds.developerautomation-xavgy.cost-janitor'
+    pushTag: 'cost-janitor-api-$(Build.BuildId)'
 - task: ECRPushImage@1
-  displayName: 'Push azure-devops-janitor-event-consumer image to ECR'
+  displayName: 'Push event-consumer image to ECR'
   inputs:
     awsCredentials: 'DeveloperAutomation ECR'
     regionName: 'eu-west-1'
     imageSource: 'imagename'
-    sourceImageName: 'azure-devops-janitor-event-consumer'
+    sourceImageName: 'cost-janitor-event-consumer'
     repositoryName: 'dfds.developerautomation-xavgy.azure-devops-janitor'
-    pushTag: 'azure-devops-janitor-event-consumer-$(Build.BuildId)'
-- task: ECRPushImage@1
-  displayName: 'Push azure-devops-janitor-event-forwarder image to ECR'
-  inputs:
-    awsCredentials: 'DeveloperAutomation ECR'
-    regionName: 'eu-west-1'
-    imageSource: 'imagename'
-    sourceImageName: 'azure-devops-janitor-event-forwarder'
-    repositoryName: 'dfds.developerautomation-xavgy.azure-devops-janitor'
-    pushTag: 'azure-devops-janitor-event-forwarder-$(Build.BuildId)'
+    pushTag: 'cost-janitor-event-consumer-$(Build.BuildId)'
                       
 # Replace token values in yaml files with pipeline variables
 - task: qetza.replacetokens.replacetokens-task.replacetokens@3
