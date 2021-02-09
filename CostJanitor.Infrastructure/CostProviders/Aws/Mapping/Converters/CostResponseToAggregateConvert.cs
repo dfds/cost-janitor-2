@@ -8,15 +8,16 @@ using System.Linq;
 
 namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
 {
-    public class CostResponseToAggregateConvert : ITypeConverter<GetCostAndUsageResponse, IAggregateRoot>
+    public class CostResponseToAggregateConvert : ITypeConverter<GetCostAndUsageResponse, Tuple<IAggregateRoot, IEnumerable<IAggregateRoot>>>
     {
-        public IAggregateRoot Convert(GetCostAndUsageResponse source, IAggregateRoot destination, ResolutionContext context)
+        public Tuple<IAggregateRoot, IEnumerable<IAggregateRoot>> Convert(GetCostAndUsageResponse source, Tuple<IAggregateRoot, IEnumerable<IAggregateRoot>> destination, ResolutionContext context)
         {
             switch (source)
             {
                 case GetCostAndUsageResponse dto:
                     // This assumes that only GetMonthlyTotalCostAllAccounts and GetMonthlyTotalCostByAccountId has been called. If one were to pass through a GetCostAndUsageResponse with wildly different request parameters, I'd imagine this could very likely go wrong.
                     var reportAggr = new ReportItem(Guid.NewGuid());
+                    var costItems = new List<IAggregateRoot>();
 
                     var accountResults = new Dictionary<string, string>();
                     foreach (var dimensionValueAttribute in dto.DimensionValueAttributes)
@@ -39,13 +40,13 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
                         // Magic end
                         
                         
-                        new CostItem("monthlyTotalCost", resultByTime.Groups.First().Metrics["BlendedCost"].Amount, assumedCapabilityIdentifier);
-                        //TODO: Add CostItem to DB? I'm having a hard time seeing how else the ReportItem would gather it consistently. Also this(adding an identifier instead of the item) seems like a major pain
+                        var costItem = new CostItem("monthlyTotalCost", resultByTime.Groups.First().Metrics["BlendedCost"].Amount, assumedCapabilityIdentifier);
+                        costItems.Add(costItem);
                         
                         reportAggr.AddCostItem(assumedCapabilityIdentifier);
                     }
 
-                    return reportAggr;
+                    return new Tuple<IAggregateRoot, IEnumerable<IAggregateRoot>>(reportAggr, costItems);
 
                 default:
                     return null;
