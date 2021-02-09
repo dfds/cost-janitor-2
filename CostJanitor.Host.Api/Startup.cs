@@ -1,16 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CostJanitor.Application;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 
 namespace CostJanitor.Host.Api
@@ -27,16 +21,12 @@ namespace CostJanitor.Host.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            Application.DependencyInjection.AddApplication(services, (i) =>
+            AddHostServices(services);
+
+            DependencyInjection.AddApplication(services, (i) =>
             {
                 i.ConnectionStrings = Configuration.GetSection("COST_JANITOR_CONNECTIONSTRINGS");
                 i.EnableAutoMigrations = Configuration["COST_JANITOR_ENABLE_AUTO_MIGRATIONS"].Contains("TRUE");
-            });
-            
-            services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "CostJanitor.Host.Api", Version = "v1"});
             });
         }
 
@@ -50,11 +40,48 @@ namespace CostJanitor.Host.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "CostJanitor.Host.Api v1"));
             }
 
+            app.UseHttpsRedirection();
             app.UseRouting();
-
+            app.UseCors("open");
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+        }
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+        protected virtual void AddHostServices(IServiceCollection services)
+        {
+            services.AddControllers();
+
+            services.AddCors(options =>
+            {
+                options.DefaultPolicyName = "open";
+                options.AddDefaultPolicy(p =>
+                {
+                    p.AllowAnyHeader();
+                    p.AllowAnyMethod();
+                    p.AllowCredentials();
+                    p.WithExposedHeaders("X-Pagination");
+                });
+            });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "CostJanitor.Host.Api",
+                    Version = "v1"
+                });
+            });
+
+            AddHostAuthentication(services);
+        }
+
+        protected virtual void AddHostAuthentication(IServiceCollection services)
+        {
+            services.AddMicrosoftIdentityWebApiAuthentication(Configuration);
         }
     }
 }
