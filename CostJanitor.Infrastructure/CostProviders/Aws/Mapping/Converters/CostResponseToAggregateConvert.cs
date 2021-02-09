@@ -38,7 +38,9 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
                         }
                         // Magic end
                         
+                        
                         new CostItem("monthlyTotalCost", resultByTime.Groups.First().Metrics["BlendedCost"].Amount, assumedCapabilityIdentifier);
+                        //TODO: Add CostItem to DB? I'm having a hard time seeing how else the ReportItem would gather it consistently. Also this(adding an identifier instead of the item) seems like a major pain
                         
                         reportAggr.AddCostItem(assumedCapabilityIdentifier);
                     }
