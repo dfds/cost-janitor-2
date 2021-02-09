@@ -16,9 +16,14 @@ namespace CostJanitor.Infrastructure.IntegrationTest.CostProviders.Aws
             IAwsCostClient sut = new AwsCostClient(new AmazonCostExplorerClient(RegionEndpoint.USEast1));
             var resp = await sut.GetMonthlyTotalCostAllAccounts();
             
-            Assert.Equal(HttpStatusCode.OK, resp.HttpStatusCode);
-            Assert.NotEmpty(resp.ResultsByTime);
-            Assert.NotEmpty(resp.DimensionValueAttributes);
+            Assert.NotNull(resp);
+
+            foreach (var result in resp)
+            {
+                Assert.Equal(HttpStatusCode.OK, result.HttpStatusCode);
+                Assert.NotEmpty(result.ResultsByTime);
+                Assert.NotEmpty(result.DimensionValueAttributes);
+            }
         }
 
         [Fact]
