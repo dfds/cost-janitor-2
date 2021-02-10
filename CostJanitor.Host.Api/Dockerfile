@@ -27,6 +27,8 @@ RUN dotnet restore
 #Compile source code using standard Release profile
 RUN dotnet publish -c Release -o /build/out CostJanitor.Host.Api.csproj
 
+RUN rm /build/nuget.config
+
 #Setup final container images.
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS runtime
 WORKDIR /app
