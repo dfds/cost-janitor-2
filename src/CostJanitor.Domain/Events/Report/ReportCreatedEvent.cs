@@ -2,9 +2,9 @@ using CostJanitor.Domain.Aggregates;
 
 namespace CostJanitor.Domain.Events.Report
 {
-    public sealed class ReportItemCreatedEvent : ReportItemEvent
+    public sealed class ReportCreatedEvent : ReportEvent
     {
-        public ReportItemCreatedEvent(ReportItem reportItem)
+        public ReportCreatedEvent(ReportRoot reportItem)
         {
             ReportItem = reportItem;
         }

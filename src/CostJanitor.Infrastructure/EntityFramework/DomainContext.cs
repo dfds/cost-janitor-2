@@ -21,7 +21,7 @@ namespace CostJanitor.Infrastructure.EntityFramework
 	    public const string DEFAULT_SCHEMA = nameof(DomainContext);
 		private readonly IMediator _mediator;
 		public virtual DbSet<CostItem> CostItems { get; set; }
-		public virtual DbSet<ReportItem> ReportItems { get; set; }
+		public virtual DbSet<ReportRoot> ReportItems { get; set; }
 
 		public IDbContextTransaction GetCurrentTransaction { get; private set; }
 

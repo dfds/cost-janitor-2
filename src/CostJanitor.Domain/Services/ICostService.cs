@@ -10,10 +10,16 @@ namespace CostJanitor.Domain.Services
 {
     public interface ICostService : IService
     {
-        Task<IEnumerable<ReportItem>> GetReportByCapabilityIdentifier(string identifier, CancellationToken ct = default);
-        Task<ReportItem> CreateOrAddReport(Guid id, IEnumerable<CostItem> costItems, CancellationToken ct = default);
-        Task<CostItem> CreateOrAddCostItem(string capabilityId, string label, string value, Guid reportItemId, CancellationToken ct = default);
-        Task<bool> DeleteReport(Guid id, CancellationToken ct = default);
-        Task<bool> DeleteCostItem(Guid id, Guid reportItemId, CancellationToken ct = default);
+        Task<IEnumerable<ReportRoot>> GetReportByCapabilityIdentifierAsync(string capabilityIdentifier, CancellationToken ct = default);
+
+        Task<ReportRoot> AddReportAsync(IEnumerable<CostItem> costItems, CancellationToken ct = default);
+
+        Task<ReportRoot> UpdateReportAsync(ReportRoot report, CancellationToken ct = default);
+
+        Task<bool> DeleteReportAsync(Guid reportItemId, CancellationToken ct = default);
+
+        Task<CostItem> AddOrUpdateCostItemAsync(Guid reportItemId, string capabilityIdentifier, string label, string value, CancellationToken ct = default);
+        
+        Task<bool> DeleteCostItemAsync(Guid reportItemId, string label, string capabilityIdentifier = default, CancellationToken ct = default);
     }
 }

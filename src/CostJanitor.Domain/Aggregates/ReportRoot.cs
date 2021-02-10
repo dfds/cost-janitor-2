@@ -9,21 +9,18 @@ using ResourceProvisioning.Abstractions.Entities;
 
 namespace CostJanitor.Domain.Aggregates
 {
-    public sealed class ReportItem : Entity<Guid>, IAggregateRoot
+    public sealed class ReportRoot : Entity<Guid>, IAggregateRoot
     {
         private readonly List<CostItem> _costItems;
 
         public IEnumerable<CostItem> CostItems => _costItems.AsReadOnly();
-
-        public ReportItem(Guid id) : this()
-        {
-            this.Id = id;
-        }
-
-        private ReportItem()
+        
+        public ReportRoot()
         {
             _costItems = new List<CostItem>();
-            var evt = new ReportItemCreatedEvent(this);
+
+            var evt = new ReportCreatedEvent(this);
+            
             AddDomainEvent(evt);
         }
 
@@ -39,7 +36,7 @@ namespace CostJanitor.Domain.Aggregates
 
         public void RemoveCostItem(CostItem costItem)
         {
-            throw new NotImplementedException();
+            _costItems.Remove(costItem);
         }
         
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

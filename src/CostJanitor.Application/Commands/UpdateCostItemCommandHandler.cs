@@ -1,11 +1,9 @@
+using CostJanitor.Domain.Services;
+using CostJanitor.Domain.ValueObjects;
+using ResourceProvisioning.Abstractions.Commands;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CostJanitor.Domain.Aggregates;
-using CostJanitor.Domain.Services;
-using CostJanitor.Domain.ValueObjects;
-using MediatR;
-using ResourceProvisioning.Abstractions.Commands;
 
 namespace CostJanitor.Application.Commands
 {
@@ -20,7 +18,7 @@ namespace CostJanitor.Application.Commands
 
         public async Task<CostItem> Handle(UpdateCostItemCommand command, CancellationToken cancellationToken = default)
         {
-            var report = await _costService.CreateOrAddCostItem(command.CapabilityIdentifier, command.Label, command.Value, command.ReportItemId, cancellationToken);
+            var report = await _costService.AddOrUpdateCostItemAsync(command.ReportItemId, command.CapabilityIdentifier, command.Label, command.Value, cancellationToken);
 
             return report;
         }

@@ -1,12 +1,11 @@
+using CostJanitor.Application.Commands;
+using CostJanitor.Domain.Services;
+using CostJanitor.Domain.ValueObjects;
 using Moq;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CostJanitor.Application.Commands;
-using CostJanitor.Domain.Aggregates;
-using CostJanitor.Domain.Services;
 using Xunit;
-using CostJanitor.Domain.ValueObjects;
 
 namespace CostJanitor.Application.UnitTest.Commands
 {
@@ -36,7 +35,7 @@ namespace CostJanitor.Application.UnitTest.Commands
             var mockCostService = new Mock<ICostService>();
             var costItem = new CostItem("b", "c", "a");
 
-            mockCostService.Setup(m => m.CreateOrAddCostItem(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Guid>(), new CancellationToken())).Returns(Task.FromResult(costItem));
+            mockCostService.Setup(m => m.AddOrUpdateCostItemAsync(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), new CancellationToken())).Returns(Task.FromResult(costItem));
 
             var sut = new CreateCostItemCommandHandler(mockCostService.Object);
 

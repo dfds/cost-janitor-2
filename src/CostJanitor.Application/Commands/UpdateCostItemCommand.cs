@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
-using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.ValueObjects;
 using ResourceProvisioning.Abstractions.Commands;
+using System;
+using System.Text.Json.Serialization;
 
 namespace CostJanitor.Application.Commands
 {
@@ -11,10 +9,13 @@ namespace CostJanitor.Application.Commands
     {
         [JsonPropertyName("capabilityIdentifier")]
         public string CapabilityIdentifier { get; init; }
+
         [JsonPropertyName("reportItemId")]
         public Guid ReportItemId { get; init; }
+
         [JsonPropertyName("label")]
         public string Label { get; init; }
+
         [JsonPropertyName("value")]
         public string Value { get; init; }
 

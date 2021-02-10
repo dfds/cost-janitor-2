@@ -9,10 +9,13 @@ namespace CostJanitor.Application.Commands
     {
         [JsonPropertyName("capabilityIdentifier")]
         public string CapabilityIdentifier { get; init; }
+
         [JsonPropertyName("reportItemId")]
         public Guid ReportItemId { get; init; }
+        
         [JsonPropertyName("label")]
         public string Label { get; init; }
+        
         [JsonPropertyName("value")]
         public string Value { get; init; }
 

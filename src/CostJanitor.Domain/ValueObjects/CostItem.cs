@@ -10,9 +10,11 @@ namespace CostJanitor.Domain.ValueObjects
         [Required]
         [JsonPropertyName("label")]
         public string Label { get; init; }
+
         [Required]
         [JsonPropertyName("value")]
         public string Value { get; init; }
+
         [Required]
         [JsonPropertyName("capabilityIdentifier")]
         public string CapabilityIdentifier { get; init; }

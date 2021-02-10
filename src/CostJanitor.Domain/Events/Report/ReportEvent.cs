@@ -3,8 +3,8 @@ using ResourceProvisioning.Abstractions.Events;
 
 namespace CostJanitor.Domain.Events.Report
 {
-    public abstract class ReportItemEvent : IDomainEvent
+    public abstract class ReportEvent : IDomainEvent
     {
-        public ReportItem ReportItem { get; protected set; }
+        public ReportRoot ReportItem { get; protected set; }
     }
 }

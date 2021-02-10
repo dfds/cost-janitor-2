@@ -1,10 +1,8 @@
+using CostJanitor.Domain.Services;
+using ResourceProvisioning.Abstractions.Commands;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CostJanitor.Domain.Aggregates;
-using CostJanitor.Domain.Services;
-using MediatR;
-using ResourceProvisioning.Abstractions.Commands;
 
 namespace CostJanitor.Application.Commands
 {
@@ -19,7 +17,7 @@ namespace CostJanitor.Application.Commands
 
         public async Task<bool> Handle(DeleteReportCommand command, CancellationToken cancellationToken = default)
         {
-            var report = await _costService.DeleteReport(command.ReportId, cancellationToken);
+            var report = await _costService.DeleteReportAsync(command.ReportId, cancellationToken);
 
             return report;
         }

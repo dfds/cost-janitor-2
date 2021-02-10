@@ -31,14 +31,13 @@ namespace CostJanitor.Application.UnitTest.Commands
         public async Task CanHandleCommand()
         {
             //Arrange
-            var costItemId = Guid.NewGuid();
             var mockCostService = new Mock<ICostService>();
             var sut = new DeleteCostItemCommandHandler(mockCostService.Object);
 
-            mockCostService.Setup(m => m.DeleteCostItem(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(true));
+            mockCostService.Setup(m => m.DeleteCostItemAsync(It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(true));
 
             //Act
-            var result = await sut.Handle(new DeleteCostItemCommand(costItemId, Guid.NewGuid()));
+            var result = await sut.Handle(new DeleteCostItemCommand(Guid.NewGuid(), "label", "identifier"));
 
             //Assert
             Assert.True(result);

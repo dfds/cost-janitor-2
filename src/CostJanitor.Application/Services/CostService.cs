@@ -1,57 +1,100 @@
+using CostJanitor.Domain.Aggregates;
+using CostJanitor.Domain.Repositories;
+using CostJanitor.Domain.Services;
+using CostJanitor.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using CostJanitor.Domain.Aggregates;
-using CostJanitor.Domain.Repositories;
-using CostJanitor.Domain.Services;
-using CostJanitor.Domain.ValueObjects;
 
 namespace CostJanitor.Application.Services
 {
     public class CostService : ICostService
     {
-        private readonly IReportItemRepository _reportItemRepository;
+        private readonly IReportRepository _reportRepository;
 
-        public CostService(IReportItemRepository reportItemRepository)
+        public CostService(IReportRepository reportRepository)
         {
-            _reportItemRepository = reportItemRepository;
+            _reportRepository = reportRepository;
         }
         
-        public async Task<IEnumerable<ReportItem>> GetReportByCapabilityIdentifier(string identifier, CancellationToken ct = default)
+        public async Task<IEnumerable<ReportRoot>> GetReportByCapabilityIdentifierAsync(string capabilityIdentifier, CancellationToken ct = default)
         {
-            var reportItems = await _reportItemRepository.GetAsync(i => true);
-            return reportItems
-                .Where(i => i.CostItems.Any(i => i.CapabilityIdentifier == identifier));
+            var reportRoots = await _reportRepository.GetAsync(r => r.CostItems.Any(ci => ci.CapabilityIdentifier == capabilityIdentifier));
+
+            return reportRoots;
         }
 
-        public Task<ReportItem> CreateOrAddReport(Guid id, IEnumerable<CostItem> costItems, CancellationToken ct = default)
+        public async Task<ReportRoot> AddReportAsync(IEnumerable<CostItem> costItems, CancellationToken ct = default)
         {
-            var reportItem = new ReportItem(id);
-            reportItem.AddCostItem(costItems);
-            return Task.FromResult(_reportItemRepository.Add(reportItem));
+            var reportRoot = new ReportRoot();
+
+            reportRoot.AddCostItem(costItems);
+
+            reportRoot = _reportRepository.Add(reportRoot);
+            
+            await _reportRepository.UnitOfWork.SaveEntitiesAsync(ct);
+
+            return reportRoot;
         }
 
-        public async Task<CostItem> CreateOrAddCostItem(string capabilityId, string label, string value, Guid reportItemId, CancellationToken ct = default)
+        public async Task<ReportRoot> UpdateReportAsync(ReportRoot report, CancellationToken ct = default)
+        {
+            var reportRoot = _reportRepository.Update(report);
+            
+            await _reportRepository.UnitOfWork.SaveEntitiesAsync(ct);
+
+            return reportRoot;
+        }
+
+        public async Task<CostItem> AddOrUpdateCostItemAsync(Guid reportItemId, string capabilityId, string label, string value, CancellationToken ct = default)
         {
             var costItem = new CostItem(label, value, capabilityId);
-            var reportItem = await _reportItemRepository.GetAsync(reportItemId);
-            reportItem.AddCostItem(costItem);
+            var reportRoot = await _reportRepository.GetAsync(reportItemId);
+
+            if (reportRoot == null) return costItem;
+
+            if (reportRoot.CostItems.Any(ci => ci.Equals(costItem)))
+            {
+                reportRoot.RemoveCostItem(reportRoot.CostItems.Single(ci => ci.Equals(costItem)));
+            }
+
+            reportRoot.AddCostItem(costItem);
+
+            await UpdateReportAsync(reportRoot, ct);
+
             return costItem;
         }
 
-        public async Task<bool> DeleteReport(Guid id, CancellationToken ct = default)
+        public async Task<bool> DeleteReportAsync(Guid id, CancellationToken ct = default)
         {
-            var reportItem = await _reportItemRepository.GetAsync(id);
-            _reportItemRepository.Delete(reportItem);
+            var reportRoot = await _reportRepository.GetAsync(id);
+
+            _reportRepository.Delete(reportRoot);
+
+            await _reportRepository.UnitOfWork.SaveEntitiesAsync(ct);
+
             return true;
         }
 
-        public async Task<bool> DeleteCostItem(Guid id, Guid reportItemId, CancellationToken ct = default)
+        public async Task<bool> DeleteCostItemAsync(Guid reportItemId, string label, string capabilityIdentifier = default, CancellationToken ct = default)
         {
-            var reportItem = await _reportItemRepository.GetAsync(reportItemId);
-            throw new NotImplementedException();
+            var reportRoot = await _reportRepository.GetAsync(reportItemId);
+            var query = reportRoot.CostItems.Where(ci => ci.Label == label).AsQueryable();
+
+            if (!string.IsNullOrEmpty(capabilityIdentifier))
+            {
+                query = query.Where(ci => ci.CapabilityIdentifier == capabilityIdentifier);
+            }
+
+            foreach (var ci in query.AsEnumerable())
+            {
+                reportRoot.RemoveCostItem(ci);
+            }
+            
+            await UpdateReportAsync(reportRoot, ct);
+
             return true;
         }
     }

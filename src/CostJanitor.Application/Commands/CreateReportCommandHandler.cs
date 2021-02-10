@@ -8,7 +8,7 @@ using ResourceProvisioning.Abstractions.Commands;
 
 namespace CostJanitor.Application.Commands
 {
-    public sealed class CreateReportCommandHandler : ICommandHandler<CreateReportCommand, ReportItem>
+    public sealed class CreateReportCommandHandler : ICommandHandler<CreateReportCommand, ReportRoot>
     {
         private readonly ICostService _costService;
 
@@ -17,9 +17,9 @@ namespace CostJanitor.Application.Commands
             _costService = costService ?? throw new ArgumentNullException(nameof(costService));
         }
 
-        public async Task<ReportItem> Handle(CreateReportCommand command, CancellationToken cancellationToken = default)
+        public async Task<ReportRoot> Handle(CreateReportCommand command, CancellationToken cancellationToken = default)
         {
-            var report = await _costService.CreateOrAddReport(command.ReportId, command.CostItems, cancellationToken);
+            var report = await _costService.AddReportAsync(command.CostItems, cancellationToken);
 
             return report;
         }

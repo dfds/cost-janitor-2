@@ -1,9 +1,8 @@
 using CostJanitor.Infrastructure.EntityFramework;
 using MediatR;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using System;
 using Npgsql;
+using System;
 
 namespace CostJanitor.Infrastructure.UnitTest.EntityFramework
 {

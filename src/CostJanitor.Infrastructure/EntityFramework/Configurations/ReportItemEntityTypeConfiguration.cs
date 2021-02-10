@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CostJanitor.Infrastructure.EntityFramework.Configurations
 {
-    public class ReportItemEntityTypeConfiguration : IEntityTypeConfiguration<ReportItem>
+    public class ReportItemEntityTypeConfiguration : IEntityTypeConfiguration<ReportRoot>
     {
-        public void Configure(EntityTypeBuilder<ReportItem> builder)
+        public void Configure(EntityTypeBuilder<ReportRoot> builder)
         {
             builder.Ignore(v => v.DomainEvents);
             builder.Property(v => v.Id).IsRequired();

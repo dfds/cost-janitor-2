@@ -1,11 +1,10 @@
 ﻿using Amazon.CostExplorer.Model;
 using AutoMapper;
 using CostJanitor.Domain.Aggregates;
+using CostJanitor.Domain.ValueObjects;
 using ResourceProvisioning.Abstractions.Aggregates;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using CostJanitor.Domain.ValueObjects;
 
 namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
 {
@@ -16,15 +15,16 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
             switch (source)
             {
                 case GetCostAndUsageResponse dto:
-                    // This assumes that only GetMonthlyTotalCostAllAccounts and GetMonthlyTotalCostByAccountId has been called. If one were to pass through a GetCostAndUsageResponse with wildly different request parameters, I'd imagine this could very likely go wrong.
-                    var reportAggr = new ReportItem(Guid.NewGuid());
-                    var costItems = new List<IAggregateRoot>();
-
+                    // This assumes that only GetMonthlyTotalCostAllAccounts and GetMonthlyTotalCostByAccountId has been called. 
+                    // If one were to pass through a GetCostAndUsageResponse with wildly different request parameters, I'd imagine this could very likely go wrong.
+                    var reportAggr = new ReportRoot();
                     var accountResults = new Dictionary<string, string>();
+
                     foreach (var dimensionValueAttribute in dto.DimensionValueAttributes)
                     {
                         var awsAccountName = dimensionValueAttribute.Attributes["description"];
                         var awsAccountId = dimensionValueAttribute.Value;
+                    
                         accountResults.Add(awsAccountId, awsAccountName);
                     }
 
@@ -39,7 +39,6 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
                             assumedCapabilityIdentifier = awsAccountName.Remove(0, 5);
                         }
                         // Magic end
-                        
                         
                         var costItem = new CostItem("monthlyTotalCost", resultByTime.Groups.First().Metrics["BlendedCost"].Amount, assumedCapabilityIdentifier);
                         

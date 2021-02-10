@@ -1,6 +1,5 @@
-using System;
-using System.Text.Json;
 using CostJanitor.Application.Commands;
+using System.Text.Json;
 using Xunit;
 
 namespace CostJanitor.Application.UnitTest.Commands
@@ -19,8 +18,8 @@ namespace CostJanitor.Application.UnitTest.Commands
             //Assert
             Assert.NotNull(sut);
             Assert.Equal(hashCode, sut.GetHashCode());
-            Assert.True(sut.Identifier != String.Empty);
-            Assert.Equal("a", sut.Identifier);
+            Assert.True(sut.CapabilityIdentifier != string.Empty);
+            Assert.Equal("a", sut.CapabilityIdentifier);
         }
 
         [Fact]
@@ -41,14 +40,14 @@ namespace CostJanitor.Application.UnitTest.Commands
         {
             //Arrange
             GetReportByCapabilityIdentifierCommand sut;
-            var json = "{\"identifier\":\"a\"}";
+            var json = "{\"capabilityIdentifier\":\"a\"}";
 
             //Act
             sut = JsonSerializer.Deserialize<GetReportByCapabilityIdentifierCommand>(json);
 
             //Assert
             Assert.NotNull(sut);
-            Assert.Equal("a", sut.Identifier);
+            Assert.Equal("a", sut.CapabilityIdentifier);
         }
     }
 }

@@ -1,15 +1,14 @@
+using CostJanitor.Domain.Aggregates;
+using CostJanitor.Domain.Services;
+using ResourceProvisioning.Abstractions.Commands;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CostJanitor.Domain.Aggregates;
-using CostJanitor.Domain.Services;
-using MediatR;
-using ResourceProvisioning.Abstractions.Commands;
 
 namespace CostJanitor.Application.Commands
 {
-    public sealed class GetReportByCapabilityIdentifierCommandHandler : ICommandHandler<GetReportByCapabilityIdentifierCommand, IEnumerable<ReportItem>>
+    public sealed class GetReportByCapabilityIdentifierCommandHandler : ICommandHandler<GetReportByCapabilityIdentifierCommand, IEnumerable<ReportRoot>>
     {
         private readonly ICostService _costService;
 
@@ -18,9 +17,9 @@ namespace CostJanitor.Application.Commands
             _costService = costService ?? throw new ArgumentNullException(nameof(costService));
         }
 
-        public async Task<IEnumerable<ReportItem>> Handle(GetReportByCapabilityIdentifierCommand command, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<ReportRoot>> Handle(GetReportByCapabilityIdentifierCommand command, CancellationToken cancellationToken = default)
         {
-            var report = await _costService.GetReportByCapabilityIdentifier(command.Identifier, cancellationToken);
+            var report = await _costService.GetReportByCapabilityIdentifierAsync(command.CapabilityIdentifier, cancellationToken);
 
             return report;
         }

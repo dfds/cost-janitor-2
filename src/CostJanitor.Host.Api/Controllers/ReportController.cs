@@ -1,10 +1,9 @@
-using System;
+using CostJanitor.Application.Commands;
+using CostJanitor.Domain.Aggregates;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CostJanitor.Domain.Aggregates;
-using CostJanitor.Domain.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace CostJanitor.Host.Api.Controllers
 {
@@ -12,25 +11,43 @@ namespace CostJanitor.Host.Api.Controllers
     [Route("[controller]")]
     public class ReportController
     {
-        private readonly ILogger<ReportController> _logger;
-        private ICostService _costService;
+        private readonly IMediator _mediator;
 
-        public ReportController(ILogger<ReportController> logger, ICostService costService)
+        public ReportController(IMediator mediator)
         {
-            _logger = logger;
-            _costService = costService;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ReportItem>> Get(string capabilityIdentifier)
+        public async Task<IEnumerable<ReportRoot>> Get(string capabilityIdentifier)
         {
-            return await _costService.GetReportByCapabilityIdentifier(capabilityIdentifier);
+            var command = new GetReportByCapabilityIdentifierCommand(capabilityIdentifier);
+
+            return await Get(command);
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<ReportRoot>> Get(GetReportByCapabilityIdentifierCommand command)
+        {
+            return await _mediator.Send(command);
         }
 
         [HttpPost]
-        public async Task<ReportItem> Create(ReportItem reportItem)
+        public async Task<ReportRoot> Create(CreateReportCommand command)
         {
-            throw new NotImplementedException();
+            return await _mediator.Send(command);
+        }
+
+        [HttpPut]
+        public async Task<ReportRoot> Update(UpdateReportCommand command)
+        {
+            return await _mediator.Send(command);
+        }
+
+        [HttpDelete]
+        public async Task<bool> Delete(DeleteReportCommand command)
+        {
+            return await _mediator.Send(command);
         }
     }
 }

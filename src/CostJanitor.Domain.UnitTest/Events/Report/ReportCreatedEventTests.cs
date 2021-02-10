@@ -1,20 +1,19 @@
 ﻿using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.Events.Report;
-using System;
 using Xunit;
 
 namespace CostJanitor.Domain.UnitTest.Events.Cost
 {
-    public class ReportItemCreatedEventTests
+    public class ReportCreatedEventTests
     {
         [Fact]
         public void CanBeConstructed()
         {
             //Arrange
-            ReportItemCreatedEvent sut;
+            ReportCreatedEvent sut;
 
             //Act
-            sut = new ReportItemCreatedEvent(null);
+            sut = new ReportCreatedEvent(null);
 
             //Assert
             Assert.NotNull(sut);
@@ -25,11 +24,11 @@ namespace CostJanitor.Domain.UnitTest.Events.Cost
         public void AreNotEqual()
         {
             //Arrange
-            var reportItem = new ReportItem(Guid.NewGuid());
-            var sut = new ReportItemCreatedEvent(reportItem);
+            var reportItem = new ReportRoot();
+            var sut = new ReportCreatedEvent(reportItem);
 
             //Act
-            var anotherEvent = new ReportItemCreatedEvent(reportItem);
+            var anotherEvent = new ReportCreatedEvent(reportItem);
 
             //Assert
             Assert.True(sut.ReportItem == reportItem);

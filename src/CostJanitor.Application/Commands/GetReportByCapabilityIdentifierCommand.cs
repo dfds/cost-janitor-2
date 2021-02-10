@@ -6,15 +6,15 @@ using ResourceProvisioning.Abstractions.Commands;
 
 namespace CostJanitor.Application.Commands
 {
-    public sealed class GetReportByCapabilityIdentifierCommand : ICommand<IEnumerable<ReportItem>>
+    public sealed class GetReportByCapabilityIdentifierCommand : ICommand<IEnumerable<ReportRoot>>
     {
-        [JsonPropertyName("identifier")]
-        public String Identifier { get; init; }
+        [JsonPropertyName("capabilityIdentifier")]
+        public string CapabilityIdentifier { get; init; }
 
         [JsonConstructor]
-        public GetReportByCapabilityIdentifierCommand(String identifier)
+        public GetReportByCapabilityIdentifierCommand(string capabilityIdentifier)
         {
-            Identifier = identifier;
+            CapabilityIdentifier = capabilityIdentifier;
         }
     }
 }

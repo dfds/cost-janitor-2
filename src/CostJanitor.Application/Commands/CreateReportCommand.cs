@@ -7,17 +7,14 @@ using ResourceProvisioning.Abstractions.Commands;
 
 namespace CostJanitor.Application.Commands
 {
-    public sealed class CreateReportCommand : ICommand<ReportItem>
+    public sealed class CreateReportCommand : ICommand<ReportRoot>
     {
-        [JsonPropertyName("reportId")]
-        public Guid ReportId { get; init; }
         [JsonPropertyName("costItems")]
         public IEnumerable<CostItem> CostItems { get; init; }
 
         [JsonConstructor]
-        public CreateReportCommand(Guid reportId, IEnumerable<CostItem> costItems)
+        public CreateReportCommand(IEnumerable<CostItem> costItems)
         {
-            ReportId = reportId;
             CostItems = costItems;
         }
     }

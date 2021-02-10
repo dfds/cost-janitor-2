@@ -1,28 +1,26 @@
-using System;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
-using CostJanitor.Domain.Aggregates;
 using ResourceProvisioning.Abstractions.Commands;
+using System;
+using System.Text.Json.Serialization;
 
 namespace CostJanitor.Application.Commands
 {
     public sealed class DeleteCostItemCommand : ICommand<bool>
     {
-        [JsonPropertyName("costItemId")]
-        public Guid CostItemId { get; init; }
+        [JsonPropertyName("capabilityIdentifier")]
+        public string CapabilityIdentifier { get; init; }
+
+        [JsonPropertyName("label")]
+        public string Label { get; init; }
+
         [JsonPropertyName("reportItemId")]
         public Guid ReportItemId { get; init; }
 
         [JsonConstructor]
-        public DeleteCostItemCommand(Guid costItemId, Guid reportItemId)
+        public DeleteCostItemCommand(Guid reportItemId, string label, string capabilityIdentifier = default)
         {
-            CostItemId = costItemId;
+            Label = label;
+            CapabilityIdentifier = capabilityIdentifier;
             ReportItemId = reportItemId;
-        }
-
-        public DeleteCostItemCommand()
-        {
-            
         }
     }
 }

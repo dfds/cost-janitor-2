@@ -11,25 +11,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CostJanitor.Application.Repositories
 {
-    public class ReportItemRepository : EntityFrameworkRepository<ReportItem>, IReportItemRepository
+    public class ReportRepository : EntityFrameworkRepository<ReportRoot>, IReportRepository
     {
-        public ReportItemRepository(DomainContext context) : base(context)
+        public ReportRepository(DomainContext context) : base(context)
         {
         }
 
-        public override async Task<IEnumerable<ReportItem>> GetAsync(Expression<Func<ReportItem, bool>> filter)
+        public override async Task<IEnumerable<ReportRoot>> GetAsync(Expression<Func<ReportRoot, bool>> filter)
         {
             return await Task.Factory.StartNew(() =>
             {
-                var x = _context.ReportItems.AsQueryable();
-                    x = x.AsNoTracking();
-                    x = x.Where(filter);
-                    x = x.Include(i => i.CostItems);
-                    return x.AsEnumerable();
+                return _context.ReportItems.AsQueryable()
+                                            .AsNoTracking()
+                                            .Where(filter)
+                                            .Include(i => i.CostItems)
+                                            .AsEnumerable();
             });
         }
 
-        public async Task<ReportItem> GetAsync(Guid reportItemId)
+        public async Task<ReportRoot> GetAsync(Guid reportItemId)
         {
             var reportItem = await _context.ReportItems.FindAsync(reportItemId);
 

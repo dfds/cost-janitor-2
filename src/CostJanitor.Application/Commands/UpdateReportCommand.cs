@@ -1,24 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
 using CostJanitor.Domain.Aggregates;
-using CostJanitor.Domain.ValueObjects;
 using ResourceProvisioning.Abstractions.Commands;
+using System.Text.Json.Serialization;
 
 namespace CostJanitor.Application.Commands
 {
-    public sealed class UpdateReportCommand : ICommand<ReportItem>
+    public sealed class UpdateReportCommand : ICommand<ReportRoot>
     {
-        [JsonPropertyName("reportId")]
-        public Guid ReportId { get; init; }
-        [JsonPropertyName("costItems")]
-        public IEnumerable<CostItem> CostItems { get; init; }
+        [JsonPropertyName("report")]
+        public ReportRoot Report { get; init; }
 
         [JsonConstructor]
-        public UpdateReportCommand(Guid reportId, IEnumerable<CostItem> costItems)
+        public UpdateReportCommand(ReportRoot report)
         {
-            ReportId = reportId;
-            CostItems = costItems;
+            Report = report;
         }
     }
 }

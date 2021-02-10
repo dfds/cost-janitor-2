@@ -17,8 +17,7 @@ namespace CostJanitor.Host.EventConsumer
         .ConfigureServices((hostContext, services) =>
         {
             services.AddHostedService<AwsAccountEventWorker>();
-
-            DependencyInjection.AddApplication(services, hostContext.Configuration);
+            services.AddApplication(hostContext.Configuration);
         })
         .ConfigureLogging(logBuilder =>
         {

@@ -11,8 +11,8 @@ namespace CostJanitor.Application.UnitTest.Commands
         public void CanBeConstructed()
         {
             //Arrange
-            var id = Guid.NewGuid();
-            var sut = new DeleteCostItemCommand(id, Guid.NewGuid());
+            var reportId = Guid.NewGuid();
+            var sut = new DeleteCostItemCommand(reportId, "mylabel", "mycapabilityidentifier");
 
             //Act
             var hashCode = sut.GetHashCode();
@@ -20,14 +20,14 @@ namespace CostJanitor.Application.UnitTest.Commands
             //Assert
             Assert.NotNull(sut);
             Assert.Equal(hashCode, sut.GetHashCode());
-            Assert.Equal(id, sut.CostItemId);
+            Assert.Equal(reportId, sut.ReportItemId);
         }
 
         [Fact]
         public void CanBeSerialized()
         {
             //Arrange
-            var sut = new DeleteCostItemCommand(Guid.NewGuid(), Guid.NewGuid());
+            var sut = new DeleteCostItemCommand(Guid.NewGuid(), "mylabel", "mycapabilityidentifier");
 
             //Act
             var json = JsonSerializer.Serialize(sut);
@@ -41,14 +41,14 @@ namespace CostJanitor.Application.UnitTest.Commands
         {
             //Arrange
             DeleteCostItemCommand sut;
-            var json = "{\"costItemId\":\"6361867a-8518-4715-995e-433bf961f344\"}";
+            var json = "{\"reportItemId\":\"6361867a-8518-4715-995e-433bf961f344\"}";
 
             //Act
             sut = JsonSerializer.Deserialize<DeleteCostItemCommand>(json);
 
             //Assert
             Assert.NotNull(sut);
-            Assert.Equal(new Guid("6361867a-8518-4715-995e-433bf961f344"), sut.CostItemId);
+            Assert.Equal(new Guid("6361867a-8518-4715-995e-433bf961f344"), sut.ReportItemId);
         }
     }
 }

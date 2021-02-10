@@ -5,8 +5,8 @@ using ResourceProvisioning.Abstractions.Repositories;
 
 namespace CostJanitor.Domain.Repositories
 {
-    public interface IReportItemRepository : IRepository<ReportItem>
+    public interface IReportRepository : IRepository<ReportRoot>
     {
-        Task<ReportItem> GetAsync(Guid reportItemId);
+        Task<ReportRoot> GetAsync(Guid reportItemId);
     }
 }

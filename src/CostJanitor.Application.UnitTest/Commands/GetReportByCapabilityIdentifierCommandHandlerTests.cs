@@ -1,12 +1,10 @@
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using CostJanitor.Application.Commands;
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.Services;
+using Moq;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace CostJanitor.Application.UnitTest.Commands
@@ -38,8 +36,8 @@ namespace CostJanitor.Application.UnitTest.Commands
             var sut = new GetReportByCapabilityIdentifierCommandHandler(mockCostService.Object);
 
             mockCostService
-                .Setup(m => m.GetReportByCapabilityIdentifier(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.FromResult(Enumerable.Empty<ReportItem>()));
+                .Setup(m => m.GetReportByCapabilityIdentifierAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.FromResult(Enumerable.Empty<ReportRoot>()));
 
             //Act
             var result = await sut.Handle(new GetReportByCapabilityIdentifierCommand("a"));
