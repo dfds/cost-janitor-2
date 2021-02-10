@@ -9,3 +9,4 @@ spec:
     secretRef:
       namespace: developerautomation-xavgy
       name: aws-creds
+      key: key
