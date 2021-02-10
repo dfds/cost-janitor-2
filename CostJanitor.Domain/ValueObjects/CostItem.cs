@@ -16,18 +16,20 @@ namespace CostJanitor.Domain.ValueObjects
         [Required]
         [JsonPropertyName("capabilityIdentifier")]
         public string CapabilityIdentifier { get; init; }
-        
+
         [JsonConstructor]
         public CostItem(string label, string value, string capabilityIdentifier)
         {
-            this.Label = label;
-            this.Value = value;
-            this.CapabilityIdentifier = capabilityIdentifier;
+            Label = label;
+            Value = value;
+            CapabilityIdentifier = capabilityIdentifier;
         }
         
         protected override IEnumerable<object> GetAtomicValues()
         {
-            throw new System.NotImplementedException();
+            yield return Label;
+            yield return Value;
+            yield return CapabilityIdentifier;
         }
     }
 }

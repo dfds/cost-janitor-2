@@ -27,4 +27,8 @@
       <ProjectReference Include="..\CostJanitor.Domain\CostJanitor.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="EntityFramework\Migrations\" />
+    </ItemGroup>
+
 </Project>

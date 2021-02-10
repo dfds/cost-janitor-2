@@ -11,7 +11,7 @@ namespace CostJanitor.Infrastructure.EntityFramework
     {
         public DomainContext CreateDbContext(string[] args)
         {
-            var connStr = "User ID=postgres;Password=local;Host=localhost;Port=5432;Database=postgres";
+            var connStr = "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=postgres";
             var connection = new Npgsql.NpgsqlConnection(connStr);
 
             connection.Open();

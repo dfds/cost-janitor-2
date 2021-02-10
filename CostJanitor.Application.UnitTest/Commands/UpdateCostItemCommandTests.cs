@@ -11,7 +11,7 @@ namespace CostJanitor.Application.UnitTest.Commands
         public void CanBeConstructed()
         {
             //Arrange
-            var sut = new UpdateCostItemCommand("a", "b", "c");
+            var sut = new UpdateCostItemCommand("a", "b", "c", Guid.NewGuid());
             //Act
             var hashCode = sut.GetHashCode();
 
@@ -27,7 +27,7 @@ namespace CostJanitor.Application.UnitTest.Commands
         public void CanBeSerialized()
         {
             //Arrange
-            var sut = new UpdateCostItemCommand("a", "b", "c");
+            var sut = new UpdateCostItemCommand("a", "b", "c", Guid.NewGuid());
 
             //Act
             var json = JsonSerializer.Serialize(sut);

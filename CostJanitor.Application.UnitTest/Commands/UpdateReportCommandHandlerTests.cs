@@ -7,6 +7,7 @@ using CostJanitor.Application.Commands;
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.Services;
 using Xunit;
+using CostJanitor.Domain.ValueObjects;
 
 namespace CostJanitor.Application.UnitTest.Commands
 {

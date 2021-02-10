@@ -36,7 +36,6 @@ namespace CostJanitor.Infrastructure.EntityFramework
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.ApplyConfiguration(new CostItemEntityTypeConfiguration());
 			modelBuilder.ApplyConfiguration(new ReportItemEntityTypeConfiguration());
 		}
 

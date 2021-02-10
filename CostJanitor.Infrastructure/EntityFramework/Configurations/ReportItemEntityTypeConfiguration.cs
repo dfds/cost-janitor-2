@@ -13,9 +13,13 @@ namespace CostJanitor.Infrastructure.EntityFramework.Configurations
             builder.HasKey(v => v.Id);
             builder.ToTable("ReportItem");
 
-            builder.HasMany(o => o.CostItems)
-                .WithMany("CostItems");
-
+            builder.OwnsMany(
+            p => p.CostItems, a =>
+            {
+                a.WithOwner().HasForeignKey("OwnerId");
+                a.Property<int>("Id");
+                a.HasKey("Id");
+            });
         }
     }
 }

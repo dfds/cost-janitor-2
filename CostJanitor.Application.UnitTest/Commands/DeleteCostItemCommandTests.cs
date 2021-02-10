@@ -12,7 +12,7 @@ namespace CostJanitor.Application.UnitTest.Commands
         {
             //Arrange
             var id = Guid.NewGuid();
-            var sut = new DeleteCostItemCommand(id);
+            var sut = new DeleteCostItemCommand(id, Guid.NewGuid());
 
             //Act
             var hashCode = sut.GetHashCode();
@@ -27,7 +27,7 @@ namespace CostJanitor.Application.UnitTest.Commands
         public void CanBeSerialized()
         {
             //Arrange
-            var sut = new DeleteCostItemCommand(Guid.NewGuid());
+            var sut = new DeleteCostItemCommand(Guid.NewGuid(), Guid.NewGuid());
 
             //Act
             var json = JsonSerializer.Serialize(sut);
