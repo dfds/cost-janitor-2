@@ -1,0 +1,11 @@
+---
+apiVersion: aws.crossplane.io/v1beta1
+kind: ProviderConfig
+metadata:
+  name: cost-janitor-provider-config
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      namespace: developerautomation-xavgy
+      name: aws-creds
