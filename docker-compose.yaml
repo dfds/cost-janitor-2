@@ -16,7 +16,12 @@ services:
     image: cost-janitor-api
     build:
       context: .
-      dockerfile: CostJanitor.Host.Api/Dockerfile
+      dockerfile: src/CostJanitor.Host.Api/Dockerfile
+  costjanitor.host.eventconsumer:
+    image: cost-janitor-eventconsumer
+    build:
+      context: .
+      dockerfile: src/CostJanitor.Host.EventConsumer/Dockerfile
 
 networks:
   development:
