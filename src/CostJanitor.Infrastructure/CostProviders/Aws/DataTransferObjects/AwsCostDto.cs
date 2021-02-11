@@ -1,13 +1,14 @@
-using Amazon.CostExplorer.Model;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
-namespace CostJanitor.Infrastructure.CostProviders.Aws.Model
+namespace CostJanitor.Infrastructure.CostProviders.Aws.DataTransferObjects
 {
     public class AwsCostDto
     {
-        //TODO: Finalize DTO to avoid leaky abstraction
-        public IEnumerable<DimensionValuesWithAttributes> DimensionValueAttributes { get; set; }
+        [JsonPropertyName("dimensionValueAttributes")]
+        public IEnumerable<AwsDimensionValueAttributeDto> DimensionValueAttributes { get; set; }
 
-        public IEnumerable<ResultByTime> ResultsByTime { get; set; }
+        [JsonPropertyName("resultByTime")]
+        public IEnumerable<AwsResultByTimeDto> ResultsByTime { get; set; }
     }
 }

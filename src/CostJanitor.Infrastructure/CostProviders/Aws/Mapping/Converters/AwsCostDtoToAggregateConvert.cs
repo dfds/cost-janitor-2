@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.ValueObjects;
-using CostJanitor.Infrastructure.CostProviders.Aws.Model;
+using CostJanitor.Infrastructure.CostProviders.Aws.DataTransferObjects;
 using ResourceProvisioning.Abstractions.Aggregates;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
             
             foreach (var dimensionValueAttribute in source.DimensionValueAttributes)
             {
-                var awsAccountName = dimensionValueAttribute.Attributes["description"];
+                var awsAccountName = dimensionValueAttribute.Attributes.Single(o => o.Key == "description").Value;
                 var awsAccountId = dimensionValueAttribute.Value;
             
                 accountResults.Add(awsAccountId, awsAccountName);
@@ -36,9 +36,10 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
                 {
                     assumedCapabilityIdentifier = awsAccountName.Remove(0, 5);
                 }
+
                 // Magic end
-                
-                var costItem = new CostItem("monthlyTotalCost", resultByTime.Groups.First().Metrics["BlendedCost"].Amount, assumedCapabilityIdentifier);
+                var metric = resultByTime.Groups?.First().Metrics?.Single(o => o.Key == "BlendedCost").Value.Amount;
+                var costItem = new CostItem("monthlyTotalCost", metric, assumedCapabilityIdentifier);
                 
                 reportAggr.AddCostItem(costItem);
             }

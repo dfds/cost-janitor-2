@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Amazon.CostExplorer;
 using Amazon.CostExplorer.Model;
 using AutoMapper;
-using CostJanitor.Infrastructure.CostProviders.Aws.Model;
+using CostJanitor.Infrastructure.CostProviders.Aws.DataTransferObjects;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CostJanitor.Infrastructure.CostProviders.Aws
 {

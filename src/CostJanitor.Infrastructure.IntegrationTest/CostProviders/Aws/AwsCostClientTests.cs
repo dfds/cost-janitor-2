@@ -20,6 +20,8 @@ namespace CostJanitor.Infrastructure.IntegrationTest.CostProviders.Aws
 
             //TODO: Use a config builder to get a config object.
             coll.AddInfrastructure(null);
+
+            _services = coll.BuildServiceProvider();
         }
 
         [Fact]

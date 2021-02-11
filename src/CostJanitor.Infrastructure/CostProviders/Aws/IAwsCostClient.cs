@@ -1,4 +1,4 @@
-using CostJanitor.Infrastructure.CostProviders.Aws.Model;
+using CostJanitor.Infrastructure.CostProviders.Aws.DataTransferObjects;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
