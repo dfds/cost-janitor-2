@@ -1,8 +1,10 @@
-using System.Net;
-using System.Threading.Tasks;
 using Amazon;
 using Amazon.CostExplorer;
+using AutoMapper;
 using CostJanitor.Infrastructure.CostProviders.Aws;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace CostJanitor.Infrastructure.IntegrationTest.CostProviders.Aws
@@ -10,17 +12,27 @@ namespace CostJanitor.Infrastructure.IntegrationTest.CostProviders.Aws
     // This assumes a valid AWS session with the right permissions (CostExplorer access)
     public class AwsCostClientTests
     {
+        private readonly IServiceProvider _services;
+
+        public AwsCostClientTests()
+        {
+            var coll = new ServiceCollection();
+
+            //TODO: Use a config builder to get a config object.
+            coll.AddInfrastructure(null);
+        }
+
         [Fact]
         public async Task GetMonthlyTotalCostAllAccountsTest()
         {
-            IAwsCostClient sut = new AwsCostClient(new AmazonCostExplorerClient(RegionEndpoint.USEast1));
-            var resp = await sut.GetMonthlyTotalCostAllAccounts();
+
+            IAwsCostClient sut = new AwsCostClient(new AmazonCostExplorerClient(RegionEndpoint.USEast1), _services.GetService<IMapper>());
+            var resp = await sut.GetMonthlyTotalCostAllAccountsAsync();
             
             Assert.NotNull(resp);
 
             foreach (var result in resp)
             {
-                Assert.Equal(HttpStatusCode.OK, result.HttpStatusCode);
                 Assert.NotEmpty(result.ResultsByTime);
                 Assert.NotEmpty(result.DimensionValueAttributes);
             }
@@ -29,10 +41,9 @@ namespace CostJanitor.Infrastructure.IntegrationTest.CostProviders.Aws
         [Fact]
         public async Task GetMonthlyTotalCostsByAccountId()
         {
-            IAwsCostClient sut = new AwsCostClient(new AmazonCostExplorerClient(RegionEndpoint.USEast1));
-            var resp = await sut.GetMonthlyTotalCostByAccountId("642375522597");
+            IAwsCostClient sut = new AwsCostClient(new AmazonCostExplorerClient(RegionEndpoint.USEast1), _services.GetService<IMapper>());
+            var resp = await sut.GetMonthlyTotalCostByAccountIdAsync("642375522597");
             
-            Assert.Equal(HttpStatusCode.OK, resp.HttpStatusCode);
             Assert.NotEmpty(resp.ResultsByTime);
             Assert.NotEmpty(resp.DimensionValueAttributes);
         }

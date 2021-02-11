@@ -3,25 +3,28 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Amazon.CostExplorer;
 using Amazon.CostExplorer.Model;
+using AutoMapper;
 using CostJanitor.Infrastructure.CostProviders.Aws.Model;
 
 namespace CostJanitor.Infrastructure.CostProviders.Aws
 {
     public class AwsCostClient : IAwsCostClient
     {
-        private IAmazonCostExplorer _amazonCostExplorer;
+        private readonly IAmazonCostExplorer _amazonCostExplorer;
+        private readonly IMapper _mapper;
 
-        public AwsCostClient(IAmazonCostExplorer costExplorerClient)
+        public AwsCostClient(IAmazonCostExplorer costExplorerClient, IMapper mapper)
         {
             _amazonCostExplorer = costExplorerClient;
+            _mapper = mapper;
         }
         
-        public async Task<IEnumerable<GetCostAndUsageResponse>> GetMonthlyTotalCostAllAccounts()
+        public async Task<IEnumerable<AwsCostDto>> GetMonthlyTotalCostAllAccountsAsync()
         {
-            List<GetCostAndUsageResponse> result = new List<GetCostAndUsageResponse>();
+            var result = new List<AwsCostDto>();
             GetCostAndUsageResponse resp = null;
 
-           do
+            do
             {
                 resp = await _amazonCostExplorer.GetCostAndUsageAsync(new GetCostAndUsageRequest()
                 {
@@ -39,14 +42,14 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws
                     NextPageToken = resp?.NextPageToken
                 });
 
-                result.Add(resp);
+                result.Add(_mapper.Map<AwsCostDto>(resp));
             }
             while (resp.NextPageToken != null);
 
             return result;
         }
 
-        public async Task<GetCostAndUsageResponse> GetMonthlyTotalCostByAccountId(string accountId)
+        public async Task<AwsCostDto> GetMonthlyTotalCostByAccountIdAsync(string accountId)
         {
             var resp = await _amazonCostExplorer.GetCostAndUsageAsync(new GetCostAndUsageRequest()
             {
@@ -62,7 +65,8 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws
                     }
                 }
             });
-            return resp;
+
+            return _mapper.Map<AwsCostDto>(resp);
         }
 
         private DateInterval CreateDateIntervalForCurrentMonth()
