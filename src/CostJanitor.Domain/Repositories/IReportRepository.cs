@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using CostJanitor.Domain.Aggregates;
-using ResourceProvisioning.Abstractions.Repositories;
+using CloudEngineering.CodeOps.Abstractions.Repositories;
 
 namespace CostJanitor.Domain.Repositories
 {

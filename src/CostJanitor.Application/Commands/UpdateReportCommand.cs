@@ -1,5 +1,5 @@
 using CostJanitor.Domain.Aggregates;
-using ResourceProvisioning.Abstractions.Commands;
+using CloudEngineering.CodeOps.Abstractions.Commands;
 using System.Text.Json.Serialization;
 
 namespace CostJanitor.Application.Commands

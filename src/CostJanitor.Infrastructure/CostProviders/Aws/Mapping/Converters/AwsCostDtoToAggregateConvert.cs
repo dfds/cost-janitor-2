@@ -2,7 +2,7 @@
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.ValueObjects;
 using CostJanitor.Infrastructure.CostProviders.Aws.DataTransferObjects;
-using ResourceProvisioning.Abstractions.Aggregates;
+using CloudEngineering.CodeOps.Abstractions.Aggregates;
 using System.Collections.Generic;
 using System.Linq;
 

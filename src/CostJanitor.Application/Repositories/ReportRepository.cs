@@ -1,19 +1,19 @@
+using CloudEngineering.CodeOps.Infrastructure.EntityFramework.Repositories;
+using CostJanitor.Application.Data;
+using CostJanitor.Domain.Aggregates;
+using CostJanitor.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using CostJanitor.Domain.Aggregates;
-using CostJanitor.Domain.Repositories;
-using CostJanitor.Infrastructure.EntityFramework;
-using CostJanitor.Infrastructure.EntityFramework.Repositories;
-using Microsoft.EntityFrameworkCore;
 
 namespace CostJanitor.Application.Repositories
 {
-    public class ReportRepository : EntityFrameworkRepository<ReportRoot>, IReportRepository
+    public class ReportRepository : EntityFrameworkRepository<ReportRoot, ApplicationContext>, IReportRepository
     {
-        public ReportRepository(DomainContext context) : base(context)
+        public ReportRepository(ApplicationContext context) : base(context)
         {
         }
 

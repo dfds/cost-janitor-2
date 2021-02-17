@@ -9,11 +9,18 @@ using CostJanitor.Infrastructure;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ResourceProvisioning.Abstractions.Commands;
-using ResourceProvisioning.Abstractions.Facade;
-using ResourceProvisioning.Abstractions.Repositories;
+using CloudEngineering.CodeOps.Abstractions.Commands;
+using CloudEngineering.CodeOps.Abstractions.Facade;
+using CloudEngineering.CodeOps.Abstractions.Repositories;
 using System.Collections.Generic;
 using System.Reflection;
+using CloudEngineering.CodeOps.Abstractions.Data;
+using CloudEngineering.CodeOps.Infrastructure.EntityFramework;
+using CostJanitor.Application.Data;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Npgsql;
 
 namespace CostJanitor.Application
 {
@@ -27,8 +34,9 @@ namespace CostJanitor.Application
             //External dependencies
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddInfrastructure(configuration);
-			
-            //Application dependencies
+
+			//Application dependencies
+			services.AddApplicationContext(configuration);
 			services.AddBehaviors();
 			services.AddCommandHandlers();
 			services.AddEventHandlers();
@@ -36,6 +44,55 @@ namespace CostJanitor.Application
 			services.AddServices();
 			services.AddFacade();
 		}
+
+        private static void AddApplicationContext(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<EntityContextOptions>(configuration);
+
+            services.AddDbContext<ApplicationContext>(options =>
+            {
+                var serviceProvider = services.BuildServiceProvider();
+                var dbContextOptions = serviceProvider.GetService<IOptions<EntityContextOptions>>();
+                var callingAssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
+                var connectionString = dbContextOptions.Value.ConnectionStrings?.GetValue<string>(nameof(ApplicationContext));
+
+                if (string.IsNullOrEmpty(connectionString))
+                {
+                    return;
+                }
+
+                services.AddSingleton(factory =>
+                {
+                    var connection = new NpgsqlConnection(connectionString);
+
+                    connection.Open();
+
+                    return connection;
+                });
+
+				var dbOptions = options.UseNpgsql(services.BuildServiceProvider().GetService<NpgsqlConnection>(),
+                    sqliteOptions =>
+                    {
+                        sqliteOptions.MigrationsAssembly(callingAssemblyName);
+                        sqliteOptions.MigrationsHistoryTable(callingAssemblyName + "_MigrationHistory");
+
+                    }).Options;
+
+				using var context = new ApplicationContext(dbOptions, serviceProvider.GetService<IMediator>());
+
+                if (context.Database.EnsureCreated())
+                {
+                    return;
+                }
+
+                if (dbContextOptions.Value.EnableAutoMigrations)
+                {
+                    context.Database.Migrate();
+                }
+            });
+
+            services.AddScoped<IUnitOfWork>(factory => factory.GetRequiredService<ApplicationContext>());
+        }
 
 		private static void AddBehaviors(this IServiceCollection services)
 		{

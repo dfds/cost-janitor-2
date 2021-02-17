@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.Services;
 using MediatR;
-using ResourceProvisioning.Abstractions.Commands;
+using CloudEngineering.CodeOps.Abstractions.Commands;
 
 namespace CostJanitor.Application.Commands
 {

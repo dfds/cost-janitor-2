@@ -5,7 +5,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CostJanitor.Domain\CostJanitor.Domain.csproj" />
       <ProjectReference Include="..\CostJanitor.Infrastructure\CostJanitor.Infrastructure.csproj" />
     </ItemGroup>
 

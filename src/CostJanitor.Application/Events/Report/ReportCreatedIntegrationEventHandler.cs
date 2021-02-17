@@ -1,6 +1,6 @@
 using AutoMapper;
 using Confluent.Kafka;
-using ResourceProvisioning.Abstractions.Events;
+using CloudEngineering.CodeOps.Abstractions.Events;
 using System.Threading;
 using System.Threading.Tasks;
 

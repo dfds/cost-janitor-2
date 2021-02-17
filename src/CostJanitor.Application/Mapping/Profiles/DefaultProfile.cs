@@ -1,6 +1,6 @@
 ﻿using CostJanitor.Application.Mapping.Converters;
-using ResourceProvisioning.Abstractions.Aggregates;
-using ResourceProvisioning.Abstractions.Commands;
+using CloudEngineering.CodeOps.Abstractions.Aggregates;
+using CloudEngineering.CodeOps.Abstractions.Commands;
 
 namespace CostJanitor.Application.Mapping.Profiles
 {

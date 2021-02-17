@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
-using ResourceProvisioning.Abstractions.Commands;
-using ResourceProvisioning.Abstractions.Facade;
+using CloudEngineering.CodeOps.Abstractions.Commands;
+using CloudEngineering.CodeOps.Abstractions.Facade;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

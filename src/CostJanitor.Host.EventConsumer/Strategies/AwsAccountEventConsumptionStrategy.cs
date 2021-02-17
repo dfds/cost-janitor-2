@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
+using CloudEngineering.CodeOps.Abstractions.Aggregates;
+using CloudEngineering.CodeOps.Abstractions.Commands;
+using CloudEngineering.CodeOps.Abstractions.Events;
+using CloudEngineering.CodeOps.Abstractions.Facade;
+using CloudEngineering.CodeOps.Infrastructure.Kafka.Strategies;
 using Confluent.Kafka;
-using CostJanitor.Infrastructure.Kafka.Strategies;
-using ResourceProvisioning.Abstractions.Aggregates;
-using ResourceProvisioning.Abstractions.Commands;
-using ResourceProvisioning.Abstractions.Events;
-using ResourceProvisioning.Abstractions.Facade;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;

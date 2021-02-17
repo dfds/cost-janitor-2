@@ -1,6 +1,6 @@
 using System;
 using System.Text.Json;
-using ResourceProvisioning.Abstractions.Events;
+using CloudEngineering.CodeOps.Abstractions.Events;
 
 namespace CostJanitor.Application.Events.Report
 {

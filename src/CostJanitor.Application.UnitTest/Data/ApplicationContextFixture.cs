@@ -1,17 +1,17 @@
-using CostJanitor.Infrastructure.EntityFramework;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using System;
+using CostJanitor.Application.Data;
 
-namespace CostJanitor.Infrastructure.UnitTest.EntityFramework
+namespace CostJanitor.Application.UnitTest.Data
 {
-    public class DomainContextFixture : IDisposable
+    public class ApplicationContextFixture : IDisposable
     {
         private readonly DbContextOptions _options;
         private readonly NpgsqlConnection _connection;
 
-        public DomainContextFixture()
+        public ApplicationContextFixture()
         {
             _connection = new NpgsqlConnection("User ID=postgres;Password=local;Host=localhost;Port=5432;Database=postgres");
 
@@ -25,9 +25,9 @@ namespace CostJanitor.Infrastructure.UnitTest.EntityFramework
             _connection.Dispose();
         }
 
-        public DomainContext GetDbContext(IMediator mediator = default)
+        public ApplicationContext GetDbContext(IMediator mediator = default)
         {
-            return new DomainContext(_options, mediator);
+            return new ApplicationContext(_options, mediator);
         }
     }
 }

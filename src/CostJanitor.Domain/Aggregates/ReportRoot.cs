@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using CostJanitor.Domain.Events.Report;
 using CostJanitor.Domain.ValueObjects;
-using ResourceProvisioning.Abstractions.Aggregates;
-using ResourceProvisioning.Abstractions.Entities;
+using CloudEngineering.CodeOps.Abstractions.Aggregates;
+using CloudEngineering.CodeOps.Abstractions.Entities;
 
 namespace CostJanitor.Domain.Aggregates
 {

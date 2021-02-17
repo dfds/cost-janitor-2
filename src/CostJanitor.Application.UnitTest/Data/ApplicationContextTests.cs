@@ -1,20 +1,20 @@
+using CloudEngineering.CodeOps.Abstractions.Events;
 using CostJanitor.Domain.Aggregates;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using ResourceProvisioning.Abstractions.Events;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace CostJanitor.Infrastructure.UnitTest.EntityFramework
+namespace CostJanitor.Application.UnitTest.Data
 {
-    public class DomainContextTests : IClassFixture<DomainContextFixture>
+    public class ApplicationContextTests : IClassFixture<ApplicationContextFixture>
     {
-        private readonly DomainContextFixture _fixture;
+        private readonly ApplicationContextFixture _fixture;
         
-        public DomainContextTests(DomainContextFixture fixture)
+        public ApplicationContextTests(ApplicationContextFixture fixture)
         {
             _fixture = fixture;
         }
@@ -48,7 +48,7 @@ namespace CostJanitor.Infrastructure.UnitTest.EntityFramework
             await sut.Database.MigrateAsync();
 
             var attachedEntity = await sut.AddAsync(entityToAdd);
-            var result = await sut.SaveEntitiesAsync(new CancellationToken());
+            bool result = await sut.SaveEntitiesAsync(new CancellationToken());
 
             //Assert
             Assert.NotNull(sut);

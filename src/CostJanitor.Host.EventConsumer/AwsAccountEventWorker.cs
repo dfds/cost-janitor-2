@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
+using CloudEngineering.CodeOps.Abstractions.Facade;
+using CloudEngineering.CodeOps.Infrastructure.Kafka;
 using CostJanitor.Host.EventConsumer.Strategies;
-using CostJanitor.Infrastructure.Kafka;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using ResourceProvisioning.Abstractions.Facade;
 using System.Threading;
 using System.Threading.Tasks;
 

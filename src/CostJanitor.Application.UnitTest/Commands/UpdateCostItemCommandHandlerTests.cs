@@ -27,7 +27,7 @@ namespace CostJanitor.Application.UnitTest.Commands
         }
 
         [Fact]
-        public async Task CanHandleCommand()
+        public Task CanHandleCommand()
         {
             throw new NotImplementedException();
         }

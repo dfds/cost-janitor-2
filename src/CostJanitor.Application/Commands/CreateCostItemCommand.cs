@@ -1,7 +1,7 @@
 using System;
 using System.Text.Json.Serialization;
 using CostJanitor.Domain.ValueObjects;
-using ResourceProvisioning.Abstractions.Commands;
+using CloudEngineering.CodeOps.Abstractions.Commands;
 
 namespace CostJanitor.Application.Commands
 {

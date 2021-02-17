@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.ValueObjects;
-using ResourceProvisioning.Abstractions.Services;
+using CloudEngineering.CodeOps.Abstractions.Services;
 
 namespace CostJanitor.Domain.Services
 {

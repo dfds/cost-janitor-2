@@ -7,7 +7,7 @@
 //using CostJanitor.Domain.Repositories;
 //using CostJanitor.Domain.ValueObjects;
 //using Moq;
-//using ResourceProvisioning.Abstractions.Data;
+//using CloudEngineering.CodeOps.Abstractions.Data;
 //using Xunit;
 
 //namespace CostJanitor.Application.UnitTest.Services
