@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.ValueObjects;
-using CostJanitor.Infrastructure.CostProviders.Aws.DataTransferObjects;
 using CloudEngineering.CodeOps.Abstractions.Aggregates;
 using System.Collections.Generic;
 using System.Linq;
+using CloudEngineering.CodeOps.Infrastructure.AmazonWebServices.DataTransferObjects.Cost;
 
 namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
 {
-    public class AwsCostDtoToAggregateConvert : ITypeConverter<AwsCostDto, IAggregateRoot>
+    public class AwsCostDtoToAggregateConvert : ITypeConverter<CostDto, IAggregateRoot>
     {
-        public IAggregateRoot Convert(AwsCostDto source, IAggregateRoot destination, ResolutionContext context)
+        public IAggregateRoot Convert(CostDto source, IAggregateRoot destination, ResolutionContext context)
         {
             //TODO: Finish this converter
             // This assumes that only GetMonthlyTotalCostAllAccounts and GetMonthlyTotalCostByAccountId has been called. 

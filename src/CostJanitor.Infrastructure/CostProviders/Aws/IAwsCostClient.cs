@@ -1,4 +1,4 @@
-using CostJanitor.Infrastructure.CostProviders.Aws.DataTransferObjects;
+using CloudEngineering.CodeOps.Infrastructure.AmazonWebServices.DataTransferObjects.Cost;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,8 +6,8 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws
 {
     public interface IAwsCostClient : ICostProvider
     {
-        Task<IEnumerable<AwsCostDto>> GetMonthlyTotalCostAllAccountsAsync();
+        Task<IEnumerable<CostDto>> GetMonthlyTotalCostAllAccountsAsync();
 
-        Task<AwsCostDto> GetMonthlyTotalCostByAccountIdAsync(string accountId);
+        Task<CostDto> GetMonthlyTotalCostByAccountIdAsync(string accountId);
     }
 }

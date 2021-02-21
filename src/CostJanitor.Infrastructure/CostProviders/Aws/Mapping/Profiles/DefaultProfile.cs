@@ -1,7 +1,6 @@
-﻿using Amazon.CostExplorer.Model;
-using CostJanitor.Infrastructure.CostProviders.Aws.DataTransferObjects;
+﻿using CloudEngineering.CodeOps.Abstractions.Aggregates;
+using CloudEngineering.CodeOps.Infrastructure.AmazonWebServices.DataTransferObjects.Cost;
 using CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters;
-using CloudEngineering.CodeOps.Abstractions.Aggregates;
 
 namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Profiles
 {
@@ -9,10 +8,7 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Profiles
     {
         public DefaultProfile()
         {
-            CreateMap<GetCostAndUsageResponse, AwsCostDto>()
-            .ConvertUsing<GetCostAndUsageResponseToAwsCostDto>();
-
-            CreateMap<AwsCostDto, IAggregateRoot>()
+            CreateMap<CostDto, IAggregateRoot>()
             .ConvertUsing<AwsCostDtoToAggregateConvert>();
         }
     }
