@@ -36,11 +36,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8B3107
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".k8s", ".k8s", "{F582E4E0-EB5E-4FC4-A194-4B53E843DCE3}"
 	ProjectSection(SolutionItems) = preProject
+		k8s\api_deployment.yaml = k8s\api_deployment.yaml
 		k8s\aws_provider.yaml = k8s\aws_provider.yaml
-		k8s\deployment.yaml = k8s\deployment.yaml
+		k8s\eventconsumer_deployment.yaml = k8s\eventconsumer_deployment.yaml
 		k8s\ingress.yaml = k8s\ingress.yaml
-		k8s\rdsinstance.yaml = k8s\rdsinstance.yaml
-		k8s\secret.yaml = k8s\secret.yaml
+		k8s\kafka_credentials.yaml = k8s\kafka_credentials.yaml
+		k8s\rds_instance.yaml = k8s\rds_instance.yaml
 		k8s\service.yaml = k8s\service.yaml
 	EndProjectSection
 EndProject

@@ -1,4 +1,3 @@
-using AutoMapper;
 using CloudEngineering.CodeOps.Infrastructure.AmazonWebServices;
 using CloudEngineering.CodeOps.Infrastructure.AmazonWebServices.Commands.Cost;
 using CloudEngineering.CodeOps.Infrastructure.AmazonWebServices.DataTransferObjects.Cost;
