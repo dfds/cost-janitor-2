@@ -16,6 +16,8 @@ pr: none
 
 pool:
   vmImage: 'ubuntu-latest'
+variables:
+- group: Developer-Automation
 
 steps:
 - task: DockerCompose@0
