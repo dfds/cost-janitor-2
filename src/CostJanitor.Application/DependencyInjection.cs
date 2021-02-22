@@ -1,4 +1,11 @@
+using CloudEngineering.CodeOps.Abstractions.Commands;
+using CloudEngineering.CodeOps.Abstractions.Data;
+using CloudEngineering.CodeOps.Abstractions.Facade;
+using CloudEngineering.CodeOps.Abstractions.Repositories;
+using CloudEngineering.CodeOps.Infrastructure.EntityFramework;
+using CloudEngineering.CodeOps.Security.Policies.Handlers;
 using CostJanitor.Application.Commands;
+using CostJanitor.Application.Data;
 using CostJanitor.Application.Repositories;
 using CostJanitor.Application.Services;
 using CostJanitor.Domain.Aggregates;
@@ -7,20 +14,14 @@ using CostJanitor.Domain.Services;
 using CostJanitor.Domain.ValueObjects;
 using CostJanitor.Infrastructure;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using CloudEngineering.CodeOps.Abstractions.Commands;
-using CloudEngineering.CodeOps.Abstractions.Facade;
-using CloudEngineering.CodeOps.Abstractions.Repositories;
-using System.Collections.Generic;
-using System.Reflection;
-using CloudEngineering.CodeOps.Abstractions.Data;
-using CloudEngineering.CodeOps.Infrastructure.EntityFramework;
-using CostJanitor.Application.Data;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Npgsql;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace CostJanitor.Application
 {
@@ -36,6 +37,7 @@ namespace CostJanitor.Application
             services.AddInfrastructure(configuration);
 
 			//Application dependencies
+			services.AddAuthorization();
 			services.AddApplicationContext(configuration);
 			services.AddBehaviors();
 			services.AddCommandHandlers();
@@ -45,7 +47,13 @@ namespace CostJanitor.Application
 			services.AddFacade();
 		}
 
-        private static void AddApplicationContext(this IServiceCollection services, IConfiguration configuration)
+		private static void AddAuthorization(this IServiceCollection services)
+		{
+			services.AddSingleton<IAuthorizationHandler, AccessRequirementHandler>();
+			services.AddSingleton<IAuthorizationPolicyProvider, DefaultAuthorizationPolicyProvider>();
+		}
+
+		private static void AddApplicationContext(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<EntityContextOptions>(configuration);
 
