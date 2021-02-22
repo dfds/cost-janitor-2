@@ -39,9 +39,7 @@ namespace CostJanitor.Application
 			//Application dependencies
 			services.AddAuthorization();
 			services.AddApplicationContext(configuration);
-			services.AddBehaviors();
 			services.AddCommandHandlers();
-			services.AddEventHandlers();
 			services.AddRepositories();
 			services.AddServices();
 			services.AddFacade();
@@ -102,12 +100,6 @@ namespace CostJanitor.Application
             services.AddScoped<IUnitOfWork>(factory => factory.GetRequiredService<ApplicationContext>());
         }
 
-		private static void AddBehaviors(this IServiceCollection services)
-		{
-            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
-            //services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
-		}
-
 		private static void AddCommandHandlers(this IServiceCollection services)
 		{
 			// IRequestHandler
@@ -127,11 +119,6 @@ namespace CostJanitor.Application
 			services.AddTransient<ICommandHandler<GetReportByCapabilityIdentifierCommand, IEnumerable<ReportRoot>>, GetReportByCapabilityIdentifierCommandHandler>();
 			services.AddTransient<ICommandHandler<UpdateCostItemCommand, CostItem>, UpdateCostItemCommandHandler>();
 			services.AddTransient<ICommandHandler<UpdateReportCommand, ReportRoot>, UpdateReportCommandHandler>();
-		}
-		
-		private static void AddEventHandlers(this IServiceCollection services)
-		{
-
 		}
 
 		private static void AddRepositories(this IServiceCollection services)

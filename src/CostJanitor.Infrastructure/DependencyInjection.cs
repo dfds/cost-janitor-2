@@ -1,4 +1,5 @@
 ﻿using CloudEngineering.CodeOps.Abstractions.Events;
+using CloudEngineering.CodeOps.Infrastructure.AmazonWebServices;
 using CloudEngineering.CodeOps.Infrastructure.EntityFramework;
 using CloudEngineering.CodeOps.Infrastructure.Kafka;
 using CloudEngineering.CodeOps.Infrastructure.Kafka.Serialization;
@@ -19,6 +20,7 @@ namespace CostJanitor.Infrastructure
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddMediator();
+            services.AddAws(configuration);
             services.AddEntityFramework(configuration);
             services.AddKafka(configuration);
         }
@@ -28,6 +30,15 @@ namespace CostJanitor.Infrastructure
             services.AddTransient<ServiceFactory>(p => p.GetService);
 
             services.AddTransient<IMediator>(p => new Mediator(p.GetService<ServiceFactory>()));
+        }
+
+        private static void AddAws(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAutoMapper(typeof(AwsFacade).Assembly);
+
+            services.Configure<AwsFacadeOptions>(configuration.GetSection(AwsFacadeOptions.AwsFacade));
+
+            services.AddTransient<IAwsFacade, AwsFacade>();
         }
 
         private static void AddKafka(this IServiceCollection services, IConfiguration configuration)
