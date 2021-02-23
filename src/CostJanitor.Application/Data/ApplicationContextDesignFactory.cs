@@ -8,7 +8,7 @@ namespace CostJanitor.Application.Data
     {
         public ApplicationContext CreateDbContext(string[] args)
         {
-            const string connStr = "User ID=postgres;Password=postgres;Host=localhost;Port=5432;Database=postgres";
+            const string connStr = "User ID=postgres;Password=local;Host=localhost;Port=5432;Database=postgres";
             var connection = new Npgsql.NpgsqlConnection(connStr); 
 
             connection.Open();
