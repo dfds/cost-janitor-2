@@ -40,6 +40,28 @@ spec:
               secretKeyRef:
                 name: kafka-credentials
                 key: password
+          - name: ConnectionStrings__ApplicationContext_Host
+            valueFrom:
+              secretKeyRef:
+                name: costjanitor-rdspostgresql-conn
+                key: endpoint
+          - name: ConnectionStrings__ApplicationContext_Port
+            valueFrom:
+              secretKeyRef:
+                name: costjanitor-rdspostgresql-conn
+                key: port
+          - name: ConnectionStrings__ApplicationContext_Username
+            valueFrom:
+              secretKeyRef:
+                name: costjanitor-rdspostgresql-conn
+                key: username
+          - name: ConnectionStrings__ApplicationContext_Password
+            valueFrom:
+              secretKeyRef:
+                name: costjanitor-rdspostgresql-conn
+                key: password
+          - name: ConnectionStrings__ApplicationContext
+            value: "User ID=$(ConnectionStrings__ApplicationContext_Username);Password=$(ConnectionStrings__ApplicationContext_Password);Host=$(ConnectionStrings__ApplicationContext_Host);Port=$(ConnectionStrings__ApplicationContext_Port;Database=postgres"
         resources:
           requests:
             memory: "200Mi"
