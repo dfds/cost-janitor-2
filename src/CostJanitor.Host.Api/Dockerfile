@@ -31,6 +31,10 @@ RUN dotnet publish -c Release -o /build/out CostJanitor.Host.Api.csproj
 FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS runtime
 WORKDIR /app
 
+EXPOSE 54323
+
+ENV ASPNETCORE_URLS="http://*:54323"
+
 #Copy binaries from publish container to final container
 COPY --from=build-env /build/out .
 
