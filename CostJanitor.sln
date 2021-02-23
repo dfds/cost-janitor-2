@@ -48,12 +48,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".k8s", ".k8s", "{F582E4E0-E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".docker", ".docker", "{FD1F2D98-816A-4EE2-9D29-722FADEADD21}"
 	ProjectSection(SolutionItems) = preProject
-		docker-compose.yaml = docker-compose.yaml
+		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".ado", ".ado", "{69EC78B1-947C-4C3C-BCA5-263B839D28D4}"
 	ProjectSection(SolutionItems) = preProject
-		azure-pipelines.yaml = azure-pipelines.yaml
+		azure-pipelines.yml = azure-pipelines.yml
 	EndProjectSection
 EndProject
 Global

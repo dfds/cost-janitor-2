@@ -26,7 +26,7 @@ namespace CostJanitor.Host.Api.Controllers
             return await Get(command);
         }
 
-        [HttpGet]
+        [HttpGet("command")]
         public async Task<IEnumerable<ReportRoot>> Get(GetReportByCapabilityIdentifierCommand command)
         {
             return await _mediator.Send(command);
