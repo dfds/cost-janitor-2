@@ -61,7 +61,7 @@ spec:
                 name: costjanitor-rdspostgresql-conn
                 key: password
           - name: ConnectionStrings__ApplicationContext
-            value: User ID=$(RDS_USERNAME);Password=$(RDS_PASSWORD);Host=$(RDS_HOST);Port=$(RDS_PORT);Database=postgres
+            value: $(RDS_USERNAME)
         resources:
           requests:
             memory: "200Mi"
