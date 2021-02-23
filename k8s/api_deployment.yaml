@@ -62,7 +62,7 @@ spec:
               secretKeyRef:
                 name: costjanitor-rdspostgresql-conn
                 key: password
-          - name: ConnectionStrings__ApplicationContext
+          - name: Prut
             value: "User ID=$(RDS_USERNAME)Password=$(RDS_PASSWORD)Host=$(RDS_HOST);Port=$(RDS_PORT2);Database=postgres"
         resources:
           requests:
