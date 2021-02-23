@@ -49,9 +49,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: costjanitor-rdspostgresql-conn
-                key: port        
-          - name: RDS_PORT2
-            value: Foo
+                key: port
           - name: RDS_USERNAME
             valueFrom:
               secretKeyRef:
@@ -62,8 +60,8 @@ spec:
               secretKeyRef:
                 name: costjanitor-rdspostgresql-conn
                 key: password
-          - name: Prut
-            value: "User ID=$(RDS_USERNAME)Password=$(RDS_PASSWORD)Host=$(RDS_HOST);Port=$(RDS_PORT2);Database=postgres"
+          - name: ConnectionStrings__ApplicationContext
+            value: "User ID=$$(RDS_USERNAME)Password=$$(RDS_PASSWORD)Host=$$(RDS_HOST);Port=$$(RDS_PORT);Database=postgres"
         resources:
           requests:
             memory: "200Mi"
