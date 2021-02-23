@@ -74,7 +74,9 @@ namespace CostJanitor.Application
                 {
                     var connection = new NpgsqlConnection(connectionString);
 
-                    connection.Open();
+					Console.WriteLine("Opening connection with: " + connectionString);
+
+					connection.Open();
 
                     return connection;
                 });
@@ -91,7 +93,9 @@ namespace CostJanitor.Application
 
                 if (dbContextOptions.Value.EnableAutoMigrations)
                 {
-                    context.Database.Migrate();
+					Console.WriteLine("Migrating db with connection: " + connectionString);
+
+					context.Database.Migrate();
                 }
             });
 
