@@ -20,6 +20,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -61,6 +62,8 @@ namespace CostJanitor.Application
                 var dbContextOptions = serviceProvider.GetService<IOptions<EntityContextOptions>>();
                 var callingAssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
                 var connectionString = dbContextOptions.Value.ConnectionStrings?.GetValue<string>(nameof(ApplicationContext));
+
+				Console.WriteLine("Creating ApplicationContext with connStr: " + connectionString);
 
                 if (string.IsNullOrEmpty(connectionString))
                 {

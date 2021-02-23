@@ -19,8 +19,6 @@ namespace CostJanitor.Application.Repositories
 
         public override async Task<IEnumerable<ReportRoot>> GetAsync(Expression<Func<ReportRoot, bool>> filter)
         {
-            Console.WriteLine("ConnectionString:" + _context.Database.GetConnectionString());
-
             return await Task.Factory.StartNew(() =>
             {
                 return _context.ReportItems.AsQueryable()
