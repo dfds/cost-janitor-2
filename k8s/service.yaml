@@ -3,15 +3,11 @@ kind: Service
 metadata:
   name: cost-janitor-service
   namespace: developerautomation-xavgy
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/port: "8080"
   labels:
     app: cost-janitor
     project: developerautomation
     department: cloudengineering
     component: cost-janitor
-    scrape-service-metrics: "true"
 spec:
   ports:
   - name: external
