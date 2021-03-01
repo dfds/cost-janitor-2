@@ -24,7 +24,11 @@ namespace CostJanitor.Host.EventConsumer.Strategies
 
             if (!string.IsNullOrEmpty(payload))
             {
-                var @event = JsonSerializer.Deserialize<IntegrationEvent>(payload);
+                payload = payload.Replace("x-", "")
+                                 .Replace("\"eventName\"", "\"type\"")
+                                 .Replace("\"version\"", "\"schemaVersion\"");
+
+				var @event = JsonSerializer.Deserialize<IntegrationEvent>(payload);
                 var aggregateRoot = _mapper.Map<IAggregateRoot>(@event);
                 var command = _mapper.Map<IAggregateRoot, ICommand<IAggregateRoot>>(aggregateRoot);
 

@@ -7,11 +7,11 @@
 
     <ItemGroup>
       <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-      <PackageReference Include="AWSSDK.CostExplorer" Version="3.5.8.15" />
-      <PackageReference Include="AWSSDK.SecurityToken" Version="3.5.1.52" />
-      <PackageReference Include="CloudEngineering.CodeOps.Infrastructure.AmazonWebServices" Version="1.0.0-CI-20210222-003854" />
-      <PackageReference Include="CloudEngineering.CodeOps.Infrastructure.EntityFramework" Version="1.0.0-CI-20210222-003854" />
-      <PackageReference Include="CloudEngineering.CodeOps.Infrastructure.Kafka" Version="1.0.0-CI-20210222-003854" />
+      <PackageReference Include="AWSSDK.CostExplorer" Version="3.5.8.16" />
+      <PackageReference Include="AWSSDK.SecurityToken" Version="3.5.1.53" />
+      <PackageReference Include="CloudEngineering.CodeOps.Infrastructure.AmazonWebServices" Version="1.0.0-CI-20210301-132215" />
+      <PackageReference Include="CloudEngineering.CodeOps.Infrastructure.EntityFramework" Version="1.0.0-CI-20210301-132215" />
+      <PackageReference Include="CloudEngineering.CodeOps.Infrastructure.Kafka" Version="1.0.0-CI-20210301-132215" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.2" />
     </ItemGroup>
 

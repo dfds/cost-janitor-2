@@ -12,7 +12,7 @@ namespace CostJanitor.Application.Events.Report
 
         public DateTime CreationDate  { get; init; }
 
-        public int SchemaVersion  { get; init; }
+        public string SchemaVersion  { get; init; }
 
         public string Type  { get; init; }
 
