@@ -2,7 +2,6 @@
 using CloudEngineering.CodeOps.Abstractions.Aggregates;
 using CloudEngineering.CodeOps.Abstractions.Events;
 using CostJanitor.Domain.Aggregates;
-using System;
 
 namespace CostJanitor.Application.Mapping.Converters
 {

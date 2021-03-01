@@ -6,9 +6,9 @@ namespace CostJanitor.Application.Events.Report
 {
     public class ReportCreatedIntegrationEvent : IIntegrationEvent
     {
-        public Guid Id { get; init; }
+        public string Id { get; init; }
 
-        public Guid CorrelationId  { get; init; }
+        public string CorrelationId  { get; init; }
 
         public DateTime CreationDate  { get; init; }
 

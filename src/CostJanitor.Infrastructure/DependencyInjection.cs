@@ -1,14 +1,20 @@
-﻿using CloudEngineering.CodeOps.Abstractions.Events;
+﻿using CloudEngineering.CodeOps.Abstractions.Commands;
+using CloudEngineering.CodeOps.Abstractions.Events;
 using CloudEngineering.CodeOps.Infrastructure.AmazonWebServices;
+using CloudEngineering.CodeOps.Infrastructure.AmazonWebServices.Commands.Cost;
+using CloudEngineering.CodeOps.Infrastructure.AmazonWebServices.DataTransferObjects.Cost;
+using CloudEngineering.CodeOps.Infrastructure.AmazonWebServices.Factories;
 using CloudEngineering.CodeOps.Infrastructure.EntityFramework;
 using CloudEngineering.CodeOps.Infrastructure.Kafka;
 using CloudEngineering.CodeOps.Infrastructure.Kafka.Serialization;
 using Confluent.Kafka;
+using CostJanitor.Infrastructure.CostProviders.Aws;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
 using System.Reflection;
 
 namespace CostJanitor.Infrastructure
@@ -38,7 +44,11 @@ namespace CostJanitor.Infrastructure
 
             services.Configure<AwsFacadeOptions>(configuration.GetSection(AwsFacadeOptions.AwsFacade));
 
+            services.AddTransient<IRequestHandler<GetMonthlyTotalCostCommand, IEnumerable<CostDto>>, GetMonthlyTotalCostCommandHandler>();
+            services.AddTransient<ICommandHandler<GetMonthlyTotalCostCommand, IEnumerable<CostDto>>, GetMonthlyTotalCostCommandHandler>();
+            services.AddTransient<IAwsClientFactory, AwsClientFactory>();
             services.AddTransient<IAwsFacade, AwsFacade>();
+            services.AddTransient<IAwsCostClient, AwsCostClient>();
         }
 
         private static void AddKafka(this IServiceCollection services, IConfiguration configuration)
