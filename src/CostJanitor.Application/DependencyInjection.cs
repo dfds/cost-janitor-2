@@ -34,30 +34,15 @@ namespace CostJanitor.Application
             services.AddLogging();
 
 			//External dependencies
-			services.AddMediator();
 			services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddInfrastructure(configuration);
 
 			//Application dependencies
-			services.AddAuthorization();
 			services.AddApplicationContext(configuration);
 			services.AddCommandHandlers();
 			services.AddRepositories();
 			services.AddServices();
 			services.AddFacade();
-		}
-
-		private static void AddMediator(this IServiceCollection services)
-		{
-			services.AddTransient<ServiceFactory>(p => p.GetService);
-
-			services.AddTransient<IMediator>(p => new Mediator(p.GetService<ServiceFactory>()));
-		}
-
-		private static void AddAuthorization(this IServiceCollection services)
-		{
-			services.AddSingleton<IAuthorizationHandler, AccessRequirementHandler>();
-			services.AddSingleton<IAuthorizationPolicyProvider, DefaultAuthorizationPolicyProvider>();
 		}
 
 		private static void AddApplicationContext(this IServiceCollection services, IConfiguration configuration)
