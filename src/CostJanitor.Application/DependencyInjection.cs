@@ -3,7 +3,6 @@ using CloudEngineering.CodeOps.Abstractions.Data;
 using CloudEngineering.CodeOps.Abstractions.Facade;
 using CloudEngineering.CodeOps.Abstractions.Repositories;
 using CloudEngineering.CodeOps.Infrastructure.EntityFramework;
-using CloudEngineering.CodeOps.Security.Policies.Handlers;
 using CostJanitor.Application.Commands;
 using CostJanitor.Application.Data;
 using CostJanitor.Application.Repositories;
@@ -14,7 +13,6 @@ using CostJanitor.Domain.Services;
 using CostJanitor.Domain.ValueObjects;
 using CostJanitor.Infrastructure;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,15 +32,15 @@ namespace CostJanitor.Application
             services.AddLogging();
 
 			//External dependencies
-			services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddInfrastructure(configuration);
 
 			//Application dependencies
+			services.AddAutoMapper(Assembly.GetExecutingAssembly());
 			services.AddApplicationContext(configuration);
 			services.AddCommandHandlers();
+			services.AddFacade();
 			services.AddRepositories();
 			services.AddServices();
-			services.AddFacade();
 		}
 
 		private static void AddApplicationContext(this IServiceCollection services, IConfiguration configuration)

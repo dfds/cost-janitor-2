@@ -17,12 +17,12 @@ namespace CostJanitor.Infrastructure
             //External dependencies
             services.AddTransient<ServiceFactory>(p => p.GetService);
             services.AddTransient<IMediator>(p => new Mediator(p.GetService<ServiceFactory>()));
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddAmazonWebServices(configuration);
             services.AddKafka(configuration);
             services.AddSecurityPolicies();
 
             //Custom dependencies
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddCostProviders();
         }
 
