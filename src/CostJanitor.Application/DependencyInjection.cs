@@ -33,8 +33,9 @@ namespace CostJanitor.Application
             //Framework dependencies
             services.AddLogging();
 
-            //External dependencies
-            services.AddAutoMapper(Assembly.GetExecutingAssembly());
+			//External dependencies
+			services.AddMediator();
+			services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddInfrastructure(configuration);
 
 			//Application dependencies
@@ -44,6 +45,13 @@ namespace CostJanitor.Application
 			services.AddRepositories();
 			services.AddServices();
 			services.AddFacade();
+		}
+
+		private static void AddMediator(this IServiceCollection services)
+		{
+			services.AddTransient<ServiceFactory>(p => p.GetService);
+
+			services.AddTransient<IMediator>(p => new Mediator(p.GetService<ServiceFactory>()));
 		}
 
 		private static void AddAuthorization(this IServiceCollection services)
