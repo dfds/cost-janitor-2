@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostJanitor.Application", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostJanitor.Host.Api", "src\CostJanitor.Host.Api\CostJanitor.Host.Api.csproj", "{1448EA28-9187-424D-AEC7-C2552611ED7F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{76BD9728-CE1B-4E5B-B132-0D631787F5FA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{76BD9728-CE1B-4E5B-B132-0D631787F5FA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostJanitor.Application.UnitTest", "src\CostJanitor.Application.UnitTest\CostJanitor.Application.UnitTest.csproj", "{967785CC-42D7-4259-832A-6E39AEA18E91}"
 EndProject
@@ -23,11 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostJanitor.Infrastructure.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostJanitor.Host.EventConsumer", "src\CostJanitor.Host.EventConsumer\CostJanitor.Host.EventConsumer.csproj", "{2FDCB140-8B41-49B4-B20C-684F70A9D3FC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Host", "Host", "{144AC6F4-3633-45F3-BCAA-B91023CAB636}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "host", "host", "{144AC6F4-3633-45F3-BCAA-B91023CAB636}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{19D8B07C-FE7A-4D34-9407-A9D435D005B8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{19D8B07C-FE7A-4D34-9407-A9D435D005B8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Worker", "Worker", "{6B2AC1FF-CDE7-449C-98B8-061A5F5CE954}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "worker", "worker", "{6B2AC1FF-CDE7-449C-98B8-061A5F5CE954}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8B310761-349E-40B0-AF69-DD10E6C195F0}"
 	ProjectSection(SolutionItems) = preProject
