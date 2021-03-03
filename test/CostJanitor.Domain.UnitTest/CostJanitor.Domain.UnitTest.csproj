@@ -7,8 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Aggregates\ReportItem\**" />
+      <Compile Remove="ValueObjects\**" />
+      <EmbeddedResource Remove="Aggregates\ReportItem\**" />
+      <EmbeddedResource Remove="ValueObjects\**" />
+      <None Remove="Aggregates\ReportItem\**" />
+      <None Remove="ValueObjects\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
-        <PackageReference Include="Moq" Version="4.16.1" />
         <PackageReference Include="xunit" Version="2.4.1" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,7 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CostJanitor.Infrastructure\CostJanitor.Infrastructure.csproj" />
+      <ProjectReference Include="..\..\src\CostJanitor.Domain\CostJanitor.Domain.csproj" />
     </ItemGroup>
 
 </Project>
