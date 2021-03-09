@@ -1,52 +1,42 @@
-//using Amazon;
-//using Amazon.CostExplorer;
-//using AutoMapper;
-//using CostJanitor.Infrastructure.CostProviders.Aws;
-//using Microsoft.Extensions.DependencyInjection;
-//using System;
-//using System.Threading.Tasks;
-//using Xunit;
+using CostJanitor.Infrastructure.CostProviders.Aws;
+using CostJanitor.Infrastructure.IntegrationTest.Fixtures;
+using System.Threading.Tasks;
+using Xunit;
 
-//namespace CostJanitor.Infrastructure.IntegrationTest.CostProviders.Aws
-//{
-//    // This assumes a valid AWS session with the right permissions (CostExplorer access)
-//    public class AwsCostClientTests
-//    {
-//        private readonly IServiceProvider _services;
+namespace CostJanitor.Infrastructure.IntegrationTest.CostProviders.Aws
+{
+    public class AwsCostClientTests : IClassFixture<AwsFacadeFixture>
+    {
+        private readonly AwsFacadeFixture _awsFixture;
 
-//        public AwsCostClientTests()
-//        {
-//            var coll = new ServiceCollection();
+        public AwsCostClientTests(AwsFacadeFixture fixture)
+        {
+            _awsFixture = fixture;
+        }
 
-//            //TODO: Use a config builder to get a config object.
-//            coll.AddInfrastructure(null);
+        [Fact]
+        public async Task GetMonthlyTotalCostAllAccountsTest()
+        {
+            var sut = new AwsCostClient(_awsFixture.Facade);
+            var resp = await sut.GetMonthlyTotalCostAllAccountsAsync();
 
-//            _services = coll.BuildServiceProvider();
-//        }
+            Assert.NotNull(resp);
 
-//        [Fact]
-//        public async Task GetMonthlyTotalCostAllAccountsTest()
-//        {
-//            IAwsCostClient sut = new AwsCostClient(new AmazonCostExplorerClient(RegionEndpoint.USEast1), _services.GetService<IMapper>());
-//            var resp = await sut.GetMonthlyTotalCostAllAccountsAsync();
-            
-//            Assert.NotNull(resp);
+            foreach (var result in resp)
+            {
+                Assert.NotEmpty(result.ResultsByTime);
+                Assert.NotEmpty(result.DimensionValueAttributes);
+            }
+        }
 
-//            foreach (var result in resp)
-//            {
-//                Assert.NotEmpty(result.ResultsByTime);
-//                Assert.NotEmpty(result.DimensionValueAttributes);
-//            }
-//        }
+        [Fact(Skip = "Fix this test, figure out why its mapping incorrectly")]
+        public async Task GetMonthlyTotalCostsByAccountId()
+        {
+            var sut = new AwsCostClient(_awsFixture.Facade);
+            var resp = await sut.GetMonthlyTotalCostByAccountIdAsync("642375522597");
 
-//        [Fact]
-//        public async Task GetMonthlyTotalCostsByAccountId()
-//        {
-//            IAwsCostClient sut = new AwsCostClient(new AmazonCostExplorerClient(RegionEndpoint.USEast1), _services.GetService<IMapper>());
-//            var resp = await sut.GetMonthlyTotalCostByAccountIdAsync("642375522597");
-            
-//            Assert.NotEmpty(resp.ResultsByTime);
-//            Assert.NotEmpty(resp.DimensionValueAttributes);
-//        }
-//    }
-//}
+            Assert.NotEmpty(resp.ResultsByTime);
+            Assert.NotEmpty(resp.DimensionValueAttributes);
+        }
+    }
+}

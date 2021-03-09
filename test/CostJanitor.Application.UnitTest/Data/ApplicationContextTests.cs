@@ -13,7 +13,7 @@ namespace CostJanitor.Application.UnitTest.Data
     public class ApplicationContextTests : IClassFixture<ApplicationContextFixture>
     {
         private readonly ApplicationContextFixture _fixture;
-        
+
         public ApplicationContextTests(ApplicationContextFixture fixture)
         {
             _fixture = fixture;
@@ -27,12 +27,12 @@ namespace CostJanitor.Application.UnitTest.Data
 
             // Act
             var hashCode = sut.GetType().GetHashCode();
-            
+
             // Assert
             Assert.NotNull(sut);
             Assert.Equal(hashCode, sut.GetType().GetHashCode());
         }
-        
+
         [Fact]
         public async Task CanPublishDomainEventsOnSaveEntities()
         {
@@ -41,7 +41,7 @@ namespace CostJanitor.Application.UnitTest.Data
             var mockMediator = new Mock<IMediator>();
 
             mockMediator.Setup(m => m.Publish(It.IsAny<IDomainEvent>(), It.IsAny<CancellationToken>()));
-                        
+
             var sut = _fixture.GetDbContext(mockMediator.Object);
 
             //Act

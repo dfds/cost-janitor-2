@@ -1,8 +1,8 @@
+using CostJanitor.Application.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using System;
-using CostJanitor.Application.Data;
 
 namespace CostJanitor.Application.UnitTest.Data
 {

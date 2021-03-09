@@ -1,6 +1,6 @@
+using CloudEngineering.CodeOps.Abstractions.Events;
 using System;
 using System.Text.Json;
-using CloudEngineering.CodeOps.Abstractions.Events;
 
 namespace CostJanitor.Application.Events.Report
 {
@@ -8,14 +8,14 @@ namespace CostJanitor.Application.Events.Report
     {
         public string Id { get; init; }
 
-        public string CorrelationId  { get; init; }
+        public string CorrelationId { get; init; }
 
-        public DateTime CreationDate  { get; init; }
+        public DateTime CreationDate { get; init; }
 
-        public string SchemaVersion  { get; init; }
+        public string SchemaVersion { get; init; }
 
-        public string Type  { get; init; }
+        public string Type { get; init; }
 
-        public JsonElement? Payload  { get; init; }
+        public JsonElement? Payload { get; init; }
     }
 }

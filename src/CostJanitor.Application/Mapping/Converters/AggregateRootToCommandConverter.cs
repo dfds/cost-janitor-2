@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
-using CostJanitor.Application.Commands;
-using CostJanitor.Domain.Aggregates;
 using CloudEngineering.CodeOps.Abstractions.Aggregates;
 using CloudEngineering.CodeOps.Abstractions.Commands;
+using CostJanitor.Application.Commands;
+using CostJanitor.Application.Commands.Report;
+using CostJanitor.Domain.Aggregates;
 using System;
 
 namespace CostJanitor.Application.Mapping.Converters

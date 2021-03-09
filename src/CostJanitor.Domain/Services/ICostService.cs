@@ -1,10 +1,10 @@
+using CloudEngineering.CodeOps.Abstractions.Services;
+using CostJanitor.Domain.Aggregates;
+using CostJanitor.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CostJanitor.Domain.Aggregates;
-using CostJanitor.Domain.ValueObjects;
-using CloudEngineering.CodeOps.Abstractions.Services;
 
 namespace CostJanitor.Domain.Services
 {
@@ -19,7 +19,7 @@ namespace CostJanitor.Domain.Services
         Task<bool> DeleteReportAsync(Guid reportItemId, CancellationToken ct = default);
 
         Task<CostItem> AddOrUpdateCostItemAsync(Guid reportItemId, string capabilityIdentifier, string label, string value, CancellationToken ct = default);
-        
+
         Task<bool> DeleteCostItemAsync(Guid reportItemId, string label, string capabilityIdentifier = default, CancellationToken ct = default);
     }
 }

@@ -14,12 +14,12 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
             destination ??= new ReportRoot();
 
             var accountResults = new Dictionary<string, string>();
-            
+
             foreach (var dimensionValueAttribute in source.DimensionValueAttributes)
             {
                 var awsAccountName = dimensionValueAttribute.Attributes.Single(o => o.Key == "description").Value;
                 var awsAccountId = dimensionValueAttribute.Value;
-            
+
                 accountResults.Add(awsAccountId, awsAccountName);
             }
 
@@ -27,7 +27,7 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
             {
                 var awsAccountName = accountResults[resultByTime.Groups.First().Keys.First()];
 
-                //TODO: Will ignore v1 capabilities atm
+                //TODO: Will ignore v1 capabilities atm (and all other accounts not prefixed with dfds-). Fix this once tests are completed
                 var assumedCapabilityIdentifier = "";
 
                 if (awsAccountName.Contains("dfds-"))

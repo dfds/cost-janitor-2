@@ -1,5 +1,5 @@
-using CostJanitor.Domain.Aggregates;
 using CloudEngineering.CodeOps.Abstractions.Events;
+using CostJanitor.Domain.Aggregates;
 
 namespace CostJanitor.Domain.Events.Report
 {

@@ -30,7 +30,7 @@
 
 //            Mock.VerifyAll();
 //        }
-        
+
 //        [Fact]
 //        public async Task CanAddCostItem()
 //        {
@@ -54,7 +54,7 @@
 
 //            Mock.VerifyAll();
 //        }
-        
+
 //        [Fact]
 //        public async Task CanAddReportItem()
 //        {
@@ -79,7 +79,7 @@
 
 //            Mock.VerifyAll();
 //        }        
-        
+
 //        [Fact]
 //        public async Task CanDeleteReportItem()
 //        {

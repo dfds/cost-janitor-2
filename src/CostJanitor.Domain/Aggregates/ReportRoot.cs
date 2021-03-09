@@ -1,11 +1,11 @@
+using CloudEngineering.CodeOps.Abstractions.Aggregates;
+using CloudEngineering.CodeOps.Abstractions.Entities;
+using CostJanitor.Domain.Events.Report;
+using CostJanitor.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using CostJanitor.Domain.Events.Report;
-using CostJanitor.Domain.ValueObjects;
-using CloudEngineering.CodeOps.Abstractions.Aggregates;
-using CloudEngineering.CodeOps.Abstractions.Entities;
 
 namespace CostJanitor.Domain.Aggregates
 {
@@ -14,13 +14,13 @@ namespace CostJanitor.Domain.Aggregates
         private readonly List<CostItem> _costItems;
 
         public IEnumerable<CostItem> CostItems => _costItems.AsReadOnly();
-        
+
         public ReportRoot()
         {
             _costItems = new List<CostItem>();
 
             var evt = new ReportCreatedEvent(this);
-            
+
             AddDomainEvent(evt);
         }
 
@@ -38,7 +38,7 @@ namespace CostJanitor.Domain.Aggregates
         {
             _costItems.Remove(costItem);
         }
-        
+
         public override IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             return Enumerable.Empty<ValidationResult>();

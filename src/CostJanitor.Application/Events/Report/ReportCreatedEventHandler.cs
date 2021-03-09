@@ -1,7 +1,7 @@
 using AutoMapper;
+using CloudEngineering.CodeOps.Abstractions.Events;
 using CostJanitor.Domain.Events.Report;
 using MediatR;
-using CloudEngineering.CodeOps.Abstractions.Events;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,7 +11,7 @@ namespace CostJanitor.Application.Events.Report
     {
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
-        
+
         public ReportCreatedEventHandler(IMapper mapper, IMediator mediator)
         {
             _mapper = mapper;

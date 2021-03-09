@@ -8,11 +8,8 @@
 
     <ItemGroup>
       <Compile Remove="Aggregates\ReportItem\**" />
-      <Compile Remove="ValueObjects\**" />
       <EmbeddedResource Remove="Aggregates\ReportItem\**" />
-      <EmbeddedResource Remove="ValueObjects\**" />
       <None Remove="Aggregates\ReportItem\**" />
-      <None Remove="ValueObjects\**" />
     </ItemGroup>
 
     <ItemGroup>

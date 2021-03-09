@@ -18,7 +18,7 @@ namespace CostJanitor.Application.Services
         {
             _reportRepository = reportRepository;
         }
-        
+
         public async Task<IEnumerable<ReportRoot>> GetReportByCapabilityIdentifierAsync(string capabilityIdentifier, CancellationToken ct = default)
         {
             var reportRoots = await _reportRepository.GetAsync(r => r.CostItems.Any(ci => ci.CapabilityIdentifier == capabilityIdentifier));
@@ -33,7 +33,7 @@ namespace CostJanitor.Application.Services
             reportRoot.AddCostItem(costItems);
 
             reportRoot = _reportRepository.Add(reportRoot);
-            
+
             await _reportRepository.UnitOfWork.SaveEntitiesAsync(ct);
 
             return reportRoot;
@@ -42,7 +42,7 @@ namespace CostJanitor.Application.Services
         public async Task<ReportRoot> UpdateReportAsync(ReportRoot report, CancellationToken ct = default)
         {
             var reportRoot = _reportRepository.Update(report);
-            
+
             await _reportRepository.UnitOfWork.SaveEntitiesAsync(ct);
 
             return reportRoot;
@@ -92,7 +92,7 @@ namespace CostJanitor.Application.Services
             {
                 reportRoot.RemoveCostItem(ci);
             }
-            
+
             await UpdateReportAsync(reportRoot, ct);
 
             return true;

@@ -1,7 +1,7 @@
+using CloudEngineering.CodeOps.Abstractions.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using CloudEngineering.CodeOps.Abstractions.Entities;
 
 namespace CostJanitor.Domain.ValueObjects
 {
@@ -26,7 +26,7 @@ namespace CostJanitor.Domain.ValueObjects
             Value = value;
             CapabilityIdentifier = capabilityIdentifier;
         }
-        
+
         protected override IEnumerable<object> GetAtomicValues()
         {
             yield return Label;
