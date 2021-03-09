@@ -27,7 +27,7 @@ namespace CostJanitor.Application.UnitTest.Commands.Cost
             Mock.VerifyAll();
         }
 
-        [Fact]
+        [Fact(Skip = "NotImplemented")]
         public Task CanHandleCommand()
         {
             throw new NotImplementedException();
