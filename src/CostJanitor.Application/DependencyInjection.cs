@@ -38,11 +38,19 @@ namespace CostJanitor.Application
 
             //Application dependencies
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddMediator();
             services.AddApplicationContext(configuration);
             services.AddCommandHandlers();
             services.AddFacade();
             services.AddRepositories();
             services.AddServices();
+        }
+
+        private static void AddMediator(this IServiceCollection services)
+        {
+            services.AddTransient<ServiceFactory>(p => p.GetService);
+
+            services.AddSingleton<IMediator>(p => new Mediator(p.GetService<ServiceFactory>()));
         }
 
         private static void AddApplicationContext(this IServiceCollection services, IConfiguration configuration)

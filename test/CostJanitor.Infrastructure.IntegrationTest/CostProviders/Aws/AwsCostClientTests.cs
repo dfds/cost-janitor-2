@@ -17,7 +17,8 @@ namespace CostJanitor.Infrastructure.IntegrationTest.CostProviders.Aws
         [Fact]
         public async Task GetMonthlyTotalCostAllAccountsTest()
         {
-            var sut = new AwsCostClient(_awsFixture.Facade);
+            using var facade = _awsFixture.Facade;
+            var sut = new AwsCostClient(facade);
             var resp = await sut.GetMonthlyTotalCostAllAccountsAsync();
 
             Assert.NotNull(resp);
@@ -32,7 +33,8 @@ namespace CostJanitor.Infrastructure.IntegrationTest.CostProviders.Aws
         [Fact(Skip = "Fix this test, figure out why its mapping incorrectly")]
         public async Task GetMonthlyTotalCostsByAccountId()
         {
-            var sut = new AwsCostClient(_awsFixture.Facade);
+            using var facade = _awsFixture.Facade;
+            var sut = new AwsCostClient(facade);
             var resp = await sut.GetMonthlyTotalCostByAccountIdAsync("642375522597");
 
             Assert.NotEmpty(resp.ResultsByTime);
