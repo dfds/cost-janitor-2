@@ -3,7 +3,6 @@ using CloudEngineering.CodeOps.Infrastructure.Kafka;
 using CloudEngineering.CodeOps.Security.Policies;
 using CostJanitor.Infrastructure.CostProviders;
 using CostJanitor.Infrastructure.CostProviders.Aws;
-using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -19,7 +18,7 @@ namespace CostJanitor.Infrastructure
             services.AddKafka(configuration);
             services.AddSecurityPolicies();
 
-            //Custom dependencies
+            //Package dependencies
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddCostProviders();
         }

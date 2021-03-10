@@ -19,7 +19,7 @@ namespace CostJanitor.Application.UnitTest.Data
             _fixture = fixture;
         }
 
-        [Fact(Skip = "Requires a active postgres")]
+        [Fact(Skip = "Requires postgres")]
         public void CanBeConstructed()
         {
             // Arrange
@@ -33,7 +33,7 @@ namespace CostJanitor.Application.UnitTest.Data
             Assert.Equal(hashCode, sut.GetType().GetHashCode());
         }
 
-        [Fact(Skip = "Requires a active postgres")]
+        [Fact(Skip = "Requires postgres")]
         public async Task CanPublishDomainEventsOnSaveEntities()
         {
             //Arrange

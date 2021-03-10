@@ -1,4 +1,4 @@
-using CloudEngineering.CodeOps.Abstractions.Facade;
+using CostJanitor.Application;
 using CostJanitor.Application.Commands.Report;
 using CostJanitor.Domain.Aggregates;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +11,9 @@ namespace CostJanitor.Host.Api.Controllers
     [Route("[controller]")]
     public class ReportController
     {
-        private readonly IFacade _applicationFacade;
+        private readonly IApplicationFacade _applicationFacade;
 
-        public ReportController(IFacade applicationFacade)
+        public ReportController(IApplicationFacade applicationFacade)
         {
             _applicationFacade = applicationFacade;
         }

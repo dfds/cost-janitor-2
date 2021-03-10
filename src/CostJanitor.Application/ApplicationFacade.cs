@@ -1,5 +1,4 @@
 using CloudEngineering.CodeOps.Abstractions.Commands;
-using CloudEngineering.CodeOps.Abstractions.Facade;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CostJanitor.Application
 {
-    public sealed class ApplicationFacade : IFacade
+    public sealed class ApplicationFacade : IApplicationFacade
     {
         private readonly IMediator _mediator;
         private readonly ILogger<ApplicationFacade> _logger;

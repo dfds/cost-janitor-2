@@ -1,5 +1,4 @@
 using CloudEngineering.CodeOps.Abstractions.Data;
-using CloudEngineering.CodeOps.Abstractions.Facade;
 using CloudEngineering.CodeOps.Abstractions.Repositories;
 using CloudEngineering.CodeOps.Infrastructure.EntityFramework;
 using CostJanitor.Application.Data;
@@ -102,7 +101,7 @@ namespace CostJanitor.Application
 
         private static void AddFacade(this IServiceCollection services)
         {
-            services.AddTransient<IFacade, ApplicationFacade>();
+            services.AddTransient<IApplicationFacade, ApplicationFacade>();
         }
     }
 }

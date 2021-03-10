@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CloudEngineering.CodeOps.Abstractions.Facade;
 using CloudEngineering.CodeOps.Infrastructure.Kafka;
+using CostJanitor.Application;
 using CostJanitor.Host.EventConsumer.Strategies;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -11,7 +11,7 @@ namespace CostJanitor.Host.EventConsumer
 {
     public class AwsAccountEventWorker : KafkaConsumerService
     {
-        public AwsAccountEventWorker(ILogger<KafkaConsumerService> logger, IOptions<KafkaOptions> options, IMapper mapper, IFacade applicationFacade) : base(logger, options, new AwsAccountEventConsumptionStrategy(mapper, applicationFacade))
+        public AwsAccountEventWorker(ILogger<KafkaConsumerService> logger, IOptions<KafkaOptions> options, IMapper mapper, IApplicationFacade applicationFacade) : base(logger, options, new AwsAccountEventConsumptionStrategy(mapper, applicationFacade))
         {
         }
 

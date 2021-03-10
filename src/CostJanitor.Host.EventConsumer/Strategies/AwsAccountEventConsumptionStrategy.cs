@@ -2,9 +2,9 @@
 using CloudEngineering.CodeOps.Abstractions.Aggregates;
 using CloudEngineering.CodeOps.Abstractions.Commands;
 using CloudEngineering.CodeOps.Abstractions.Events;
-using CloudEngineering.CodeOps.Abstractions.Facade;
 using CloudEngineering.CodeOps.Infrastructure.Kafka.Strategies;
 using Confluent.Kafka;
+using CostJanitor.Application;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +13,7 @@ namespace CostJanitor.Host.EventConsumer.Strategies
 {
     public sealed class AwsAccountEventConsumptionStrategy : ConsumtionStrategy
     {
-        public AwsAccountEventConsumptionStrategy(IMapper mapper, IFacade applicationFacade) : base(mapper, applicationFacade)
+        public AwsAccountEventConsumptionStrategy(IMapper mapper, IApplicationFacade applicationFacade) : base(mapper, applicationFacade)
         {
 
         }
