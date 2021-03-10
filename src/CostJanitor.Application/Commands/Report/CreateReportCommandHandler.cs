@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CostJanitor.Application.Commands.Report
 {
-    public sealed class CreateReportCommandHandler : ICommandHandler<CreateReportCommand, ReportRoot>, IRequestHandler<CreateReportCommand, IAggregateRoot>
+    public sealed class CreateReportCommandHandler : ICommandHandler<CreateReportCommand, ReportRoot>, ICommandHandler<CreateReportCommand, IAggregateRoot>
     {
         private readonly ICostService _costService;
 
@@ -26,6 +26,11 @@ namespace CostJanitor.Application.Commands.Report
         }
 
         async Task<IAggregateRoot> IRequestHandler<CreateReportCommand, IAggregateRoot>.Handle(CreateReportCommand request, CancellationToken cancellationToken)
+        {
+            return await Handle(request, cancellationToken);
+        }
+
+        async Task<IAggregateRoot> ICommandHandler<CreateReportCommand, IAggregateRoot>.Handle(CreateReportCommand request, CancellationToken cancellationToken)
         {
             return await Handle(request, cancellationToken);
         }

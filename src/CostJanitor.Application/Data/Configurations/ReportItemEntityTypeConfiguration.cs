@@ -1,6 +1,7 @@
 using CostJanitor.Domain.Aggregates;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 
 namespace CostJanitor.Infrastructure.EntityFramework.Configurations
 {
@@ -17,7 +18,7 @@ namespace CostJanitor.Infrastructure.EntityFramework.Configurations
             p => p.CostItems, a =>
             {
                 a.WithOwner().HasForeignKey("OwnerId");
-                a.Property<int>("Id");
+                a.Property<Guid>("Id");
                 a.HasKey("Id");
             });
         }

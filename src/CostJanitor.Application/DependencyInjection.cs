@@ -14,7 +14,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Npgsql;
-using System;
 using System.Reflection;
 
 namespace CostJanitor.Application
@@ -77,9 +76,9 @@ namespace CostJanitor.Application
                 {
                     context.Database.Migrate();
                 }
-            }, ServiceLifetime.Transient, ServiceLifetime.Transient);
+            }, ServiceLifetime.Singleton, ServiceLifetime.Singleton);
 
-            services.AddTransient<IUnitOfWork>(factory => factory.GetRequiredService<ApplicationContext>());
+            services.AddScoped<IUnitOfWork>(factory => factory.GetRequiredService<ApplicationContext>());
         }
 
         private static void AddRepositories(this IServiceCollection services)

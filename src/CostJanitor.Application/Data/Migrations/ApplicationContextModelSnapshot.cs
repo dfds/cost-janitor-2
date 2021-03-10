@@ -31,9 +31,9 @@ namespace CostJanitor.Application.Data.Migrations
                 {
                     b.OwnsMany("CostJanitor.Domain.ValueObjects.CostItem", "CostItems", b1 =>
                         {
-                            b1.Property<int>("Id")
+                            b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("INTEGER");
+                                .HasColumnType("TEXT");
 
                             b1.Property<string>("CapabilityIdentifier")
                                 .IsRequired()

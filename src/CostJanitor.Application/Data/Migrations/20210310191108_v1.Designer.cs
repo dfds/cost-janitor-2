@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CostJanitor.Application.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210223162645_v1")]
+    [Migration("20210310191108_v1")]
     partial class v1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,9 +33,9 @@ namespace CostJanitor.Application.Data.Migrations
                 {
                     b.OwnsMany("CostJanitor.Domain.ValueObjects.CostItem", "CostItems", b1 =>
                         {
-                            b1.Property<int>("Id")
+                            b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("INTEGER");
+                                .HasColumnType("TEXT");
 
                             b1.Property<string>("CapabilityIdentifier")
                                 .IsRequired()
