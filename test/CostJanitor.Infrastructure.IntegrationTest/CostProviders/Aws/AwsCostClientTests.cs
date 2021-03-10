@@ -30,7 +30,7 @@ namespace CostJanitor.Infrastructure.IntegrationTest.CostProviders.Aws
             }
         }
 
-        [Fact(Skip = "Fix this test, figure out why its mapping incorrectly")]
+        [Fact]
         public async Task GetMonthlyTotalCostsByAccountId()
         {
             var facade = _awsFixture.Facade;
@@ -38,7 +38,6 @@ namespace CostJanitor.Infrastructure.IntegrationTest.CostProviders.Aws
             var resp = await sut.GetMonthlyTotalCostByAccountIdAsync("642375522597");
 
             Assert.NotEmpty(resp.ResultsByTime);
-            Assert.NotEmpty(resp.DimensionValueAttributes);
         }
     }
 }

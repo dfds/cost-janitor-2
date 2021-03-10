@@ -16,8 +16,8 @@ namespace CostJanitor.Host.EventConsumer
         Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
         .ConfigureServices((hostContext, services) =>
         {
-            services.AddHostedService<AwsAccountEventWorker>();
             services.AddApplication(hostContext.Configuration);
+            services.AddHostedService<AwsAccountEventWorker>();
         })
         .ConfigureLogging(logBuilder =>
         {

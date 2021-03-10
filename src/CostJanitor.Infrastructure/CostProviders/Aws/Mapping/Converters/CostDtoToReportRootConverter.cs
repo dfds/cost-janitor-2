@@ -13,37 +13,66 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
         {
             destination ??= new ReportRoot();
 
-            var accountResults = new Dictionary<string, string>();
+            var costItems = new List<CostItem>();
 
-            foreach (var dimensionValueAttribute in source.DimensionValueAttributes)
+            if (source.DimensionValueAttributes != null && source.DimensionValueAttributes.Any())
             {
-                var awsAccountName = dimensionValueAttribute.Attributes.Single(o => o.Key == "description").Value;
-                var awsAccountId = dimensionValueAttribute.Value;
-
-                accountResults.Add(awsAccountId, awsAccountName);
-            }
-
-            //TODO: Talk with Emil about why accountResults (DimensionValueAttributes) are sometimes empty? Thus yielding no cost items because we cant map the account name
-            if (accountResults.Any())
-            {
-                foreach (var resultByTime in source.ResultsByTime)
+                foreach (var dimensionValueAttribute in source.DimensionValueAttributes)
                 {
-                    var awsAccountName = accountResults[resultByTime.Groups.First().Keys.First()];
+                    var awsAccountName = dimensionValueAttribute.Attributes.Single(o => o.Key == "description").Value;
+                    var awsAccountId = dimensionValueAttribute.Value;
 
-                    //TODO: Will ignore v1 capabilities atm (and all other accounts not prefixed with dfds-). Fix this once tests are completed
-                    var assumedCapabilityIdentifier = "";
-
-                    if (awsAccountName.Contains("dfds-"))
+                    foreach (var resultByTime in source.ResultsByTime.Where(o => o.Groups.Any(g => g.Keys.Any(k => k == awsAccountId))))
                     {
-                        assumedCapabilityIdentifier = awsAccountName.Remove(0, 5);
+                        var assumedCapabilityIdentifier = awsAccountName.StartsWith("dfds-") ? awsAccountName.Remove(0, 5) : awsAccountName;
+                        var blendCostMetricUnitGroups = resultByTime.Groups.Where(g => g.Keys.Any(k => k == awsAccountId)).SelectMany(g => g.Metrics.Where(o => o.Key == "BlendedCost")).GroupBy(m => m.Value.Unit);
+                        var totalCost = 0d;
+
+                        foreach (var metricUnitGroup in blendCostMetricUnitGroups) 
+                        {
+                            //TODO: Figure out if we need to deal with unit bias (e.g. diff currencies being aggregated into the tco). Atm we will assume this isnt the case and apply a magic multiplier of 1
+                            var magicMultiplier = 1;
+
+                            foreach (var metric in metricUnitGroup)
+                            { 
+                                if(double.TryParse(metric.Value.Amount, out var parsedValue))
+                                { 
+                                    totalCost += parsedValue * magicMultiplier;
+                                }
+                            }
+                        }
+
+                        var costItem = new CostItem("monthlyTotalCost", totalCost.ToString(), assumedCapabilityIdentifier);
+
+                        costItems.Add(costItem);
                     }
-
-                    var metric = resultByTime.Groups?.First().Metrics?.Single(o => o.Key == "BlendedCost").Value.Amount;
-                    var costItem = new CostItem("monthlyTotalCost", metric, assumedCapabilityIdentifier);
-
-                    destination.AddCostItem(costItem);
                 }
             }
+            else
+            {
+                var totalCost = 0d;
+
+                foreach (var metricUnitGroup in source.ResultsByTime.FirstOrDefault().Total.Where(m => m.Key == "BlendedCost").GroupBy(m => m.Value.Unit))
+                {
+                    //TODO: Figure out if we need to deal with unit bias (e.g. diff currencies being aggregated into the tco). Atm we will assume this isnt the case and apply a magic multiplier of 1
+                    var magicMultiplier = 1; 
+
+                    foreach (var metric in metricUnitGroup)
+                    {
+                        if (double.TryParse(metric.Value.Amount, out var parsedValue))
+                        {
+                            totalCost += parsedValue * magicMultiplier;
+                        }
+                    }
+                }
+
+                var costItem = new CostItem("monthlyTotalCost", totalCost.ToString(), string.Empty);
+
+                costItems.Add(costItem);
+            }
+
+            destination.AddCostItem(costItems);
+
             return destination;
         }
     }
