@@ -15,8 +15,6 @@ namespace CostJanitor.Infrastructure
         public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             //External dependencies
-            services.AddTransient<ServiceFactory>(p => p.GetService);
-            services.AddTransient<IMediator>(p => new Mediator(p.GetService<ServiceFactory>()));
             services.AddAmazonWebServices(configuration);
             services.AddKafka(configuration);
             services.AddSecurityPolicies();

@@ -2,8 +2,6 @@
 using CloudEngineering.CodeOps.Abstractions.Events;
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Infrastructure.CostProviders.Aws;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -13,19 +11,16 @@ namespace CostJanitor.Application.Mapping.Converters
     {
         public readonly IMapper _mapper;
         public readonly IAwsCostClient _awsCostClient;
-        public readonly IServiceProvider _services;
+        public readonly IAwsCostClient _costClient;
 
-        public AwsContextAccountCreatedEventToReportRootConverter(IMapper mapper, IServiceProvider services)
+        public AwsContextAccountCreatedEventToReportRootConverter(IMapper mapper, IAwsCostClient costClient)
         {
             _mapper = mapper;
-            _services = services;
+            _costClient = costClient;
         }
 
         public ReportRoot Convert(IIntegrationEvent source, ReportRoot destination, ResolutionContext context)
         {
-            using var serviceScope = _services.CreateScope();
-
-            var awsCostClient = serviceScope.ServiceProvider.GetService<IAwsCostClient>();
             JsonElement? payload = null;
 
             if (source.Payload.Value.ValueKind == JsonValueKind.Object)
@@ -50,7 +45,7 @@ namespace CostJanitor.Application.Mapping.Converters
             }
 
             var accountId = payload?.GetProperty("accountId").GetString();
-            var getTotalCostTask = awsCostClient.GetMonthlyTotalCostByAccountIdAsync(accountId);
+            var getTotalCostTask = _costClient.GetMonthlyTotalCostByAccountIdAsync(accountId);
 
             Task.WaitAll(getTotalCostTask);
 

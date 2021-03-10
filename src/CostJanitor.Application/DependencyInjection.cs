@@ -1,17 +1,13 @@
-using CloudEngineering.CodeOps.Abstractions.Commands;
 using CloudEngineering.CodeOps.Abstractions.Data;
 using CloudEngineering.CodeOps.Abstractions.Facade;
 using CloudEngineering.CodeOps.Abstractions.Repositories;
 using CloudEngineering.CodeOps.Infrastructure.EntityFramework;
-using CostJanitor.Application.Commands.Cost;
-using CostJanitor.Application.Commands.Report;
 using CostJanitor.Application.Data;
 using CostJanitor.Application.Repositories;
 using CostJanitor.Application.Services;
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.Repositories;
 using CostJanitor.Domain.Services;
-using CostJanitor.Domain.ValueObjects;
 using CostJanitor.Infrastructure;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +16,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Npgsql;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 
 namespace CostJanitor.Application

@@ -1,5 +1,4 @@
-﻿using CloudEngineering.CodeOps.Infrastructure.AmazonWebServices;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -15,10 +14,10 @@ namespace CostJanitor.Infrastructure.IntegrationTest.Fixtures
         {
             var services = new ServiceCollection();
 
-            services.AddAmazonWebServices(_configFixture.Configuration);
+            services.AddInfrastructure(_configFixture.Configuration);
 
             services.AddTransient<ServiceFactory>(p => p.GetService);
-            services.AddSingleton<IMediator>(p => new Mediator(p.GetService<ServiceFactory>()));
+            services.AddTransient<IMediator>(p => new Mediator(p.GetService<ServiceFactory>()));
 
             Provider = services.BuildServiceProvider();
         }

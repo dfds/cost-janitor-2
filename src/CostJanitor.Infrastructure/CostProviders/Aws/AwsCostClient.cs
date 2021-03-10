@@ -14,6 +14,13 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws
         public AwsCostClient(IAwsFacade awsFacade)
         {
             _awsFacade = awsFacade;
+
+            _awsFacade.Connect();
+        }
+
+        public void Dispose()
+        {
+            _awsFacade.Disconnect();
         }
 
         public async Task<IEnumerable<CostDto>> GetMonthlyTotalCostAllAccountsAsync()
