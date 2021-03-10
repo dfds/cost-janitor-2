@@ -13,7 +13,7 @@ namespace CostJanitor.Application.Mapping.Converters
         {
             switch (source)
             {
-                case ReportRoot report:                    
+                case ReportRoot report:
                     if (report.Id == Guid.Empty)
                     {
                         destination = new CreateReportCommand(report.CostItems);

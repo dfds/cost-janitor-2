@@ -15,7 +15,7 @@ namespace CostJanitor.Host.EventConsumer.Strategies
     {
         public AwsAccountEventConsumptionStrategy(IMapper mapper, IApplicationFacade applicationFacade) : base(mapper, applicationFacade)
         {
-            
+
         }
 
         public override async Task Apply(ConsumeResult<string, string> target, CancellationToken cancellationToken)

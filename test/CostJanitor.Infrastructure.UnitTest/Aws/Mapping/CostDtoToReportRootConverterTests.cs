@@ -16,16 +16,16 @@ namespace CloudEngineering.CodeOps.Infrastructure.AzureDevOps.UnitTest.Mapping.C
             var fakeCostDto = new CostDto()
             {
                 DimensionValueAttributes = new[] { new DimensionValueAttributeDto() { Attributes = new[] { new KeyValuePair<string, string>("description", "dfds-AWS_ACCOUNT_NAME") }, Value = "AWS_ACCOUNT_ID" } },
-                ResultsByTime = new[] 
-                { 
-                    new ResultByTimeDto() 
-                    { 
-                        Groups = new[] 
-                        { 
+                ResultsByTime = new[]
+                {
+                    new ResultByTimeDto()
+                    {
+                        Groups = new[]
+                        {
                             new GroupDto() { Keys = new[] { "AWS_ACCOUNT_ID" }, Metrics = new[] { new KeyValuePair<string, MetricValueDto>("BlendedCost", new MetricValueDto() { Amount = "100", Unit = "USD" }) } },
                             new GroupDto() { Keys = new[] { "AWS_ACCOUNT_ID" }, Metrics = new[] { new KeyValuePair<string, MetricValueDto>("BlendedCost", new MetricValueDto() { Amount = "200", Unit = "DKK" }) } }
-                        } 
-                    } 
+                        }
+                    }
                 }
             };
 
@@ -52,10 +52,10 @@ namespace CloudEngineering.CodeOps.Infrastructure.AzureDevOps.UnitTest.Mapping.C
                 {
                     new ResultByTimeDto()
                     {
-                        Total = new[] 
-                        { 
-                            new KeyValuePair<string, MetricValueDto>("BlendedCost", new MetricValueDto() { Amount = "100", Unit = "USD" }), 
-                            new KeyValuePair<string, MetricValueDto>("BlendedCost", new MetricValueDto() { Amount = "200", Unit = "DKK" }) 
+                        Total = new[]
+                        {
+                            new KeyValuePair<string, MetricValueDto>("BlendedCost", new MetricValueDto() { Amount = "100", Unit = "USD" }),
+                            new KeyValuePair<string, MetricValueDto>("BlendedCost", new MetricValueDto() { Amount = "200", Unit = "DKK" })
                         }
                     }
                 }

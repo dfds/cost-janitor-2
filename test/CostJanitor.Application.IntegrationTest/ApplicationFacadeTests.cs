@@ -12,13 +12,13 @@ namespace CostJanitor.Application.IntegrationTest
     {
         private readonly ServiceProviderFixture _serviceProviderFixture;
 
-        public ApplicationFacadeTests(ServiceProviderFixture serviceProviderFixture) 
+        public ApplicationFacadeTests(ServiceProviderFixture serviceProviderFixture)
         {
             _serviceProviderFixture = serviceProviderFixture;
         }
 
         [Fact]
-        public async Task CanProcessCommand() 
+        public async Task CanProcessCommand()
         {
             //Arrange
             var sut = _serviceProviderFixture.Provider.GetService<IApplicationFacade>();

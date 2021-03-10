@@ -28,15 +28,15 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
                         var blendCostMetricUnitGroups = resultByTime.Groups.Where(g => g.Keys.Any(k => k == awsAccountId)).SelectMany(g => g.Metrics.Where(o => o.Key == "BlendedCost")).GroupBy(m => m.Value.Unit);
                         var totalCost = 0d;
 
-                        foreach (var metricUnitGroup in blendCostMetricUnitGroups) 
+                        foreach (var metricUnitGroup in blendCostMetricUnitGroups)
                         {
                             //TODO: Figure out if we need to deal with unit bias (e.g. diff currencies being aggregated into the tco). Atm we will assume this isnt the case and apply a magic multiplier of 1
                             var magicMultiplier = 1;
 
                             foreach (var metric in metricUnitGroup)
-                            { 
-                                if(double.TryParse(metric.Value.Amount, out var parsedValue))
-                                { 
+                            {
+                                if (double.TryParse(metric.Value.Amount, out var parsedValue))
+                                {
                                     totalCost += parsedValue * magicMultiplier;
                                 }
                             }
@@ -55,7 +55,7 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
                 foreach (var metricUnitGroup in source.ResultsByTime.FirstOrDefault().Total.Where(m => m.Key == "BlendedCost").GroupBy(m => m.Value.Unit))
                 {
                     //TODO: Figure out if we need to deal with unit bias (e.g. diff currencies being aggregated into the tco). Atm we will assume this isnt the case and apply a magic multiplier of 1
-                    var magicMultiplier = 1; 
+                    var magicMultiplier = 1;
 
                     foreach (var metric in metricUnitGroup)
                     {

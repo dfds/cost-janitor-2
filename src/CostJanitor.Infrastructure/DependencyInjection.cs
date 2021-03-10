@@ -19,10 +19,10 @@ namespace CostJanitor.Infrastructure
 
             //Package dependencies
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddCostProviders();
+            services.AddAwsCostClient();
         }
 
-        private static void AddCostProviders(this IServiceCollection services)
+        private static void AddAwsCostClient(this IServiceCollection services)
         {
             services.AddTransient<IAwsCostClient, AwsCostClient>();
         }
