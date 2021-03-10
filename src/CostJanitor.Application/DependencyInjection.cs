@@ -37,18 +37,11 @@ namespace CostJanitor.Application
 
             //Application dependencies
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            services.AddMediator();
+            services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddApplicationContext(configuration);
-            services.AddCommandHandlers();
             services.AddFacade();
             services.AddRepositories();
             services.AddServices();
-        }
-
-        private static void AddMediator(this IServiceCollection services)
-        {
-            services.AddSingleton<ServiceFactory>(p => p.GetService);
-            services.AddSingleton<IMediator>(p => new Mediator(p.GetService<ServiceFactory>()));
         }
 
         private static void AddApplicationContext(this IServiceCollection services, IConfiguration configuration)
@@ -99,27 +92,6 @@ namespace CostJanitor.Application
             });
 
             services.AddScoped<IUnitOfWork>(factory => factory.GetRequiredService<ApplicationContext>());
-        }
-
-        private static void AddCommandHandlers(this IServiceCollection services)
-        {
-            // IRequestHandler
-            services.AddTransient<IRequestHandler<CreateCostItemCommand, CostItem>, CreateCostItemCommandHandler>();
-            services.AddTransient<IRequestHandler<CreateReportCommand, ReportRoot>, CreateReportCommandHandler>();
-            services.AddTransient<IRequestHandler<DeleteCostItemCommand, bool>, DeleteCostItemCommandHandler>();
-            services.AddTransient<IRequestHandler<DeleteReportCommand, bool>, DeleteReportCommandHandler>();
-            services.AddTransient<IRequestHandler<GetReportByCapabilityIdentifierCommand, IEnumerable<ReportRoot>>, GetReportByCapabilityIdentifierCommandHandler>();
-            services.AddTransient<IRequestHandler<UpdateCostItemCommand, CostItem>, UpdateCostItemCommandHandler>();
-            services.AddTransient<IRequestHandler<UpdateReportCommand, ReportRoot>, UpdateReportCommandHandler>();
-
-            // ICommandHandler
-            services.AddTransient<ICommandHandler<CreateCostItemCommand, CostItem>, CreateCostItemCommandHandler>();
-            services.AddTransient<ICommandHandler<CreateReportCommand, ReportRoot>, CreateReportCommandHandler>();
-            services.AddTransient<ICommandHandler<DeleteCostItemCommand, bool>, DeleteCostItemCommandHandler>();
-            services.AddTransient<ICommandHandler<DeleteReportCommand, bool>, DeleteReportCommandHandler>();
-            services.AddTransient<ICommandHandler<GetReportByCapabilityIdentifierCommand, IEnumerable<ReportRoot>>, GetReportByCapabilityIdentifierCommandHandler>();
-            services.AddTransient<ICommandHandler<UpdateCostItemCommand, CostItem>, UpdateCostItemCommandHandler>();
-            services.AddTransient<ICommandHandler<UpdateReportCommand, ReportRoot>, UpdateReportCommandHandler>();
         }
 
         private static void AddRepositories(this IServiceCollection services)

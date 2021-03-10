@@ -6,10 +6,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="CloudEngineering.CodeOps.Infrastructure.AmazonWebServices" Version="1.0.0-CI-20210310-030941" />
-      <PackageReference Include="CloudEngineering.CodeOps.Infrastructure.EntityFramework" Version="1.0.0-CI-20210310-030941" />
-      <PackageReference Include="CloudEngineering.CodeOps.Infrastructure.Kafka" Version="1.0.0-CI-20210310-030941" />
-      <PackageReference Include="CloudEngineering.CodeOps.Security.Policies" Version="1.0.0-CI-20210310-030941" />
+      <PackageReference Include="CloudEngineering.CodeOps.Infrastructure.AmazonWebServices" Version="1.0.0-CI-20210310-041307" />
+      <PackageReference Include="CloudEngineering.CodeOps.Infrastructure.EntityFramework" Version="1.0.0-CI-20210310-041307" />
+      <PackageReference Include="CloudEngineering.CodeOps.Infrastructure.Kafka" Version="1.0.0-CI-20210310-041307" />
+      <PackageReference Include="CloudEngineering.CodeOps.Security.Policies" Version="1.0.0-CI-20210310-041307" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.2" />
     </ItemGroup>
 
