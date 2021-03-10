@@ -3,7 +3,6 @@ using CloudEngineering.CodeOps.Abstractions.Data;
 using CloudEngineering.CodeOps.Abstractions.Facade;
 using CloudEngineering.CodeOps.Abstractions.Repositories;
 using CloudEngineering.CodeOps.Infrastructure.EntityFramework;
-using CostJanitor.Application.Commands;
 using CostJanitor.Application.Commands.Cost;
 using CostJanitor.Application.Commands.Report;
 using CostJanitor.Application.Data;
@@ -48,8 +47,7 @@ namespace CostJanitor.Application
 
         private static void AddMediator(this IServiceCollection services)
         {
-            services.AddTransient<ServiceFactory>(p => p.GetService);
-
+            services.AddSingleton<ServiceFactory>(p => p.GetService);
             services.AddSingleton<IMediator>(p => new Mediator(p.GetService<ServiceFactory>()));
         }
 

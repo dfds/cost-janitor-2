@@ -34,7 +34,7 @@ namespace CostJanitor.Host.EventConsumer.Strategies
 
                 if (command != null)
                 {
-                    //TODO: Figure out why this isnt throwing when the db isnt available
+                    //TODO: Figure out why mediatr.dll is crashing. Internal service provider doesnt know the handlers??
                     _applicationFacade.Execute(command, cancellationToken);
                 }
             }

@@ -2,11 +2,10 @@
 using CloudEngineering.CodeOps.Abstractions.Events;
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Infrastructure.CostProviders.Aws;
-using System;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Text.Json;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace CostJanitor.Application.Mapping.Converters
 {
@@ -34,14 +33,14 @@ namespace CostJanitor.Application.Mapping.Converters
                 var test = source.Payload.Value.GetRawText();
                 payload = source.Payload;
             }
-            else 
+            else
             {
                 switch (source.Payload.Value.ValueKind)
                 {
                     case JsonValueKind.String:
                         var rawText = source.Payload.Value.GetRawText();
                         var cleanedText = rawText.Substring(1, rawText.Length - 2).Replace("\\", "");
-                        
+
                         payload = JsonDocument.Parse(cleanedText).RootElement;
 
                         break;

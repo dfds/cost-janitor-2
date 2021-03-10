@@ -1,4 +1,3 @@
-using CostJanitor.Application.Commands;
 using CostJanitor.Application.Commands.Report;
 using System.Text.Json;
 using Xunit;

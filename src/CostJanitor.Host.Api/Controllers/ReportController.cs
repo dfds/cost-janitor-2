@@ -1,7 +1,6 @@
-using CostJanitor.Application.Commands;
+using CloudEngineering.CodeOps.Abstractions.Facade;
 using CostJanitor.Application.Commands.Report;
 using CostJanitor.Domain.Aggregates;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,11 +11,11 @@ namespace CostJanitor.Host.Api.Controllers
     [Route("[controller]")]
     public class ReportController
     {
-        private readonly IMediator _mediator;
+        private readonly IFacade _applicationFacade;
 
-        public ReportController(IMediator mediator)
+        public ReportController(IFacade applicationFacade)
         {
-            _mediator = mediator;
+            _applicationFacade = applicationFacade;
         }
 
         [HttpGet]
@@ -30,25 +29,25 @@ namespace CostJanitor.Host.Api.Controllers
         [HttpGet("command")]
         public async Task<IEnumerable<ReportRoot>> Get(GetReportByCapabilityIdentifierCommand command)
         {
-            return await _mediator.Send(command);
+            return await _applicationFacade.Execute(command);
         }
 
         [HttpPost]
         public async Task<ReportRoot> Create(CreateReportCommand command)
         {
-            return await _mediator.Send(command);
+            return await _applicationFacade.Execute(command);
         }
 
         [HttpPut]
         public async Task<ReportRoot> Update(UpdateReportCommand command)
         {
-            return await _mediator.Send(command);
+            return await _applicationFacade.Execute(command);
         }
 
         [HttpDelete]
         public async Task<bool> Delete(DeleteReportCommand command)
         {
-            return await _mediator.Send(command);
+            return await _applicationFacade.Execute(command);
         }
     }
 }

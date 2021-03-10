@@ -25,7 +25,7 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
 
             //TODO: Talk with Emil about why accountResults (DimensionValueAttributes) are sometimes empty? Thus yielding no cost items because we cant map the account name
             if (accountResults.Any())
-            { 
+            {
                 foreach (var resultByTime in source.ResultsByTime)
                 {
                     var awsAccountName = accountResults[resultByTime.Groups.First().Keys.First()];
