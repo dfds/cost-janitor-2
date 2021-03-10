@@ -1,7 +1,6 @@
 ﻿using CloudEngineering.CodeOps.Infrastructure.AmazonWebServices;
 using CloudEngineering.CodeOps.Infrastructure.Kafka;
 using CloudEngineering.CodeOps.Security.Policies;
-using CostJanitor.Infrastructure.CostProviders;
 using CostJanitor.Infrastructure.CostProviders.Aws;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +24,6 @@ namespace CostJanitor.Infrastructure
 
         private static void AddCostProviders(this IServiceCollection services)
         {
-            services.AddTransient<ICostProvider, AwsCostClient>();
             services.AddTransient<IAwsCostClient, AwsCostClient>();
         }
     }

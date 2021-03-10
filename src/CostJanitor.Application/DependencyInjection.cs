@@ -76,7 +76,7 @@ namespace CostJanitor.Application
                 {
                     context.Database.Migrate();
                 }
-            }, ServiceLifetime.Singleton, ServiceLifetime.Singleton);
+            });
 
             services.AddScoped<IUnitOfWork>(factory => factory.GetRequiredService<ApplicationContext>());
         }
