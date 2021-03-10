@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Npgsql;
 using System;
 
-namespace CostJanitor.Application.UnitTest.Data
+namespace CostJanitor.Application.UnitTest.Fixtures
 {
     public class ApplicationContextFixture : IDisposable
     {

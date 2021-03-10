@@ -2,7 +2,7 @@
 using System;
 using System.Reflection;
 
-namespace CostJanitor.Infrastructure.IntegrationTest.Fixtures
+namespace CostJanitor.Application.IntegrationTest.Fixtures
 {
     public class ConfigurationFixture : IDisposable
     {

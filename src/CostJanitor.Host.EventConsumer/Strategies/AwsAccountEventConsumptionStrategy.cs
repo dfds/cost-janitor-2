@@ -15,10 +15,10 @@ namespace CostJanitor.Host.EventConsumer.Strategies
     {
         public AwsAccountEventConsumptionStrategy(IMapper mapper, IApplicationFacade applicationFacade) : base(mapper, applicationFacade)
         {
-
+            
         }
 
-        public override Task Apply(ConsumeResult<string, string> target, CancellationToken cancellationToken)
+        public override async Task Apply(ConsumeResult<string, string> target, CancellationToken cancellationToken)
         {
             var payload = target.Message.Value;
 
@@ -34,12 +34,11 @@ namespace CostJanitor.Host.EventConsumer.Strategies
 
                 if (command != null)
                 {
-                    //TODO: Figure out why mediatr.dll is crashing. Internal service provider doesnt know the handlers??
-                    var result = _applicationFacade.Execute(command, cancellationToken);
+                    await _applicationFacade.Execute(command, cancellationToken);
                 }
             }
 
-            return Task.CompletedTask;
+            return;
         }
     }
 }

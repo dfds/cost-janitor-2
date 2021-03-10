@@ -13,6 +13,7 @@ namespace CostJanitor.Host.EventConsumer
     {
         public AwsAccountEventWorker(ILogger<KafkaConsumerService> logger, IOptions<KafkaOptions> options, IMapper mapper, IApplicationFacade applicationFacade) : base(logger, options, new AwsAccountEventConsumptionStrategy(mapper, applicationFacade))
         {
+
         }
 
         public override Task StartAsync(CancellationToken cancellationToken)

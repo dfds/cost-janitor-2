@@ -33,9 +33,9 @@ namespace CostJanitor.Application
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddApplicationContext(configuration);
-            services.AddFacade();
             services.AddRepositories();
             services.AddServices();
+            services.AddFacade();
         }
 
         private static void AddApplicationContext(this IServiceCollection services, IConfiguration configuration)
@@ -49,8 +49,6 @@ namespace CostJanitor.Application
                 var callingAssemblyName = Assembly.GetExecutingAssembly().GetName().Name;
                 var connectionString = dbContextOptions.Value.ConnectionStrings?.GetValue<string>(nameof(ApplicationContext));
 
-                Console.WriteLine("Creating ApplicationContext with connStr: " + connectionString);
-
                 if (string.IsNullOrEmpty(connectionString))
                 {
                     throw new ApplicationFacadeException($"Could not find connection string with entry key: {nameof(ApplicationContext)}");
@@ -59,8 +57,6 @@ namespace CostJanitor.Application
                 services.AddSingleton(factory =>
                 {
                     var connection = new NpgsqlConnection(connectionString);
-
-                    Console.WriteLine("Opening connection with: " + connectionString);
 
                     connection.Open();
 
@@ -79,13 +75,11 @@ namespace CostJanitor.Application
 
                 if (dbContextOptions.Value.EnableAutoMigrations)
                 {
-                    Console.WriteLine("Migrating db with connection: " + connectionString);
-
                     context.Database.Migrate();
                 }
-            });
+            }, ServiceLifetime.Transient, ServiceLifetime.Transient);
 
-            services.AddScoped<IUnitOfWork>(factory => factory.GetRequiredService<ApplicationContext>());
+            services.AddTransient<IUnitOfWork>(factory => factory.GetRequiredService<ApplicationContext>());
         }
 
         private static void AddRepositories(this IServiceCollection services)

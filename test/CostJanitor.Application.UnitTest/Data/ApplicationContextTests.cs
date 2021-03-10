@@ -1,4 +1,5 @@
 using CloudEngineering.CodeOps.Abstractions.Events;
+using CostJanitor.Application.UnitTest.Fixtures;
 using CostJanitor.Domain.Aggregates;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
