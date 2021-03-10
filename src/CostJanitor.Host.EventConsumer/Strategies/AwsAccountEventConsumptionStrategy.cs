@@ -34,6 +34,7 @@ namespace CostJanitor.Host.EventConsumer.Strategies
 
                 if (command != null)
                 {
+                    //TODO: Figure out why this isnt throwing when the db isnt available
                     _applicationFacade.Execute(command, cancellationToken);
                 }
             }
