@@ -1,6 +1,7 @@
 using CostJanitor.Application;
 using CostJanitor.Application.Commands.Report;
 using CostJanitor.Domain.Aggregates;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace CostJanitor.Host.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize("dfds.all.read")]
     public class ReportController
     {
         private readonly IApplicationFacade _applicationFacade;
