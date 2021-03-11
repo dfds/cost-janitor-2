@@ -34,10 +34,10 @@ namespace CostJanitor.Application.UnitTest.Commands.Report
         {
             //Arrange
             var mockCostService = new Mock<ICostService>();
-            var reportItem = new ReportRoot();
+            var fakeReportItem = new ReportRoot();
 
             mockCostService.Setup(m => m.AddReportAsync(It.IsAny<IEnumerable<CostItem>>(), It.IsAny<CancellationToken>()))
-                            .Returns(Task.FromResult(reportItem));
+                            .Returns(Task.FromResult(fakeReportItem));
 
             var sut = new CreateReportCommandHandler(mockCostService.Object);
 
@@ -45,7 +45,7 @@ namespace CostJanitor.Application.UnitTest.Commands.Report
             var result = await sut.Handle(new CreateReportCommand(new List<CostItem>()));
 
             //Assert
-            Assert.Equal(result, reportItem);
+            Assert.Equal(result, fakeReportItem);
 
             Mock.VerifyAll();
         }
