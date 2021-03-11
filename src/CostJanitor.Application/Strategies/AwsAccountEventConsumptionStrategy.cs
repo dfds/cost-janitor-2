@@ -4,12 +4,11 @@ using CloudEngineering.CodeOps.Abstractions.Commands;
 using CloudEngineering.CodeOps.Abstractions.Events;
 using CloudEngineering.CodeOps.Infrastructure.Kafka.Strategies;
 using Confluent.Kafka;
-using CostJanitor.Application;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CostJanitor.Host.EventConsumer.Strategies
+namespace CostJanitor.Application.Strategies
 {
     public sealed class AwsAccountEventConsumptionStrategy : ConsumtionStrategy
     {

@@ -1,9 +1,12 @@
 using CloudEngineering.CodeOps.Abstractions.Data;
 using CloudEngineering.CodeOps.Abstractions.Repositories;
+using CloudEngineering.CodeOps.Abstractions.Strategies;
 using CloudEngineering.CodeOps.Infrastructure.EntityFramework;
+using Confluent.Kafka;
 using CostJanitor.Application.Data;
 using CostJanitor.Application.Repositories;
 using CostJanitor.Application.Services;
+using CostJanitor.Application.Strategies;
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.Repositories;
 using CostJanitor.Domain.Services;
@@ -34,6 +37,7 @@ namespace CostJanitor.Application
             services.AddApplicationContext(configuration);
             services.AddRepositories();
             services.AddServices();
+            services.AddStrategies();
             services.AddFacade();
         }
 
@@ -90,6 +94,11 @@ namespace CostJanitor.Application
         private static void AddServices(this IServiceCollection services)
         {
             services.AddTransient<ICostService, CostService>();
+        }
+
+        private static void AddStrategies(this IServiceCollection services)
+        {
+            services.AddTransient<IStrategy<ConsumeResult<string, string>>, AwsAccountEventConsumptionStrategy>();
         }
 
         private static void AddFacade(this IServiceCollection services)
