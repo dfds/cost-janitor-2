@@ -1,134 +1,123 @@
-//using System;
-//using System.Collections.Generic;
-//using System.Threading;
-//using System.Threading.Tasks;
-//using CostJanitor.Application.Services;
-//using CostJanitor.Domain.Aggregates;
-//using CostJanitor.Domain.Repositories;
-//using CostJanitor.Domain.ValueObjects;
-//using Moq;
-//using CloudEngineering.CodeOps.Abstractions.Data;
-//using Xunit;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using CostJanitor.Application.Services;
+using CostJanitor.Domain.Aggregates;
+using CostJanitor.Domain.Repositories;
+using CostJanitor.Domain.ValueObjects;
+using Moq;
+using CloudEngineering.CodeOps.Abstractions.Data;
+using Xunit;
 
-//TODO: Reimplement this test
-//namespace CostJanitor.Application.UnitTest.Services
-//{
-//    public class CostServiceTests
-//    {
-//        [Fact]
-//        public void CanBeConstructed()
-//        {
-//            //Arrange
-//            CostService sut;
-//            var mockCostItemRepository = new Mock<ICostItemRepository>();
-//            var mockReportItemRepository = new Mock<IReportItemRepository>();
+namespace CostJanitor.Application.UnitTest.Services
+{
+    public class CostServiceTests
+    {
+        [Fact]
+        public void CanBeConstructed()
+        {
+            //Arrange
+            CostService sut;
+            var mockReportRepository = new Mock<IReportRepository>();
 
-//            //Act
-//            sut = new CostService(mockCostItemRepository.Object, mockReportItemRepository.Object);
+            //Act
+            sut = new CostService(mockReportRepository.Object);
 
-//            //Assert
-//            Assert.NotNull(sut);
+            //Assert
+            Assert.NotNull(sut);
 
-//            Mock.VerifyAll();
-//        }
+            Mock.VerifyAll();
+        }
 
-//        [Fact]
-//        public async Task CanAddCostItem()
-//        {
-//            //Arrange
-//            var mockUnitOfWork = new Mock<IUnitOfWork>();
-//            var mockCostItemRepository = new Mock<ICostItemRepository>();
-//            var mockReportItemRepository = new Mock<IReportItemRepository>();
-//            var costItem = new CostItem("a", "b", "c");
+        [Fact]
+        public async Task CanAddCostItem()
+        {
+            //Arrange
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockReportRepository = new Mock<IReportRepository>();
+            var fakeReport = new ReportRoot();
 
-//            mockUnitOfWork.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(1));
-//            mockCostItemRepository.SetupGet(m => m.UnitOfWork).Returns(mockUnitOfWork.Object);
-//            mockCostItemRepository.Setup(m => m.Add(It.IsAny<CostItem>())).Returns(costItem);
+            mockUnitOfWork.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(1));
+            mockReportRepository.SetupGet(m => m.UnitOfWork).Returns(mockUnitOfWork.Object);
+            mockReportRepository.Setup(m => m.Add(It.IsAny<ReportRoot>())).Returns(fakeReport);
 
-//            var sut = new CostService(mockCostItemRepository.Object, mockReportItemRepository.Object);
+            var sut = new CostService(mockReportRepository.Object);
 
-//            //Act
-//            var result = await sut.CreateOrAddCostItem("c", "a", "b");
+            //Act
+            var result = await sut.AddReportAsync(new[] { new CostItem("a", "b", "c") });
 
-//            //Assert
-//            Assert.Equal(result, costItem);
+            //Assert
+            Assert.NotNull(result);
 
-//            Mock.VerifyAll();
-//        }
+            Mock.VerifyAll();
+        }
 
-//        [Fact]
-//        public async Task CanAddReportItem()
-//        {
-//            //Arrange
-//            var mockUnitOfWork = new Mock<IUnitOfWork>();
-//            var mockCostItemRepository = new Mock<ICostItemRepository>();
-//            var mockReportItemRepository = new Mock<IReportItemRepository>();
-//            var reportId = Guid.NewGuid();
-//            var reportItem = new ReportItem(reportId);
+        [Fact]
+        public async Task CanAddReportItem()
+        {
+            //Arrange
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockReportRepository = new Mock<IReportRepository>();
+            var fakeReport = new ReportRoot();
 
-//            mockUnitOfWork.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(1));
-//            mockReportItemRepository.SetupGet(m => m.UnitOfWork).Returns(mockUnitOfWork.Object);
-//            mockReportItemRepository.Setup(m => m.Add(It.IsAny<ReportItem>())).Returns(reportItem);
+            mockUnitOfWork.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(1));
+            mockReportRepository.SetupGet(m => m.UnitOfWork).Returns(mockUnitOfWork.Object);
+            mockReportRepository.Setup(m => m.Add(It.IsAny<ReportRoot>())).Returns(fakeReport);
 
-//            var sut = new CostService(mockCostItemRepository.Object, mockReportItemRepository.Object);
+            var sut = new CostService(mockReportRepository.Object);
 
-//            //Act
-//            var result = await sut.CreateOrAddReport(reportId, new List<CostItem>());
+            //Act
+            var result = await sut.AddReportAsync(new List<CostItem>());
 
-//            //Assert
-//            Assert.Equal(result, reportItem);
+            //Assert
+            Assert.Equal(result, fakeReport);
 
-//            Mock.VerifyAll();
-//        }        
+            Mock.VerifyAll();
+        }
 
-//        [Fact]
-//        public async Task CanDeleteReportItem()
-//        {
-//            //Arrange
-//            var reportId = Guid.NewGuid();
-//            var mockUnitOfWork = new Mock<IUnitOfWork>();
-//            var mockCostItemRepository = new Mock<ICostItemRepository>();
-//            var mockReportItemRepository = new Mock<IReportItemRepository>();
-//            var reportItem = new ReportItem(reportId);
+        [Fact]
+        public async Task CanDeleteReportItem()
+        {
+            //Arrange
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockReportRepository = new Mock<IReportRepository>();
+            var fakeReport = new ReportRoot();
 
+            mockUnitOfWork.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(1));
+            mockReportRepository.SetupGet(m => m.UnitOfWork).Returns(mockUnitOfWork.Object);
+            mockReportRepository.Setup(m => m.GetAsync(It.IsAny<Guid>())).Returns(Task.FromResult(fakeReport));
+            mockReportRepository.Setup(m => m.Delete(It.IsAny<ReportRoot>()));
 
-//            mockUnitOfWork.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(1));
-//            mockReportItemRepository.SetupGet(m => m.UnitOfWork).Returns(mockUnitOfWork.Object);
-//            mockReportItemRepository.Setup(m => m.GetAsync(It.IsAny<Guid>())).Returns(Task.FromResult(reportItem));
-//            mockReportItemRepository.Setup(m => m.Delete(It.IsAny<ReportItem>()));
+            var sut = new CostService(mockReportRepository.Object);
 
-//            var sut = new CostService(mockCostItemRepository.Object, mockReportItemRepository.Object);
+            //Act
+            await sut.DeleteReportAsync(Guid.NewGuid());
 
-//            //Act
-//            await sut.DeleteReport(reportId);
+            //Assert
+            Mock.VerifyAll();
+        }
 
-//            //Assert
-//            Mock.VerifyAll();
-//        }
+        [Fact]
+        public async Task CanDeleteCostItem()
+        {
+            //Arrange
+            var mockUnitOfWork = new Mock<IUnitOfWork>();
+            var mockReportRepository = new Mock<IReportRepository>();
+            var fakeReport = new ReportRoot();
 
-//        [Fact]
-//        public async Task CanDeleteCostItem()
-//        {
-//            //Arrange
-//            var costId = Guid.NewGuid();
-//            var mockUnitOfWork = new Mock<IUnitOfWork>();
-//            var mockCostItemRepository = new Mock<ICostItemRepository>();
-//            var mockReportItemRepository = new Mock<IReportItemRepository>();
-//            var costItem = new CostItem("a", "b", "c");
-//            costItem.SetId(costId);
+            mockUnitOfWork.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(1));
+            mockReportRepository.SetupGet(m => m.UnitOfWork).Returns(mockUnitOfWork.Object);
+            mockReportRepository.Setup(m => m.GetAsync(It.IsAny<Guid>())).Returns(Task.FromResult(fakeReport));
+            mockReportRepository.Setup(m => m.Delete(It.IsAny<ReportRoot>()));
 
+            var sut = new CostService(mockReportRepository.Object);
 
-//            mockUnitOfWork.Setup(m => m.SaveChangesAsync(It.IsAny<CancellationToken>())).Returns(Task.FromResult(1));
-//            mockCostItemRepository.SetupGet(m => m.UnitOfWork).Returns(mockUnitOfWork.Object);
-//            mockCostItemRepository.Setup(m => m.GetAsync(It.IsAny<Guid>())).Returns(Task.FromResult(costItem));
-//            mockCostItemRepository.Setup(m => m.Delete(It.IsAny<CostItem>()));
+            //Act
+            await sut.DeleteCostItemAsync(Guid.NewGuid(), "a");
 
-//            var sut = new CostService(mockCostItemRepository.Object, mockReportItemRepository.Object);
-
-//            //Act
-//            await sut.DeleteCostItem(costId);
-//            //Assert
-//            Mock.VerifyAll();
-//        }
-//    }
-//}
+            //Assert
+            Mock.VerifyAll();
+        }
+    }
+}
