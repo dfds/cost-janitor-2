@@ -1,7 +1,7 @@
 ﻿using CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Profiles;
 using Xunit;
 
-namespace CostJanitor.Infrastructure.UnitTest.Aws.Profiles
+namespace CostJanitor.Infrastructure.UnitTest.CostProviders.Aws.Mapping.Profiles
 {
     public class DefaultProfileTests
     {

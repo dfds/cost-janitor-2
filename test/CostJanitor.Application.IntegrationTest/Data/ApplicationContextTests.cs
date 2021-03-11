@@ -1,5 +1,5 @@
 using CloudEngineering.CodeOps.Abstractions.Events;
-using CostJanitor.Application.UnitTest.Fixtures;
+using CostJanitor.Application.IntegrationTest.Fixtures;
 using CostJanitor.Domain.Aggregates;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace CostJanitor.Application.UnitTest.Data
+namespace CostJanitor.Application.IntegrationTest.Data
 {
     public class ApplicationContextTests : IClassFixture<ApplicationContextFixture>
     {
@@ -20,7 +20,7 @@ namespace CostJanitor.Application.UnitTest.Data
             _fixture = fixture;
         }
 
-        [Fact(Skip = "Requires postgres")]
+        [Fact]
         public void CanBeConstructed()
         {
             // Arrange
@@ -34,7 +34,7 @@ namespace CostJanitor.Application.UnitTest.Data
             Assert.Equal(hashCode, sut.GetType().GetHashCode());
         }
 
-        [Fact(Skip = "Requires postgres")]
+        [Fact]
         public async Task CanPublishDomainEventsOnSaveEntities()
         {
             //Arrange

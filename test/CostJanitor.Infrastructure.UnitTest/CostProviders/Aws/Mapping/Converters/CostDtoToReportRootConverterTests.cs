@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace CloudEngineering.CodeOps.Infrastructure.AzureDevOps.UnitTest.Mapping.Converters
+namespace CostJanitor.Infrastructure.IntegrationTest.CostProviders.Aws.Mapping.Converters
 {
     public class CostDtoToReportRootConverterTests
     {

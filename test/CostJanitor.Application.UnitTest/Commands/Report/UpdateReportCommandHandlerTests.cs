@@ -1,8 +1,6 @@
 using CostJanitor.Application.Commands.Report;
 using CostJanitor.Domain.Services;
 using Moq;
-using System;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace CostJanitor.Application.UnitTest.Commands.Report
@@ -24,12 +22,6 @@ namespace CostJanitor.Application.UnitTest.Commands.Report
             Assert.NotNull(sut);
 
             Mock.VerifyAll();
-        }
-
-        [Fact(Skip = "NotImplemented")]
-        public Task CanHandleCommand()
-        {
-            throw new NotImplementedException();
         }
     }
 }
