@@ -46,8 +46,6 @@ namespace CostJanitor.Application.IntegrationTest.Data
             var sut = _fixture.GetDbContext(mockMediator.Object);
 
             //Act
-            await sut.Database.MigrateAsync();
-
             var attachedEntity = await sut.AddAsync(entityToAdd);
             bool result = await sut.SaveEntitiesAsync(new CancellationToken());
 
