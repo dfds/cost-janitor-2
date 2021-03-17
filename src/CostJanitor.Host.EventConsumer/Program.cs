@@ -17,8 +17,9 @@ namespace CostJanitor.Host.EventConsumer
         Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder(args)
         .ConfigureServices((hostContext, services) =>
         {
-            services.AddApplication(hostContext.Configuration);
             services.AddHostedService<KafkaConsumerService>();
+
+            services.AddApplication(hostContext.Configuration);
         })
         .ConfigureLogging(logBuilder =>
         {
