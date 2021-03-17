@@ -1,3 +1,4 @@
+using CloudEngineering.CodeOps.Infrastructure.Kafka;
 using CostJanitor.Application;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,7 +18,7 @@ namespace CostJanitor.Host.EventConsumer
         .ConfigureServices((hostContext, services) =>
         {
             services.AddApplication(hostContext.Configuration);
-            services.AddHostedService<AwsAccountEventWorker>();
+            services.AddHostedService<KafkaConsumerService>();
         })
         .ConfigureLogging(logBuilder =>
         {
