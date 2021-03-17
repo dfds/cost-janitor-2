@@ -26,7 +26,7 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
                     {
                         var assumedCapabilityIdentifier = awsAccountName.StartsWith("dfds-") ? awsAccountName.Remove(0, 5) : awsAccountName;
                         var blendCostMetricUnitGroups = resultByTime.Groups.Where(g => g.Keys.Any(k => k == awsAccountId)).SelectMany(g => g.Metrics.Where(o => o.Key == "BlendedCost")).GroupBy(m => m.Value.Unit);
-                        var totalCost = 0d;
+                        var totalCost = 0m;
 
                         foreach (var metricUnitGroup in blendCostMetricUnitGroups)
                         {
@@ -35,7 +35,7 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
 
                             foreach (var metric in metricUnitGroup)
                             {
-                                if (double.TryParse(metric.Value.Amount, out var parsedValue))
+                                if (decimal.TryParse(metric.Value.Amount, out var parsedValue))
                                 {
                                     totalCost += parsedValue * magicMultiplier;
                                 }

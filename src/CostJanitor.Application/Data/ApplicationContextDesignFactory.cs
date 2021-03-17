@@ -14,7 +14,7 @@ namespace CostJanitor.Application.Data
             connection.Open();
 
             var optionsBuilder = new DbContextOptionsBuilder<EntityContext>()
-                .UseSqlite(connection);
+                .UseNpgsql(connection);
 
             return new ApplicationContext(optionsBuilder.Options);
         }
