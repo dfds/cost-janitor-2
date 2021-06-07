@@ -3,6 +3,8 @@ kind: SecurityGroup
 metadata:
   name: cost-janitor-rds-security-group
   namespace: developerautomation-xavgy
+  annotations:
+    crossplane.io/external-name: sg-0b5b405f0e093fc86
   labels:
     rdsinstance: cost-janitor-rds
 spec:
