@@ -3,6 +3,8 @@ kind: RDSInstance
 metadata:
   name: cost-janitor-rds
   namespace: developerautomation-xavgy
+  annotations:
+    crossplane.io/external-name: cost-janitor-rds
 spec:
   providerConfigRef:
     name: cost-janitor-provider-config
