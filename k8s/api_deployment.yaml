@@ -19,6 +19,7 @@ spec:
         project: developerautomation
         department: cloudengineering
         app: cost-janitor-api
+        backstage.io/kubernetes-id: cost-janitor-api
     spec:
       priorityClassName: selfservice
       containers:
