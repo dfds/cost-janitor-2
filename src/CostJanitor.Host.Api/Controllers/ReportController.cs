@@ -1,3 +1,4 @@
+using CloudEngineering.CodeOps.Security.Policies.Policies.All;
 using CostJanitor.Application;
 using CostJanitor.Application.Commands.Report;
 using CostJanitor.Domain.Aggregates;
@@ -10,7 +11,7 @@ namespace CostJanitor.Host.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize("dfds.all.read")]
+    [Authorize(ReadAccessPolicy.PolicyName)]
     public class ReportController
     {
         private readonly IApplicationFacade _applicationFacade;
@@ -20,7 +21,7 @@ namespace CostJanitor.Host.Api.Controllers
             _applicationFacade = applicationFacade;
         }
 
-        [HttpGet]
+        [HttpGet("identifier")]
         public async Task<IEnumerable<ReportRoot>> Get(string capabilityIdentifier)
         {
             var command = new GetReportByCapabilityIdentifierCommand(capabilityIdentifier);
@@ -28,7 +29,7 @@ namespace CostJanitor.Host.Api.Controllers
             return await Get(command);
         }
 
-        [HttpGet("command")]
+        [HttpGet]
         public async Task<IEnumerable<ReportRoot>> Get(GetReportByCapabilityIdentifierCommand command)
         {
             return await _applicationFacade.Execute(command);
