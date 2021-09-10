@@ -5,6 +5,9 @@ metadata:
   namespace: developerautomation-xavgy
   annotations:
     crossplane.io/external-name: cost-janitor-rds
+  labels:
+    department: cloudengineering
+    project: developerautomation
 spec:
   providerConfigRef:
     name: cost-janitor-provider-config

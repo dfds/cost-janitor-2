@@ -5,6 +5,8 @@ metadata:
   namespace: developerautomation-xavgy
   labels:
     rdsinstance: cost-janitor-rds
+    department: cloudengineering
+    project: developerautomation
 spec:
   forProvider:
     region: eu-west-1
