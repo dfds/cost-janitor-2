@@ -57,13 +57,9 @@ namespace CostJanitor.Application
                     throw new ApplicationFacadeException($"Could not find connection string with entry key: {nameof(ApplicationContext)}");
                 }
 
-                services.AddSingleton(factory =>
+                services.AddTransient(factory =>
                 {
-                    var connection = new NpgsqlConnection(connectionString);
-
-                    connection.Open();
-
-                    return connection;
+                    return new NpgsqlConnection(connectionString);
                 });
 
                 var dbOptions = options.UseNpgsql(services.BuildServiceProvider().GetService<NpgsqlConnection>(),
