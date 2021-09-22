@@ -50,8 +50,9 @@ namespace CostJanitor.Application.Mapping.Converters
             Task.WaitAll(getTotalCostTask);
 
             var totalCost = getTotalCostTask.Result;
+            var capabilityId = payload.Value.GetProperty("capabilityId").GetString();
 
-            return _mapper.Map<ReportRoot>(totalCost);
+            return _mapper.Map<ReportRoot>(totalCost, opts => opts.Items["CapabilityId"] = capabilityId);
         }
     }
 }

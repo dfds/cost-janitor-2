@@ -3,17 +3,21 @@ using CloudEngineering.CodeOps.Infrastructure.AmazonWebServices.DataTransferObje
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.ValueObjects;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
 {
     public class CostDtoToReportRootConverter : ITypeConverter<CostDto, ReportRoot>
     {
+        private readonly string _decimalSeperator = System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+
         public ReportRoot Convert(CostDto source, ReportRoot destination, ResolutionContext context)
         {
             destination ??= new ReportRoot();
 
             var costItems = new List<CostItem>();
+            IEnumerable<IGrouping<string, KeyValuePair<string, MetricValueDto>>> blendCostMetricUnitGroups = Enumerable.Empty<IGrouping<string, KeyValuePair<string, MetricValueDto>>>();
 
             if (source.DimensionValueAttributes != null && source.DimensionValueAttributes.Any())
             {
@@ -24,56 +28,50 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
 
                     foreach (var resultByTime in source.ResultsByTime.Where(o => o.Groups.Any(g => g.Keys.Any(k => k == awsAccountId))))
                     {
-                        var assumedCapabilityIdentifier = awsAccountName.StartsWith("dfds-") ? awsAccountName.Remove(0, 5) : awsAccountName;
-                        var blendCostMetricUnitGroups = resultByTime.Groups.Where(g => g.Keys.Any(k => k == awsAccountId)).SelectMany(g => g.Metrics.Where(o => o.Key == "BlendedCost")).GroupBy(m => m.Value.Unit);
-                        var totalCost = 0m;
-
-                        foreach (var metricUnitGroup in blendCostMetricUnitGroups)
-                        {
-                            //TODO: Figure out if we need to deal with unit bias (e.g. diff currencies being aggregated into the tco). Atm we will assume this isnt the case and apply a magic multiplier of 1
-                            var magicMultiplier = 1;
-
-                            foreach (var metric in metricUnitGroup)
-                            {
-                                if (decimal.TryParse(metric.Value.Amount, out var parsedValue))
-                                {
-                                    totalCost += parsedValue * magicMultiplier;
-                                }
-                            }
-                        }
-
-                        var costItem = new CostItem("monthlyTotalCost", totalCost.ToString(), assumedCapabilityIdentifier);
-
-                        costItems.Add(costItem);
+                        blendCostMetricUnitGroups = resultByTime.Groups.Where(g => g.Keys.Any(k => k == awsAccountId)).SelectMany(g => g.Metrics.Where(o => o.Key == "BlendedCost")).GroupBy(m => m.Value.Unit);
                     }
                 }
             }
             else
             {
-                var totalCost = 0d;
-
-                foreach (var metricUnitGroup in source.ResultsByTime.FirstOrDefault().Total.Where(m => m.Key == "BlendedCost").GroupBy(m => m.Value.Unit))
-                {
-                    //TODO: Figure out if we need to deal with unit bias (e.g. diff currencies being aggregated into the tco). Atm we will assume this isnt the case and apply a magic multiplier of 1
-                    var magicMultiplier = 1;
-
-                    foreach (var metric in metricUnitGroup)
-                    {
-                        if (double.TryParse(metric.Value.Amount, out var parsedValue))
-                        {
-                            totalCost += parsedValue * magicMultiplier;
-                        }
-                    }
-                }
-
-                var costItem = new CostItem("monthlyTotalCost", totalCost.ToString(), string.Empty);
-
-                costItems.Add(costItem);
+                blendCostMetricUnitGroups = source.ResultsByTime.FirstOrDefault().Total.Where(m => m.Key == "BlendedCost").GroupBy(m => m.Value.Unit);                
             }
 
+            var totalCost = 0m;
+
+            foreach (var metricUnitGroup in blendCostMetricUnitGroups)
+            {
+                totalCost += CalculateMetricUnitGroupCost(metricUnitGroup);
+            }
+
+            var costItem = new CostItem("monthlyTotalCost", totalCost.ToString(), context.Items["CapabilityId"].ToString());
+
+            costItems.Add(costItem);
             destination.AddCostItem(costItems);
 
             return destination;
+        }
+
+        private decimal CalculateMetricUnitGroupCost(IGrouping<string, KeyValuePair<string, MetricValueDto>> metricUnitGroup)
+        {
+            var totalCost = 0m;
+
+            foreach (var metric in metricUnitGroup)
+            {
+                var metricAmount = metric.Value.Amount;
+
+                if (!metricAmount.Contains(_decimalSeperator))
+                {
+                    metricAmount = metricAmount.Replace(".", _decimalSeperator);
+                }
+
+                if (decimal.TryParse(metricAmount, out var parsedValue))
+                {
+                    totalCost += parsedValue;
+                }
+            }
+
+            return totalCost;
         }
     }
 }
