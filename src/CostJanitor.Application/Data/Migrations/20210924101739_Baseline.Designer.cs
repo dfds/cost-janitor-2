@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace DataMigrations
+namespace CostJanitor.Application.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210907123413_Baseline")]
+    [Migration("20210924101739_Baseline")]
     partial class Baseline
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,6 +26,9 @@ namespace DataMigrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 

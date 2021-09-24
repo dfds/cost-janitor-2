@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace DataMigrations
+namespace CostJanitor.Application.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
     partial class ApplicationContextModelSnapshot : ModelSnapshot
@@ -24,6 +24,9 @@ namespace DataMigrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Id");
 

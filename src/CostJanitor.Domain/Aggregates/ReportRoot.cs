@@ -12,8 +12,10 @@ namespace CostJanitor.Domain.Aggregates
     public sealed class ReportRoot : Entity<Guid>, IAggregateRoot
     {
         private readonly List<CostItem> _costItems;
+        private readonly DateTime _created = DateTime.UtcNow;
 
         public IEnumerable<CostItem> CostItems => _costItems.AsReadOnly();
+        public DateTime Created => _created;
 
         public ReportRoot()
         {
@@ -22,6 +24,11 @@ namespace CostJanitor.Domain.Aggregates
             var evt = new ReportCreatedEvent(this);
 
             AddDomainEvent(evt);
+        }
+
+        public ReportRoot(DateTime created) : this()
+        {
+            _created = created;
         }
 
         public void AddCostItem(CostItem costItem)

@@ -11,7 +11,7 @@ namespace CostJanitor.Host.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize(ReadAccessPolicy.PolicyName)]
+    //[Authorize(ReadAccessPolicy.PolicyName)]
     public class ReportController
     {
         private readonly IApplicationFacade _applicationFacade;

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace DataMigrations
+namespace CostJanitor.Application.Data.Migrations
 {
     public partial class Baseline : Migration
     {
@@ -11,7 +11,8 @@ namespace DataMigrations
                 name: "ReportItem",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Created = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {

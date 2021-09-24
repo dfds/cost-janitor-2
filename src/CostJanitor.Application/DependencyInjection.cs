@@ -16,7 +16,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Npgsql;
 using System.Reflection;
 
 namespace CostJanitor.Application
@@ -57,12 +56,7 @@ namespace CostJanitor.Application
                     throw new ApplicationFacadeException($"Could not find connection string with entry key: {nameof(ApplicationContext)}");
                 }
 
-                services.AddTransient(factory =>
-                {
-                    return new NpgsqlConnection(connectionString);
-                });
-
-                var dbOptions = options.UseNpgsql(services.BuildServiceProvider().GetService<NpgsqlConnection>(),
+                var dbOptions = options.UseNpgsql(connectionString,
                     sqliteOptions =>
                     {
                         sqliteOptions.MigrationsAssembly(callingAssemblyName);
@@ -78,7 +72,7 @@ namespace CostJanitor.Application
                 }
             });
 
-            services.AddScoped<IUnitOfWork>(factory => factory.GetRequiredService<ApplicationContext>());
+            services.AddTransient<IUnitOfWork>(factory => factory.GetRequiredService<ApplicationContext>());
         }
 
         private static void AddRepositories(this IServiceCollection services)
