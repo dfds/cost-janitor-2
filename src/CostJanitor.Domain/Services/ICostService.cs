@@ -12,6 +12,8 @@ namespace CostJanitor.Domain.Services
     {
         Task<IEnumerable<ReportRoot>> GetReportByCapabilityIdentifierAsync(string capabilityIdentifier, CancellationToken ct = default);
 
+        Task<IEnumerable<ReportRoot>> GetReportByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken ct = default);
+
         Task<ReportRoot> AddReportAsync(IEnumerable<CostItem> costItems, CancellationToken ct = default);
 
         Task<ReportRoot> UpdateReportAsync(ReportRoot report, CancellationToken ct = default);

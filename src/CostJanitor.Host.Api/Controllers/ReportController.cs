@@ -1,9 +1,8 @@
-using CloudEngineering.CodeOps.Security.Policies.Policies.All;
 using CostJanitor.Application;
 using CostJanitor.Application.Commands.Report;
 using CostJanitor.Domain.Aggregates;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -22,15 +21,29 @@ namespace CostJanitor.Host.Api.Controllers
         }
 
         [HttpGet("identifier")]
-        public async Task<IEnumerable<ReportRoot>> Get(string capabilityIdentifier)
+        public async Task<IEnumerable<ReportRoot>> GetByIdentifier(string capabilityIdentifier)
         {
             var command = new GetReportByCapabilityIdentifierCommand(capabilityIdentifier);
 
-            return await Get(command);
+            return await GetByIdentifierCommand(command);
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<ReportRoot>> Get(GetReportByCapabilityIdentifierCommand command)
+        [HttpGet("command/identifier")]
+        public async Task<IEnumerable<ReportRoot>> GetByIdentifierCommand(GetReportByCapabilityIdentifierCommand command)
+        {
+            return await _applicationFacade.Execute(command);
+        }
+
+        [HttpGet("dateRange")]
+        public async Task<IEnumerable<ReportRoot>> GetByDateRange(DateTime startDate, DateTime endDate)
+        {
+            var command = new GetReportByDateRangeCommand(startDate, endDate);
+
+            return await GetByDateRangeCommand(command);
+        }
+
+        [HttpGet("command/dateRange")]
+        public async Task<IEnumerable<ReportRoot>> GetByDateRangeCommand(GetReportByDateRangeCommand command)
         {
             return await _applicationFacade.Execute(command);
         }

@@ -97,5 +97,12 @@ namespace CostJanitor.Application.Services
 
             return true;
         }
+
+        public async Task<IEnumerable<ReportRoot>> GetReportByDateRangeAsync(DateTime startDate, DateTime endDate, CancellationToken ct = default)
+        {
+            var reports = await _reportRepository.GetAsync(r => r.Created >= startDate && r.Created <= endDate);
+
+            return reports;
+        }
     }
 }
