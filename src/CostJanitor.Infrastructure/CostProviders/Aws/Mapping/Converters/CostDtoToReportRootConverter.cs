@@ -3,7 +3,6 @@ using CloudEngineering.CodeOps.Infrastructure.AmazonWebServices.DataTransferObje
 using CostJanitor.Domain.Aggregates;
 using CostJanitor.Domain.ValueObjects;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
 namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
@@ -17,36 +16,47 @@ namespace CostJanitor.Infrastructure.CostProviders.Aws.Mapping.Converters
             destination ??= new ReportRoot();
 
             var costItems = new List<CostItem>();
-            IEnumerable<IGrouping<string, KeyValuePair<string, MetricValueDto>>> blendCostMetricUnitGroups = Enumerable.Empty<IGrouping<string, KeyValuePair<string, MetricValueDto>>>();
 
             if (source.DimensionValueAttributes != null && source.DimensionValueAttributes.Any())
             {
                 foreach (var dimensionValueAttribute in source.DimensionValueAttributes)
                 {
+                    //TODO: ATM this value is lost due to context.items
                     var awsAccountName = dimensionValueAttribute.Attributes.Single(o => o.Key == "description").Value;
                     var awsAccountId = dimensionValueAttribute.Value;
 
                     foreach (var resultByTime in source.ResultsByTime.Where(o => o.Groups.Any(g => g.Keys.Any(k => k == awsAccountId))))
                     {
-                        blendCostMetricUnitGroups = resultByTime.Groups.Where(g => g.Keys.Any(k => k == awsAccountId)).SelectMany(g => g.Metrics.Where(o => o.Key == "BlendedCost")).GroupBy(m => m.Value.Unit);
+                        var assumedCapabilityIdentifier = awsAccountName.StartsWith("dfds-") ? awsAccountName.Remove(0, 5) : awsAccountName;
+                        var blendCostMetricUnitGroups = resultByTime.Groups.Where(g => g.Keys.Any(k => k == awsAccountId)).SelectMany(g => g.Metrics.Where(o => o.Key == "BlendedCost")).GroupBy(m => m.Value.Unit);
+                        var totalCost = 0m;
+
+                        foreach (var metricUnitGroup in blendCostMetricUnitGroups)
+                        {
+                            totalCost += CalculateMetricUnitGroupCost(metricUnitGroup);
+                        }
+
+                        var costItem = new CostItem("monthlyTotalCost", totalCost.ToString(), assumedCapabilityIdentifier);
+
+                        costItems.Add(costItem);
                     }
                 }
             }
             else
             {
-                blendCostMetricUnitGroups = source.ResultsByTime.FirstOrDefault().Total.Where(m => m.Key == "BlendedCost").GroupBy(m => m.Value.Unit);                
+                var blendCostMetricUnitGroups = source.ResultsByTime.FirstOrDefault().Total.Where(m => m.Key == "BlendedCost").GroupBy(m => m.Value.Unit);
+                var totalCost = 0m;
+
+                foreach (var metricUnitGroup in blendCostMetricUnitGroups)
+                {
+                    totalCost += CalculateMetricUnitGroupCost(metricUnitGroup);
+                }
+
+                var costItem = new CostItem("monthlyTotalCost", totalCost.ToString(), context?.Items["CapabilityId"].ToString());
+
+                costItems.Add(costItem);
             }
 
-            var totalCost = 0m;
-
-            foreach (var metricUnitGroup in blendCostMetricUnitGroups)
-            {
-                totalCost += CalculateMetricUnitGroupCost(metricUnitGroup);
-            }
-
-            var costItem = new CostItem("monthlyTotalCost", totalCost.ToString(), context.Items["CapabilityId"].ToString());
-
-            costItems.Add(costItem);
             destination.AddCostItem(costItems);
 
             return destination;
