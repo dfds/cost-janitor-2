@@ -1,0 +1,31 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  creationTimestamp: null
+  name: cost-janitor-ingress
+  namespace: developerautomation-xavgy
+spec:
+  entryPoints: []
+  routes:
+  - kind: Rule
+    match: Host(`api.hellman.oxygen.dfds.cloud`) && PathPrefix(`/costjanitor2`)
+    middlewares:
+    - name: api.hellman.oxygen.dfds.cloud-costjanitor2
+      namespace: developerautomation-xavgy
+    priority: 0
+    services:
+    - kind: Service
+      name: cost-janitor-service
+      namespace: developerautomation-xavgy
+      port: external
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  creationTimestamp: null
+  name: api.hellman.oxygen.dfds.cloud-costjanitor2
+  namespace: developerautomation-xavgy
+spec:
+  stripPrefix:
+    prefixes:
+    - /costjanitor2
