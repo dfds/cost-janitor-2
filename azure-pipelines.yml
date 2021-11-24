@@ -2,7 +2,7 @@
 trigger:
   branches:
     include:
-    - master
+    - main
     
   paths:
     # Changes to these files does not trigger a new build / release
