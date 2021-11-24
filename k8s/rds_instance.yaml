@@ -10,7 +10,7 @@ metadata:
     project: developerautomation
 spec:
   providerConfigRef:
-    name: cost-janitor-provider-config
+    name: developerautomation-xavgy-provider-config
   forProvider:
     region: eu-west-1
     dbInstanceClass: db.t2.small

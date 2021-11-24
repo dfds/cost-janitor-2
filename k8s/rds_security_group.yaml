@@ -23,4 +23,4 @@ spec:
       - cidrIp: 0.0.0.0/0
         description: postgresql
   providerConfigRef:
-    name: cost-janitor-provider-config
+    name: developerautomation-xavgy-provider-config
