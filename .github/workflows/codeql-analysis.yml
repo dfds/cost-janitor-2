@@ -23,7 +23,7 @@ on:
 env:
   solution_file: 'CostJanitor.sln'
   nuget_feed_name: 'dfds-devex-shared'
-  nuget_feed_source: 'https://pkgs.dev.azure.com/<AZURE-DEVOPS-ORGANIZATION>/_packaging/dfds-devex-shared/nuget/v3/index.json'
+  nuget_feed_source: 'https://pkgs.dev.azure.com/dfds/_packaging/dfds-devex-shared/nuget/v3/index.json'
   nuget_config: '.nuget/NuGet.Config'
 
 jobs:
