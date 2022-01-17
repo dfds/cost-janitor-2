@@ -21,10 +21,7 @@ on:
     - cron: '44 18 * * 4'
 
 env:
-  solution_file: '../CostJanitor.sln'
-  nuget_feed_name: 'dfds-devex-shared'
   nuget_feed_source: 'https://pkgs.dev.azure.com/dfds/_packaging/dfds-devex-shared/nuget/v3/index.json'
-  nuget_config: '../nuget.Config'
 
 jobs:
   analyze:
@@ -56,11 +53,12 @@ jobs:
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-    - name: Auth NuGet
-      run: nuget sources add -Name ${{ env.nuget_feed_name }} -Source ${{ env.nuget_feed_source }} -username "az" -password ${{ secrets.ADO_NUGET_PAT }} -ConfigFile ${{ env.nuget_config }}
-     
-    - name: Restore NuGet Packages
-      run: nuget restore ${{ env.solution_file }}
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        source-url: ${{ env.nuget_feed_source }}
+      env:
+        NUGET_AUTH_TOKEN: ${{ secrets.ADO_NUGET_PAT }}
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
