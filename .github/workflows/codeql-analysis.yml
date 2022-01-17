@@ -20,6 +20,12 @@ on:
   schedule:
     - cron: '44 18 * * 4'
 
+env:
+  solution_file: 'CostJanitor.sln'
+  nuget_feed_name: 'dfds-devex-shared'
+  nuget_feed_source: 'https://pkgs.dev.azure.com/<AZURE-DEVOPS-ORGANIZATION>/_packaging/dfds-devex-shared/nuget/v3/index.json'
+  nuget_config: '.nuget/NuGet.Config'
+
 jobs:
   analyze:
     name: Analyze
@@ -49,6 +55,12 @@ jobs:
         # By default, queries listed here will override any specified in a config file.
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
+
+    - name: Auth NuGet
+      run: nuget sources add -Name ${{ env.nuget_feed_name }} -Source ${{ env.nuget_feed_source }} -username "az" -password ${{ secrets.ADO_NUGET_PAT }} -ConfigFile ${{ env.nuget_config }}
+     
+    - name: Restore NuGet Packages
+      run: nuget restore ${{ env.solution_file }}
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
