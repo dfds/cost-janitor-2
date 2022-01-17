@@ -21,10 +21,10 @@ on:
     - cron: '44 18 * * 4'
 
 env:
-  solution_file: 'CostJanitor.sln'
+  solution_file: '../CostJanitor.sln'
   nuget_feed_name: 'dfds-devex-shared'
   nuget_feed_source: 'https://pkgs.dev.azure.com/dfds/_packaging/dfds-devex-shared/nuget/v3/index.json'
-  nuget_config: 'nuget.Config'
+  nuget_config: '../nuget.Config'
 
 jobs:
   analyze:
