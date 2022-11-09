@@ -15,8 +15,8 @@ spec:
       app: cost-janitor-api
   template:
     metadata:
-      annotations: 
-        iam.amazonaws.com/role: arn:aws:iam::454234050858:role/cost-janitor
+#      annotations: 
+#        iam.amazonaws.com/role: arn:aws:iam::454234050858:role/cost-janitor
       labels:
         project: developerautomation
         department: cloudengineering
