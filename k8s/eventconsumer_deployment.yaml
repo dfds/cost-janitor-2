@@ -9,14 +9,14 @@ metadata:
     component: cost-janitor
     app: cost-devops-janitor-event-consumer
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: cost-janitor-event-consumer
   template:
     metadata:
-      annotations: 
-        iam.amazonaws.com/role: arn:aws:iam::454234050858:role/cost-janitor
+#      annotations: 
+#        iam.amazonaws.com/role: arn:aws:iam::454234050858:role/cost-janitor
       labels:
         project: developerautomation
         department: cloudengineering
