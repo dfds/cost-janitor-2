@@ -9,7 +9,7 @@ metadata:
     component: cost-janitor
     app: cost-janitor-api  
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: cost-janitor-api
